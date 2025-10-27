@@ -1,10 +1,9 @@
 package com.example.demo.repository;
 import com.example.demo.model.Appointment;
-
 import java.util.List;
 
 public class AppointmentRepository {
-    public void create(Appointment appointments) {
+    public void create(Appointment appointment) {
     }
 
     public List<Appointment> readAll() {

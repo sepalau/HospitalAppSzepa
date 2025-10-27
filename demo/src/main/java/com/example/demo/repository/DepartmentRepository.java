@@ -1,10 +1,9 @@
 package com.example.demo.repository;
 import com.example.demo.model.Department;
-
 import java.util.List;
 
 public class DepartmentRepository {
-    public void create(Department departments) {
+    public void create(Department department) {
     }
 
     public List<Department> readAll() {
