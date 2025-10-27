@@ -1,10 +1,13 @@
 package com.example.demo.model;
-
+import java.util.ArrayList;
+import java.util.List;
 public class Department {
 
     private String id;
     private String name;
     private String hospitalId;
+    private List<MedicalStaff> medicalStaff;
+    private List <Appointment> appointments;
 
     public Department() {
     }
@@ -13,6 +16,7 @@ public class Department {
         this.id = id;
         this.name = name;
         this.hospitalId = hospitalId;
+        this.MedicalStaff = medicalStaff;
     }
 
     public String getId() {
@@ -26,6 +30,12 @@ public class Department {
     public String getHospitalId() {
         return hospitalId;
     }
+    public List<MedicalStaff> getMedicalStaff() {
+        return medicalStaff;
+    }
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
 
     public void setId(String id) {
         this.id = id;
@@ -37,6 +47,14 @@ public class Department {
 
     public void setHospitalId(String hospitalId) {
         this.hospitalId = hospitalId;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
+    }
+
+    public void setMedicalStaff(List<MedicalStaff> medicalStaff) {
+        this.medicalStaff = medicalStaff;
     }
 
     @Override
