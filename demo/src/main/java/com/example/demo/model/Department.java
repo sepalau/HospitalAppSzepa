@@ -12,11 +12,13 @@ public class Department {
     public Department() {
     }
 
-    public Department(String id, String name, String hospitalId) {
+    public Department(String id, String name, String hospitalId, List<MedicalStaff> medicalStaff, List <Appointment> appointments) {
         this.id = id;
         this.name = name;
         this.hospitalId = hospitalId;
-        this.MedicalStaff = medicalStaff;
+        this.medicalStaff = medicalStaff;
+        this.appointments = appointments;
+
     }
 
     public String getId() {

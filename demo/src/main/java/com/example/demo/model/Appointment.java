@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Appointment {
     private String id;
@@ -10,7 +11,7 @@ public class Appointment {
     private String status;
     private List<MedicalStaff> medicalStaff;
     public Appointment() {}
-    public Appointment(String id, String departmentId, String patientId, String admissionDate, String status) {
+    public Appointment(String id, String departmentId, String patientId, String admissionDate, String status,  List<MedicalStaff> medicalStaff) {
         this.id = id;
         this.departmentId = departmentId;
         this.patientId = patientId;
