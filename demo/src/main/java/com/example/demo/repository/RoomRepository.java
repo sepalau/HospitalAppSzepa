@@ -12,6 +12,9 @@ public class RoomRepository {
 
     public void update(String id, Room updatedRoom) {
     }
+    public Room findById(String id) {
+        return null;
+    }
 
     public void delete(String id) {
     }

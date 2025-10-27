@@ -49,4 +49,5 @@ public class Patient {
                 ", appointments=" + (appointments != null ? appointments.size() : 0) +
                 '}';
     }
+
 }

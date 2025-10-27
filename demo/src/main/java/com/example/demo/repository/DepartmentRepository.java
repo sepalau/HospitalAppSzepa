@@ -13,6 +13,10 @@ public class DepartmentRepository {
     public void update(String id, Department updatedDepartment) {
     }
 
+    public Department findById(String id) {
+        return null;
+    }
+
     public void delete(String id) {
     }
 }

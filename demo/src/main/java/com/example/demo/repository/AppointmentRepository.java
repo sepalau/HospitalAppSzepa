@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 import com.example.demo.model.Appointment;
+
 import java.util.List;
 
 public class AppointmentRepository {
@@ -11,6 +12,9 @@ public class AppointmentRepository {
     }
 
     public void update(String id, Appointment updatedAppointment) {
+    }
+    public Appointment findById(String id) {
+        return null;
     }
 
     public void delete(String id) {

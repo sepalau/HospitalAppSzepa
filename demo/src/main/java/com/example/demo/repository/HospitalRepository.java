@@ -9,6 +9,9 @@ public class HospitalRepository {
     public List<Hospital> readAll() {
         return null;
     }
+    public Hospital findById(String id) {
+        return null;
+    }
 
     public void update(String id, Hospital updatedHospital) {
     }
