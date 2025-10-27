@@ -1,6 +1,5 @@
 package com.example.demo.repository;
 import com.example.demo.model.Appointment;
-import com.example.demo.model.Department;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ public class AppointmentRepository {
         return null;
     }
 
-    public void update(String id, Department updatedDepartment) {
+    public void update(String id, Appointment updatedAppointment) {
     }
 
     public void delete(String id) {
