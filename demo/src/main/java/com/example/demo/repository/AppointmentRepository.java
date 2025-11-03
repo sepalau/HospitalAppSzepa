@@ -2,15 +2,15 @@ package com.example.demo.repository;
 
 import com.example.demo.model.Appointment;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 @Repository
 public class AppointmentRepository {
 
-    private final List<Appointment> appointments = new ArrayList<Appointment>();
+    private final List<Appointment> appointments = new ArrayList<>();
 
     public void create(Appointment appointment) {
         appointments.add(appointment);
@@ -21,29 +21,16 @@ public class AppointmentRepository {
     }
 
     public Appointment findById(String id) {
-        for (Appointment a : appointments) {
-            if (a.getId().equals(id)) {
-                return a;
-            }
-        }
-        return null;
-    }
-
-    public void update(String id, Appointment updatedAppointment) {
-        for (int i = 0; i < appointments.size(); i++) {
-            Appointment current = appointments.get(i);
-            if (current.getId().equals(id)) {
-                appointments.set(i, updatedAppointment);
-                return;
-            }
-        }
+        return appointments.stream()
+                .filter(a -> a.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 
     public void delete(String id) {
         Iterator<Appointment> iterator = appointments.iterator();
         while (iterator.hasNext()) {
-            Appointment a = iterator.next();
-            if (a.getId().equals(id)) {
+            if (iterator.next().getId().equals(id)) {
                 iterator.remove();
                 return;
             }

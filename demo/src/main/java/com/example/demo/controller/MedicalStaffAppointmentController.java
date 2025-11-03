@@ -3,42 +3,38 @@ package com.example.demo.controller;
 import com.example.demo.model.MedicalStaffAppointment;
 import com.example.demo.service.MedicalStaffAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/medicalstaffappointments")
+@Controller
+@RequestMapping("/medicalstaffapp")  // <-- schimbat aici
 public class MedicalStaffAppointmentController {
 
     @Autowired
-    private MedicalStaffAppointmentService medicalStaffAppointmentService;
-
-    @PostMapping
-    public String create(@RequestBody MedicalStaffAppointment appointment) {
-        medicalStaffAppointmentService.create(appointment);
-        return "Medical staff appointment created successfully.";
-    }
+    private MedicalStaffAppointmentService service;
 
     @GetMapping
-    public List<MedicalStaffAppointment> readAll() {
-        return medicalStaffAppointmentService.readAll();
+    public String listAppointments(Model model) {
+        model.addAttribute("appointments", service.readAll());
+        return "medicalstaffapp/index";
     }
 
-    @GetMapping("/{id}")
-    public MedicalStaffAppointment findById(@PathVariable String id) {
-        return medicalStaffAppointmentService.findById(id);
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("appointment", new MedicalStaffAppointment());
+        return "medicalstaffapp/form";
     }
 
-    @PutMapping("/{id}")
-    public String update(@PathVariable String id, @RequestBody MedicalStaffAppointment updatedAppointment) {
-        medicalStaffAppointmentService.update(id, updatedAppointment);
-        return "Medical staff appointment updated successfully.";
+    @PostMapping
+    public String createAppointment(@ModelAttribute MedicalStaffAppointment appointment) {
+        service.create(appointment);
+        return "redirect:/staff-appointments";  // <-- schimbat aici
     }
 
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable String id) {
-        medicalStaffAppointmentService.delete(id);
-        return "Medical staff appointment deleted successfully.";
+    @PostMapping("/{id}/delete")
+    public String deleteAppointment(@PathVariable String id) {
+        service.delete(id);
+        return "redirect:/staff-appointments";  // <-- schimbat aici
     }
 }
