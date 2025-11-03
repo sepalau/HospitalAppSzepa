@@ -1,14 +1,28 @@
 package com.example.demo.model;
+
+import java.util.ArrayList;
 import java.util.List;
+
 public class Hospital {
+
     private String Id;
     private String Name;
     private String City;
-    private List Departments;
-    private List Rooms;
+    private List<String> Departments;
+    private List<String> Rooms;
 
-    public Hospital(){}
-    public Hospital(String Id, String Name, String City, List Departments, List Rooms) {
+    public Hospital() {}
+
+    // Constructor folosit în DemoApplication
+    public Hospital(String Id, String Name, String City) {
+        this.Id = Id;
+        this.Name = Name;
+        this.City = City;
+        this.Departments = new ArrayList<>();
+        this.Rooms = new ArrayList<>();
+    }
+
+    public Hospital(String Id, String Name, String City, List<String> Departments, List<String> Rooms) {
         this.Id = Id;
         this.Name = Name;
         this.City = City;
@@ -20,39 +34,39 @@ public class Hospital {
         return Id;
     }
 
-    public String getName() {
-        return Name;
-    }
-
-    public String getCity() {
-        return City;
-    }
-
-    public List getDepartments() {
-        return Departments;
-    }
-
-    public List getRooms() {
-        return Rooms;
-    }
-
     public void setId(String id) {
         Id = id;
+    }
+
+    public String getName() {
+        return Name;
     }
 
     public void setName(String name) {
         Name = name;
     }
 
+    public String getCity() {
+        return City;
+    }
+
     public void setCity(String city) {
         City = city;
     }
 
-    public void setDepartments(List departments) {
+    public List<String> getDepartments() {
+        return Departments;
+    }
+
+    public void setDepartments(List<String> departments) {
         Departments = departments;
     }
 
-    public void setRooms(List rooms) {
+    public List<String> getRooms() {
+        return Rooms;
+    }
+
+    public void setRooms(List<String> rooms) {
         Rooms = rooms;
     }
 
