@@ -1,10 +1,12 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.Room;
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
+@Repository
 public class RoomRepository {
 
     private final List<Room> rooms = new ArrayList<Room>();

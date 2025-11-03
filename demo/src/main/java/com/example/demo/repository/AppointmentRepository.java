@@ -1,10 +1,13 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.Appointment;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
+@Repository
 public class AppointmentRepository {
 
     private final List<Appointment> appointments = new ArrayList<Appointment>();
