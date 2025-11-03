@@ -3,42 +3,38 @@ package com.example.demo.controller;
 import com.example.demo.model.Nurse;
 import com.example.demo.service.NurseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
+@Controller
 @RequestMapping("/nurses")
 public class NurseController {
 
     @Autowired
     private NurseService nurseService;
 
-    @PostMapping
-    public String create(@RequestBody Nurse nurse) {
-        nurseService.create(nurse);
-        return "Nurse created successfully.";
-    }
-
     @GetMapping
-    public List<Nurse> readAll() {
-        return nurseService.readAll();
+    public String listNurses(Model model) {
+        model.addAttribute("nurses", nurseService.readAll());
+        return "nurse/index";
     }
 
-    @GetMapping("/{id}")
-    public Nurse findById(@PathVariable String id) {
-        return nurseService.findById(id);
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("nurse", new Nurse());
+        return "nurse/form";
     }
 
-    @PutMapping("/{id}")
-    public String update(@PathVariable String id, @RequestBody Nurse updatedNurse) {
-        nurseService.update(id, updatedNurse);
-        return "Nurse updated successfully.";
+    @PostMapping
+    public String createNurse(@ModelAttribute Nurse nurse) {
+        nurseService.create(nurse);
+        return "redirect:/nurses";
     }
 
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable String id) {
+    @PostMapping("/{id}/delete")
+    public String deleteNurse(@PathVariable String id) {
         nurseService.delete(id);
-        return "Nurse deleted successfully.";
+        return "redirect:/nurses";
     }
 }
