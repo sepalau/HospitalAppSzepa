@@ -10,6 +10,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import com.example.demo.service.PatientService;
+import com.example.demo.model.Patient;
 
 import java.time.LocalDateTime;
 
@@ -53,6 +55,14 @@ public class DemoApplication {
                     "P2", "Bob Lee", "Dr. Brown", LocalDateTime.of(2025, 11, 6, 14, 30)));
             appointmentService.create(new Appointment(
                     "P3", "Charlie Kim", "Dr. Davis", LocalDateTime.of(2025, 11, 7, 16, 15)));
+        };
+    }
+    @Bean
+    CommandLineRunner initPatients(PatientService patientService) {
+        return args -> {
+            patientService.create(new Patient("P1", "Alice Brown"));
+            patientService.create(new Patient("P2", "Bob Smith"));
+            patientService.create(new Patient("P3", "Charlie Wilson"));
         };
     }
 }

@@ -3,28 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Patient List</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+        th, td {
+            text-align: left;
+        }
+        a {
+            text-decoration: none;
+            color: blue;
+        }
+    </style>
 </head>
 <body>
+
 <h1>List of Patients</h1>
 
 <a href="/patients/new">Add New Patient</a>
+<br><br>
 
-<table border="1">
+<table>
     <thead>
     <tr>
         <th>ID</th>
         <th>Name</th>
-        <th>Appointments (Count)</th>
+        <th>Number of Appointments</th>
         <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="patient : ${patients}">
-        <td th:text="${patient.id}">1</td>
-        <td th:text="${patient.name}">John Doe</td>
-        <td th:text="${#lists.size(patient.appointments)}">0</td>
+        <td th:text="${patient.id}"></td>
+        <td th:text="${patient.name}"></td>
+        <td th:text="${#lists.size(patient.appointments)}"></td>
         <td>
-            <form th:action="@{'/patients/' + ${patient.id} + '/delete'}" method="post">
+            <form th:action="@{/patients/{id}/delete(id=${patient.id})}" method="post">
                 <button type="submit">Delete</button>
             </form>
         </td>
@@ -32,7 +48,5 @@
     </tbody>
 </table>
 
-<br>
-<a href="/hospitals">Back to Hospitals</a>
 </body>
 </html>
