@@ -1,24 +1,48 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.MedicalStaff;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class MedicalStaffRepository {
-    private final Map<String, MedicalStaff> staff = new HashMap<>();
 
-    public void save(MedicalStaff person) {
-        staff.put(person.getId(), person);
+    private final List<MedicalStaff> staff = new ArrayList<MedicalStaff>();
+
+    public void create(MedicalStaff medicalStaff) {
+        staff.add(medicalStaff);
     }
 
-    public List<MedicalStaff> findAll() {
-        return new ArrayList<>(staff.values());
+    public List<MedicalStaff> readAll() {
+        return staff;
     }
 
     public MedicalStaff findById(String id) {
-        return staff.get(id);
+        for (MedicalStaff s : staff) {
+            if (s.getId().equals(id)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    public void update(String id, MedicalStaff updatedStaff) {
+        for (int i = 0; i < staff.size(); i++) {
+            if (staff.get(i).getId().equals(id)) {
+                staff.set(i, updatedStaff);
+                return;
+            }
+        }
     }
 
     public void delete(String id) {
-        staff.remove(id);
+        Iterator<MedicalStaff> iterator = staff.iterator();
+        while (iterator.hasNext()) {
+            MedicalStaff s = iterator.next();
+            if (s.getId().equals(id)) {
+                iterator.remove();
+                return;
+            }
+        }
     }
 }

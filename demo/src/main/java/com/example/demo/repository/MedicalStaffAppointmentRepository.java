@@ -1,24 +1,48 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.MedicalStaffAppointment;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class MedicalStaffAppointmentRepository {
-    private final Map<String, MedicalStaffAppointment> appointments = new HashMap<>();
 
-    public void save(MedicalStaffAppointment msa) {
-        appointments.put(msa.getId(), msa);
+    private final List<MedicalStaffAppointment> appointments = new ArrayList<MedicalStaffAppointment>();
+
+    public void create(MedicalStaffAppointment appointment) {
+        appointments.add(appointment);
     }
 
-    public List<MedicalStaffAppointment> findAll() {
-        return new ArrayList<>(appointments.values());
+    public List<MedicalStaffAppointment> readAll() {
+        return appointments;
     }
 
     public MedicalStaffAppointment findById(String id) {
-        return appointments.get(id);
+        for (MedicalStaffAppointment a : appointments) {
+            if (a.getId().equals(id)) {
+                return a;
+            }
+        }
+        return null;
+    }
+
+    public void update(String id, MedicalStaffAppointment updatedAppointment) {
+        for (int i = 0; i < appointments.size(); i++) {
+            if (appointments.get(i).getId().equals(id)) {
+                appointments.set(i, updatedAppointment);
+                return;
+            }
+        }
     }
 
     public void delete(String id) {
-        appointments.remove(id);
+        Iterator<MedicalStaffAppointment> iterator = appointments.iterator();
+        while (iterator.hasNext()) {
+            MedicalStaffAppointment a = iterator.next();
+            if (a.getId().equals(id)) {
+                iterator.remove();
+                return;
+            }
+        }
     }
 }
