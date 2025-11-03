@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Patient {
@@ -9,6 +10,13 @@ public class Patient {
     private List<Appointment> appointments;
 
     public Patient() {
+        this.appointments = new ArrayList<>();
+    }
+
+    public Patient(String id, String name) {
+        this.id = id;
+        this.name = name;
+        this.appointments = new ArrayList<>();
     }
 
     public Patient(String id, String name, List<Appointment> appointments) {
@@ -46,8 +54,7 @@ public class Patient {
         return "Patient{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", appointments=" + (appointments != null ? appointments.size() : 0) +
+                ", appointments=" + appointments +
                 '}';
     }
-
 }

@@ -6,6 +6,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import com.example.demo.service.PatientService;
+import com.example.demo.model.Patient;
 
 @SpringBootApplication
 public class DemoApplication {
@@ -22,4 +24,14 @@ public class DemoApplication {
             hospitalService.create(new Hospital("3", "St. George Medical Center", "Hamburg"));
         };
     }
+
+    @Bean
+    CommandLineRunner initPatients(PatientService patientService) {
+        return args -> {
+            patientService.create(new Patient("P1", "John Doe"));
+            patientService.create(new Patient("P2", "Maria Popescu"));
+            patientService.create(new Patient("P3", "Alex Schmidt"));
+        };
+    }
+
 }
