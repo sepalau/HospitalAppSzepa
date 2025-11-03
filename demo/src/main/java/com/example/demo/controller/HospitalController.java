@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.Hospital;
 import com.example.demo.model.MedicalStaffAppointment;
 import com.example.demo.repository.HospitalRepository;
+import com.example.demo.service.MedicalStaffAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
