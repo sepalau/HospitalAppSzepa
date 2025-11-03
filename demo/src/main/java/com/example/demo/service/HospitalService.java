@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.model.Hospital;
 import com.example.demo.repository.HospitalRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,8 +9,7 @@ import java.util.List;
 @Service
 public class HospitalService {
 
-    @Autowired
-    private HospitalRepository hospitalRepository;
+    private final HospitalRepository hospitalRepository = new HospitalRepository();
 
     public void create(Hospital hospital) {
         hospitalRepository.create(hospital);
