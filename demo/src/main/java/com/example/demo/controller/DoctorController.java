@@ -3,42 +3,38 @@ package com.example.demo.controller;
 import com.example.demo.model.Doctor;
 import com.example.demo.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
+@Controller
 @RequestMapping("/doctors")
 public class DoctorController {
 
     @Autowired
     private DoctorService doctorService;
 
-    @PostMapping
-    public String create(@RequestBody Doctor doctor) {
-        doctorService.create(doctor);
-        return "Doctor created successfully.";
-    }
-
     @GetMapping
-    public List<Doctor> readAll() {
-        return doctorService.readAll();
+    public String listDoctors(Model model) {
+        model.addAttribute("doctors", doctorService.readAll());
+        return "doctor/index";
     }
 
-    @GetMapping("/{id}")
-    public Doctor findById(@PathVariable String id) {
-        return doctorService.findById(id);
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("doctor", new Doctor());
+        return "doctor/form";
     }
 
-    @PutMapping("/{id}")
-    public String update(@PathVariable String id, @RequestBody Doctor updatedDoctor) {
-        doctorService.update(id, updatedDoctor);
-        return "Doctor updated successfully.";
+    @PostMapping
+    public String createDoctor(@ModelAttribute Doctor doctor) {
+        doctorService.create(doctor);
+        return "redirect:/doctors";
     }
 
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable String id) {
+    @PostMapping("/{id}/delete")
+    public String deleteDoctor(@PathVariable String id) {
         doctorService.delete(id);
-        return "Doctor deleted successfully.";
+        return "redirect:/doctors";
     }
 }

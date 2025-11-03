@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor List</title>
+    <style>
+        table, th, td { border: 1px solid black; border-collapse: collapse; padding: 5px; }
+        th, td { text-align: left; }
+        a { text-decoration: none; color: blue; }
+    </style>
+</head>
+<body>
+
+<h1>List of Doctors</h1>
+
+<a href="/doctors/new">Add New Doctor</a>
+<br><br>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Department ID</th>
+        <th>License Number</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="doctor : ${doctors}">
+        <td th:text="${doctor.id}"></td>
+        <td th:text="${doctor.name}"></td>
+        <td th:text="${doctor.departmentId}"></td>
+        <td th:text="${doctor.licenseNumber}"></td>
+        <td>
+            <form th:action="@{/doctors/{id}/delete(id=${doctor.id})}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
