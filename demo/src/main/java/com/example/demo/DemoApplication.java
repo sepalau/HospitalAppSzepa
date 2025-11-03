@@ -1,7 +1,9 @@
 package com.example.demo;
 
+import com.example.demo.model.Appointment;
 import com.example.demo.model.Hospital;
 import com.example.demo.model.MedicalStaffAppointment;
+import com.example.demo.service.AppointmentService;
 import com.example.demo.service.HospitalService;
 import com.example.demo.service.MedicalStaffAppointmentService;
 import org.springframework.boot.CommandLineRunner;
@@ -30,14 +32,27 @@ public class DemoApplication {
 
     // Populează programările medicale la pornirea aplicației
     @Bean
-    CommandLineRunner initAppointments(MedicalStaffAppointmentService appointmentService) {
+    CommandLineRunner initMedicalStaffAppointments(MedicalStaffAppointmentService appointmentService) {
         return args -> {
             appointmentService.create(new MedicalStaffAppointment(
-                    "A1", "John Doe", "Dr. Adams", LocalDateTime.of(2025, 11, 1, 10, 30)));
+                    "MS1", "Dr. Adams", "John Doe", LocalDateTime.of(2025, 11, 1, 10, 30)));
             appointmentService.create(new MedicalStaffAppointment(
-                    "A2", "Jane Smith", "Dr. Brown", LocalDateTime.of(2025, 11, 2, 15, 0)));
+                    "MS2", "Dr. Brown", "Jane Smith", LocalDateTime.of(2025, 11, 2, 15, 0)));
             appointmentService.create(new MedicalStaffAppointment(
-                    "A3", "Mark Taylor", "Dr. Davis", LocalDateTime.of(2025, 11, 3, 9, 45)));
+                    "MS3", "Dr. Davis", "Mark Taylor", LocalDateTime.of(2025, 11, 3, 9, 45)));
+        };
+    }
+
+    // Populează programările pentru pacienți la pornirea aplicației
+    @Bean
+    CommandLineRunner initAppointments(AppointmentService appointmentService) {
+        return args -> {
+            appointmentService.create(new Appointment(
+                    "P1", "Alice Johnson", "Dr. Adams", LocalDateTime.of(2025, 11, 5, 11, 0)));
+            appointmentService.create(new Appointment(
+                    "P2", "Bob Lee", "Dr. Brown", LocalDateTime.of(2025, 11, 6, 14, 30)));
+            appointmentService.create(new Appointment(
+                    "P3", "Charlie Kim", "Dr. Davis", LocalDateTime.of(2025, 11, 7, 16, 15)));
         };
     }
 }
