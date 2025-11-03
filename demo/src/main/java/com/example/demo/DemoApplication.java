@@ -12,6 +12,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import com.example.demo.service.PatientService;
 import com.example.demo.model.Patient;
+import com.example.demo.service.NurseService;
+import com.example.demo.model.Nurse;
+import java.util.Collections;
 
 import java.time.LocalDateTime;
 
@@ -63,6 +66,17 @@ public class DemoApplication {
             patientService.create(new Patient("P1", "Alice Brown"));
             patientService.create(new Patient("P2", "Bob Smith"));
             patientService.create(new Patient("P3", "Charlie Wilson"));
+        };
+    }
+    @Bean
+    CommandLineRunner initNurses(NurseService nurseService) {
+        return args -> {
+            nurseService.create(new Nurse(
+                    "N1", "Grace Lee", "D1", Collections.emptyList(), "Registered Nurse"));
+            nurseService.create(new Nurse(
+                    "N2", "Eva Martinez", "D2", Collections.emptyList(), "Practical Nurse"));
+            nurseService.create(new Nurse(
+                    "N3", "Sophia Chen", "D1", Collections.emptyList(), "Registered Nurse"));
         };
     }
 }
