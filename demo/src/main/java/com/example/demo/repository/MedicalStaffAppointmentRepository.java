@@ -1,10 +1,12 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.MedicalStaffAppointment;
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
+@Repository
 public class MedicalStaffAppointmentRepository {
 
     private final List<MedicalStaffAppointment> appointments = new ArrayList<MedicalStaffAppointment>();
