@@ -2,43 +2,41 @@ package com.example.demo.controller;
 
 import com.example.demo.model.MedicalStaff;
 import com.example.demo.service.MedicalStaffService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
+@Controller
 @RequestMapping("/medicalstaff")
 public class MedicalStaffController {
 
-    @Autowired
-    private MedicalStaffService medicalStaffService;
+    private final MedicalStaffService staffService;
 
-    @PostMapping
-    public String create(@RequestBody MedicalStaff medicalStaff) {
-        medicalStaffService.create(medicalStaff);
-        return "Medical staff created successfully.";
+    public MedicalStaffController(MedicalStaffService staffService) {
+        this.staffService = staffService;
     }
 
     @GetMapping
-    public List<MedicalStaff> readAll() {
-        return medicalStaffService.readAll();
+    public String listStaff(Model model) {
+        model.addAttribute("medicalStaff", staffService.readAll());
+        return "medicalstaff/index";
     }
 
-    @GetMapping("/{id}")
-    public MedicalStaff findById(@PathVariable String id) {
-        return medicalStaffService.findById(id);
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("staff", new MedicalStaff() {});
+        return "medicalstaff/form";
     }
 
-    @PutMapping("/{id}")
-    public String update(@PathVariable String id, @RequestBody MedicalStaff updatedStaff) {
-        medicalStaffService.update(id, updatedStaff);
-        return "Medical staff updated successfully.";
+    @PostMapping
+    public String createStaff(@ModelAttribute MedicalStaff staff) {
+        staffService.create(staff);
+        return "redirect:/medicalstaff";
     }
 
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable String id) {
-        medicalStaffService.delete(id);
-        return "Medical staff deleted successfully.";
+    @PostMapping("/{id}/delete")
+    public String deleteStaff(@PathVariable String id) {
+        staffService.delete(id);
+        return "redirect:/medicalstaff";
     }
 }

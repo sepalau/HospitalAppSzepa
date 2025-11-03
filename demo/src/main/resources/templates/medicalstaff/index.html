@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Staff List</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+        th, td {
+            text-align: left;
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<h1>List of Medical Staff</h1>
+
+<a href="/medicalstaff/new">Add New Staff</a>
+<br><br>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Department ID</th>
+        <th>Appointments</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="staff : ${medicalStaff}">
+        <td th:text="${staff.id}"></td>
+        <td th:text="${staff.name}"></td>
+        <td th:text="${staff.departmentId}"></td>
+        <td th:text="${staff.appointments.size()}"></td>
+        <td>
+            <form th:action="@{/medicalstaff/{id}/delete(id=${staff.id})}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

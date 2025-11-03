@@ -17,6 +17,9 @@ import com.example.demo.model.Nurse;
 import java.util.Collections;
 import com.example.demo.service.DoctorService;
 import com.example.demo.model.Doctor;
+import com.example.demo.model.MedicalStaff;
+import com.example.demo.service.MedicalStaffService;
+import java.util.ArrayList;
 
 import java.time.LocalDateTime;
 
@@ -86,6 +89,13 @@ public class DemoApplication {
         return args -> {
             doctorService.create(new Doctor("D1", "Dr. House", "Dept1", null, "LN12345"));
             doctorService.create(new Doctor("D2", "Dr. Grey", "Dept2", null, "LN67890"));
+        };
+    }
+    @Bean
+    CommandLineRunner initMedicalStaff(MedicalStaffService staffService) {
+        return args -> {
+            staffService.create(new MedicalStaff("S1", "John Smith", "D01", new ArrayList<>()) {});
+            staffService.create(new MedicalStaff("S2", "Alice Jones", "D02", new ArrayList<>()) {});
         };
     }
 }
