@@ -6,10 +6,11 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 @Repository
 public class DepartmentRepository {
 
-    private final List<Department> departments = new ArrayList<Department>();
+    private final List<Department> departments = new ArrayList<>();
 
     public void create(Department department) {
         departments.add(department);
@@ -26,16 +27,6 @@ public class DepartmentRepository {
             }
         }
         return null;
-    }
-
-    public void update(String id, Department updatedDepartment) {
-        for (int i = 0; i < departments.size(); i++) {
-            Department current = departments.get(i);
-            if (current.getId().equals(id)) {
-                departments.set(i, updatedDepartment);
-                return;
-            }
-        }
     }
 
     public void delete(String id) {

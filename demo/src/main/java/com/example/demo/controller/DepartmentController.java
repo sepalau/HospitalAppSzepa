@@ -1,42 +1,42 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Department;
-import com.example.demo.repository.DepartmentRepository;
+import com.example.demo.service.DepartmentService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
+@Controller
 @RequestMapping("/departments")
 public class DepartmentController {
 
-    private final DepartmentRepository departmentRepository = new DepartmentRepository();
+    private final DepartmentService departmentService;
 
-    @PostMapping
-    public String create(@RequestBody Department department) {
-        departmentRepository.create(department);
-        return "Department created successfully.";
+    public DepartmentController(DepartmentService departmentService) {
+        this.departmentService = departmentService;
     }
 
     @GetMapping
-    public List<Department> readAll() {
-        return departmentRepository.readAll();
+    public String listDepartments(Model model) {
+        model.addAttribute("departments", departmentService.readAll());
+        return "department/index"; // matches templates/department/index.html
     }
 
-    @GetMapping("/{id}")
-    public Department findById(@PathVariable String id) {
-        return departmentRepository.findById(id);
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("department", new Department());
+        return "department/form"; // matches templates/department/form.html
     }
 
-    @PutMapping("/{id}")
-    public String update(@PathVariable String id, @RequestBody Department updatedDepartment) {
-        departmentRepository.update(id, updatedDepartment);
-        return "Department updated successfully.";
+    @PostMapping
+    public String createDepartment(@ModelAttribute Department department) {
+        departmentService.create(department);
+        return "redirect:/departments";
     }
 
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable String id) {
-        departmentRepository.delete(id);
-        return "Department deleted successfully.";
+    @PostMapping("/{id}/delete")
+    public String deleteDepartment(@PathVariable String id) {
+        departmentService.delete(id);
+        return "redirect:/departments";
     }
 }

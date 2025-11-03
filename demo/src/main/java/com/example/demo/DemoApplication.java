@@ -1,24 +1,14 @@
 package com.example.demo;
 
-import com.example.demo.model.Appointment;
-import com.example.demo.model.Hospital;
-import com.example.demo.model.MedicalStaffAppointment;
-import com.example.demo.service.AppointmentService;
-import com.example.demo.service.HospitalService;
-import com.example.demo.service.MedicalStaffAppointmentService;
+import com.example.demo.model.*;
+import com.example.demo.service.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import com.example.demo.service.PatientService;
-import com.example.demo.model.Patient;
-import com.example.demo.service.NurseService;
-import com.example.demo.model.Nurse;
+
 import java.util.Collections;
-import com.example.demo.service.DoctorService;
-import com.example.demo.model.Doctor;
-import com.example.demo.model.MedicalStaff;
-import com.example.demo.service.MedicalStaffService;
+
 import java.util.ArrayList;
 
 import java.time.LocalDateTime;
@@ -98,4 +88,22 @@ public class DemoApplication {
             staffService.create(new MedicalStaff("S2", "Alice Jones", "D02", new ArrayList<>()) {});
         };
     }
+    @Bean
+    CommandLineRunner initDepartments(DepartmentService departmentService) {
+        return args -> {
+            departmentService.create(new Department("D1", "Cardiology", "1", null, null));
+            departmentService.create(new Department("D2", "Pediatrics", "2", null, null));
+            departmentService.create(new Department("D3", "Neurology", "3", null, null));
+        };
+    }
+    @Bean
+    CommandLineRunner initRooms(RoomService roomService) {
+        return args -> {
+            roomService.create(new Room("R1", "1", 3, "101", "Available", null));
+            roomService.create(new Room("R2", "1", 2, "102", "Occupied", null));
+            roomService.create(new Room("R3", "2", 1, "201", "Under Maintenance", null));
+        };
+    }
+
+
 }

@@ -1,42 +1,42 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Room;
-import com.example.demo.repository.RoomRepository;
+import com.example.demo.service.RoomService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
+@Controller
 @RequestMapping("/rooms")
 public class RoomController {
 
-    private final RoomRepository roomRepository = new RoomRepository();
+    private final RoomService roomService;
 
-    @PostMapping
-    public String create(@RequestBody Room room) {
-        roomRepository.create(room);
-        return "Room created successfully.";
+    public RoomController(RoomService roomService) {
+        this.roomService = roomService;
     }
 
     @GetMapping
-    public List<Room> readAll() {
-        return roomRepository.readAll();
+    public String getAllRooms(Model model) {
+        model.addAttribute("rooms", roomService.readAll());
+        return "room/index";
     }
 
-    @GetMapping("/{id}")
-    public Room findById(@PathVariable String id) {
-        return roomRepository.findById(id);
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("room", new Room());
+        return "room/form";
     }
 
-    @PutMapping("/{id}")
-    public String update(@PathVariable String id, @RequestBody Room updatedRoom) {
-        roomRepository.update(id, updatedRoom);
-        return "Room updated successfully.";
+    @PostMapping
+    public String createRoom(@ModelAttribute Room room) {
+        roomService.create(room);
+        return "redirect:/rooms";
     }
 
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable String id) {
-        roomRepository.delete(id);
-        return "Room deleted successfully.";
+    @PostMapping("/{id}/delete")
+    public String deleteRoom(@PathVariable String id) {
+        roomService.delete(id);
+        return "redirect:/rooms";
     }
 }
