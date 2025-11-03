@@ -6,10 +6,11 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 @Repository
 public class MedicalStaffAppointmentRepository {
 
-    private final List<MedicalStaffAppointment> appointments = new ArrayList<MedicalStaffAppointment>();
+    private final List<MedicalStaffAppointment> appointments = new ArrayList<>();
 
     public void create(MedicalStaffAppointment appointment) {
         appointments.add(appointment);
@@ -26,15 +27,6 @@ public class MedicalStaffAppointmentRepository {
             }
         }
         return null;
-    }
-
-    public void update(String id, MedicalStaffAppointment updatedAppointment) {
-        for (int i = 0; i < appointments.size(); i++) {
-            if (appointments.get(i).getId().equals(id)) {
-                appointments.set(i, updatedAppointment);
-                return;
-            }
-        }
     }
 
     public void delete(String id) {

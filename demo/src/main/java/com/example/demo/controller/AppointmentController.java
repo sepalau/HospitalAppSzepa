@@ -1,42 +1,40 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Appointment;
-import com.example.demo.repository.AppointmentRepository;
+import com.example.demo.service.AppointmentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
+@Controller
 @RequestMapping("/appointments")
 public class AppointmentController {
 
-    private final AppointmentRepository appointmentRepository = new AppointmentRepository();
-
-    @PostMapping
-    public String create(@RequestBody Appointment appointment) {
-        appointmentRepository.create(appointment);
-        return "Appointment created successfully.";
-    }
+    @Autowired
+    private AppointmentService appointmentService;
 
     @GetMapping
-    public List<Appointment> readAll() {
-        return appointmentRepository.readAll();
+    public String listAppointments(Model model) {
+        model.addAttribute("appointments", appointmentService.readAll());
+        return "appointment/index";
     }
 
-    @GetMapping("/{id}")
-    public Appointment findById(@PathVariable String id) {
-        return appointmentRepository.findById(id);
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("appointment", new Appointment());
+        return "appointment/form";
     }
 
-    @PutMapping("/{id}")
-    public String update(@PathVariable String id, @RequestBody Appointment updatedAppointment) {
-        appointmentRepository.update(id, updatedAppointment);
-        return "Appointment updated successfully.";
+    @PostMapping
+    public String createAppointment(@ModelAttribute Appointment appointment) {
+        appointmentService.create(appointment);
+        return "redirect:/appointments";
     }
 
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable String id) {
-        appointmentRepository.delete(id);
-        return "Appointment deleted successfully.";
+    @PostMapping("/{id}/delete")
+    public String deleteAppointment(@PathVariable String id) {
+        appointmentService.delete(id);
+        return "redirect:/appointments";
     }
 }

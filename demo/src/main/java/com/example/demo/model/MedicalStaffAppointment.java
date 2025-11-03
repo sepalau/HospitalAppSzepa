@@ -1,20 +1,25 @@
 package com.example.demo.model;
 
+import java.time.LocalDateTime;
+
 public class MedicalStaffAppointment {
-
     private String id;
-    private String appointmentId;
-    private String medicalStaffId;
+    private String doctorName;
+    private String patientName;
+    private LocalDateTime appointmentDateTime;
 
-    public MedicalStaffAppointment() {
-    }
+    // Constructor gol pentru Spring & Thymeleaf
+    public MedicalStaffAppointment() {}
 
-    public MedicalStaffAppointment(String id, String appointmentId, String medicalStaffId) {
+    // Constructor complet
+    public MedicalStaffAppointment(String id, String doctorName, String patientName, LocalDateTime appointmentDateTime) {
         this.id = id;
-        this.appointmentId = appointmentId;
-        this.medicalStaffId = medicalStaffId;
+        this.doctorName = doctorName;
+        this.patientName = patientName;
+        this.appointmentDateTime = appointmentDateTime;
     }
 
+    // Getters și setters
     public String getId() {
         return id;
     }
@@ -23,28 +28,27 @@ public class MedicalStaffAppointment {
         this.id = id;
     }
 
-    public String getAppointmentId() {
-        return appointmentId;
+    public String getDoctorName() {
+        return doctorName;
     }
 
-    public void setAppointmentId(String appointmentId) {
-        this.appointmentId = appointmentId;
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
     }
 
-    public String getMedicalStaffId() {
-        return medicalStaffId;
+    public String getPatientName() {
+        return patientName;
     }
 
-    public void setMedicalStaffId(String medicalStaffId) {
-        this.medicalStaffId = medicalStaffId;
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
     }
 
-    @Override
-    public String toString() {
-        return "MedicalStaffAppointment{" +
-                "id='" + id + '\'' +
-                ", appointmentId='" + appointmentId + '\'' +
-                ", medicalStaffId='" + medicalStaffId + '\'' +
-                '}';
+    public LocalDateTime getAppointmentDateTime() {
+        return appointmentDateTime;
+    }
+
+    public void setAppointmentDateTime(LocalDateTime appointmentDateTime) {
+        this.appointmentDateTime = appointmentDateTime;
     }
 }
