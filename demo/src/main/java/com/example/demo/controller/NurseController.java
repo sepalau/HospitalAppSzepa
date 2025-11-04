@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Nurse;
 import com.example.demo.service.NurseService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +10,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/nurses")
 public class NurseController {
 
-    @Autowired
-    private NurseService nurseService;
+    private final NurseService nurseService;
+
+    public NurseController(NurseService nurseService) {
+        this.nurseService = nurseService;
+    }
 
     @GetMapping
-    public String listNurses(Model model) {
+    public String getAllNurses(Model model) {
         model.addAttribute("nurses", nurseService.readAll());
         return "nurse/index";
     }
