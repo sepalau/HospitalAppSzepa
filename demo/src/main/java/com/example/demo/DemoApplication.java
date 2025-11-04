@@ -82,12 +82,14 @@ public class DemoApplication {
         };
     }
     @Bean
-    CommandLineRunner initMedicalStaff(MedicalStaffService staffService) {
+    CommandLineRunner initMedicalStaff(MedicalStaffService medicalStaffService) {
         return args -> {
-            staffService.create(new MedicalStaff("S1", "John Smith", "D01", new ArrayList<>()) {});
-            staffService.create(new MedicalStaff("S2", "Alice Jones", "D02", new ArrayList<>()) {});
+            medicalStaffService.create(new MedicalStaff("MS1", "Dr. Grey", "D1", null) {});
+            medicalStaffService.create(new MedicalStaff("MS2", "Nurse Olivia", "D2", null) {});
+            medicalStaffService.create(new MedicalStaff("MS3", "Dr. Adams", "D3", null) {});
         };
     }
+
     @Bean
     CommandLineRunner initDepartments(DepartmentService departmentService) {
         return args -> {

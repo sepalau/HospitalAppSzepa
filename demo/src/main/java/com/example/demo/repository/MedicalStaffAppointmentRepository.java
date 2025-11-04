@@ -4,7 +4,6 @@ import com.example.demo.model.MedicalStaffAppointment;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Repository
@@ -21,22 +20,10 @@ public class MedicalStaffAppointmentRepository {
     }
 
     public MedicalStaffAppointment findById(String id) {
-        for (MedicalStaffAppointment a : appointments) {
-            if (a.getId().equals(id)) {
-                return a;
-            }
-        }
-        return null;
+        return appointments.stream().filter(a -> a.getId().equals(id)).findFirst().orElse(null);
     }
 
     public void delete(String id) {
-        Iterator<MedicalStaffAppointment> iterator = appointments.iterator();
-        while (iterator.hasNext()) {
-            MedicalStaffAppointment a = iterator.next();
-            if (a.getId().equals(id)) {
-                iterator.remove();
-                return;
-            }
-        }
+        appointments.removeIf(a -> a.getId().equals(id));
     }
 }

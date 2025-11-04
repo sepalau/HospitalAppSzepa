@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.model.MedicalStaff;
 import com.example.demo.repository.MedicalStaffRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,26 +9,25 @@ import java.util.List;
 @Service
 public class MedicalStaffService {
 
-    @Autowired
-    private MedicalStaffRepository medicalStaffRepository;
+    private final MedicalStaffRepository repository;
 
-    public void create(MedicalStaff medicalStaff) {
-        medicalStaffRepository.create(medicalStaff);
+    public MedicalStaffService(MedicalStaffRepository repository) {
+        this.repository = repository;
+    }
+
+    public void create(MedicalStaff staff) {
+        repository.create(staff);
     }
 
     public List<MedicalStaff> readAll() {
-        return medicalStaffRepository.readAll();
+        return repository.readAll();
     }
 
     public MedicalStaff findById(String id) {
-        return medicalStaffRepository.findById(id);
-    }
-
-    public void update(String id, MedicalStaff updatedStaff) {
-        medicalStaffRepository.update(id, updatedStaff);
+        return repository.findById(id);
     }
 
     public void delete(String id) {
-        medicalStaffRepository.delete(id);
+        repository.delete(id);
     }
 }

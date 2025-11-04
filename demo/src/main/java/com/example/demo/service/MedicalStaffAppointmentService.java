@@ -9,7 +9,11 @@ import java.util.List;
 @Service
 public class MedicalStaffAppointmentService {
 
-    private final MedicalStaffAppointmentRepository repository = new MedicalStaffAppointmentRepository();
+    private final MedicalStaffAppointmentRepository repository;
+
+    public MedicalStaffAppointmentService(MedicalStaffAppointmentRepository repository) {
+        this.repository = repository;
+    }
 
     public void create(MedicalStaffAppointment appointment) {
         repository.create(appointment);

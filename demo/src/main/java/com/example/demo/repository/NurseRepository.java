@@ -4,12 +4,12 @@ import com.example.demo.model.Nurse;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+
 @Repository
 public class NurseRepository {
 
-    private final List<Nurse> nurses = new ArrayList<Nurse>();
+    private final List<Nurse> nurses = new ArrayList<>();
 
     public void create(Nurse nurse) {
         nurses.add(nurse);
@@ -20,31 +20,10 @@ public class NurseRepository {
     }
 
     public Nurse findById(String id) {
-        for (Nurse n : nurses) {
-            if (n.getId().equals(id)) {
-                return n;
-            }
-        }
-        return null;
-    }
-
-    public void update(String id, Nurse updatedNurse) {
-        for (int i = 0; i < nurses.size(); i++) {
-            if (nurses.get(i).getId().equals(id)) {
-                nurses.set(i, updatedNurse);
-                return;
-            }
-        }
+        return nurses.stream().filter(n -> n.getId().equals(id)).findFirst().orElse(null);
     }
 
     public void delete(String id) {
-        Iterator<Nurse> iterator = nurses.iterator();
-        while (iterator.hasNext()) {
-            Nurse n = iterator.next();
-            if (n.getId().equals(id)) {
-                iterator.remove();
-                return;
-            }
-        }
+        nurses.removeIf(n -> n.getId().equals(id));
     }
 }

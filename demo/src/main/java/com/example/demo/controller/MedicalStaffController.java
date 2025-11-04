@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/medicalstaff")
 public class MedicalStaffController {
 
-    private final MedicalStaffService staffService;
+    private final MedicalStaffService service;
 
-    public MedicalStaffController(MedicalStaffService staffService) {
-        this.staffService = staffService;
+    public MedicalStaffController(MedicalStaffService service) {
+        this.service = service;
     }
 
     @GetMapping
     public String listStaff(Model model) {
-        model.addAttribute("medicalStaff", staffService.readAll());
+        model.addAttribute("medicalStaff", service.readAll());
         return "medicalstaff/index";
     }
 
@@ -30,13 +30,13 @@ public class MedicalStaffController {
 
     @PostMapping
     public String createStaff(@ModelAttribute MedicalStaff staff) {
-        staffService.create(staff);
+        service.create(staff);
         return "redirect:/medicalstaff";
     }
 
     @PostMapping("/{id}/delete")
     public String deleteStaff(@PathVariable String id) {
-        staffService.delete(id);
+        service.delete(id);
         return "redirect:/medicalstaff";
     }
 }
