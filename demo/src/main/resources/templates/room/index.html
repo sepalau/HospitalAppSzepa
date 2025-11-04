@@ -4,16 +4,21 @@
     <meta charset="UTF-8">
     <title>Room List</title>
     <style>
-        table, th, td { border: 1px solid black; border-collapse: collapse; padding: 5px; }
-        th, td { text-align: left; }
-        a { text-decoration: none; color: blue; }
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+        th, td {
+            text-align: left;
+        }
     </style>
 </head>
 <body>
 
 <h1>List of Rooms</h1>
 
-<a href="/rooms/new">Add New Room</a>
+<a href="/room/new">Add New Room</a>
 <br><br>
 
 <table>
@@ -35,7 +40,7 @@
         <td th:text="${room.number}"></td>
         <td th:text="${room.status}"></td>
         <td>
-            <form th:action="@{/rooms/{id}/delete(id=${room.id})}" method="post">
+            <form th:action="@{/room/{id}/delete(id=${room.id})}" method="post">
                 <button type="submit">Delete</button>
             </form>
         </td>

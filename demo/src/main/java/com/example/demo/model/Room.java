@@ -1,5 +1,7 @@
 package com.example.demo.model;
+
 import java.util.List;
+
 public class Room {
     private String id;
     private String hospitalId;
@@ -7,7 +9,9 @@ public class Room {
     private String number;
     private String status;
     private List<Appointment> appointments;
-    public Room(){};
+
+    public Room() {}
+
     public Room(String id, String hospitalId, int capacity, String number, String status, List<Appointment> appointments) {
         this.id = id;
         this.hospitalId = hospitalId;
@@ -73,7 +77,6 @@ public class Room {
                 ", capacity=" + capacity +
                 ", number='" + number + '\'' +
                 ", status='" + status + '\'' +
-                ", appointments=" + appointments +
                 '}';
     }
 }

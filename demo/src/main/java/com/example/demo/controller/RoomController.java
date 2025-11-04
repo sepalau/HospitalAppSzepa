@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/rooms")
+@RequestMapping("/room")
 public class RoomController {
 
     private final RoomService roomService;
@@ -17,7 +17,7 @@ public class RoomController {
     }
 
     @GetMapping
-    public String getAllRooms(Model model) {
+    public String listRooms(Model model) {
         model.addAttribute("rooms", roomService.readAll());
         return "room/index";
     }
@@ -29,14 +29,14 @@ public class RoomController {
     }
 
     @PostMapping
-    public String createRoom(@ModelAttribute Room room) {
+    public String create(@ModelAttribute Room room) {
         roomService.create(room);
-        return "redirect:/rooms";
+        return "redirect:/room";
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteRoom(@PathVariable String id) {
+    public String delete(@PathVariable String id) {
         roomService.delete(id);
-        return "redirect:/rooms";
+        return "redirect:/room";
     }
 }

@@ -99,11 +99,12 @@ public class DemoApplication {
     @Bean
     CommandLineRunner initRooms(RoomService roomService) {
         return args -> {
-            roomService.create(new Room("R1", "1", 3, "101", "Available", null));
-            roomService.create(new Room("R2", "1", 2, "102", "Occupied", null));
-            roomService.create(new Room("R3", "2", 1, "201", "Under Maintenance", null));
+            roomService.create(new Room("R1", "1", 2, "101A", "Available", null));
+            roomService.create(new Room("R2", "1", 4, "102B", "Occupied", null));
+            roomService.create(new Room("R3", "2", 3, "201C", "Cleaning", null));
         };
     }
+
 
 
 }

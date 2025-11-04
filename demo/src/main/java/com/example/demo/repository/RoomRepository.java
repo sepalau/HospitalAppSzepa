@@ -21,12 +21,10 @@ public class RoomRepository {
     }
 
     public Room findById(String id) {
-        for (Room room : rooms) {
-            if (room.getId().equals(id)) {
-                return room;
-            }
-        }
-        return null;
+        return rooms.stream()
+                .filter(room -> room.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 
     public void delete(String id) {
