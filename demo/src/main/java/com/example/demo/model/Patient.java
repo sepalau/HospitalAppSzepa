@@ -7,54 +7,22 @@ public class Patient {
 
     private String id;
     private String name;
-    private List<Appointment> appointments;
+    private List<Appointment> appointments = new ArrayList<>();
 
-    public Patient() {
-        this.appointments = new ArrayList<>();
-    }
+    public Patient() {}
 
     public Patient(String id, String name) {
         this.id = id;
         this.name = name;
-        this.appointments = new ArrayList<>();
     }
 
-    public Patient(String id, String name, List<Appointment> appointments) {
-        this.id = id;
-        this.name = name;
-        this.appointments = appointments;
-    }
+    // Getters & Setters
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public String getId() {
-        return id;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Appointment> getAppointments() {
-        return appointments;
-    }
-
-    public void setAppointments(List<Appointment> appointments) {
-        this.appointments = appointments;
-    }
-
-    @Override
-    public String toString() {
-        return "Patient{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", appointments=" + appointments +
-                '}';
-    }
+    public List<Appointment> getAppointments() { return appointments; }
+    public void setAppointments(List<Appointment> appointments) { this.appointments = appointments; }
 }

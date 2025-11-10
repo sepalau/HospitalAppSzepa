@@ -8,19 +8,17 @@ public abstract class MedicalStaff {
     private String id;
     private String name;
     private String departmentId;
-    private List<Appointment> appointments;
+    private List<Appointment> appointments = new ArrayList<>();
 
-    public MedicalStaff() {
-        this.appointments = new ArrayList<>();
-    }
+    public MedicalStaff() {}
 
-    public MedicalStaff(String id, String name, String departmentId, List<Appointment> appointments) {
+    public MedicalStaff(String id, String name, String departmentId) {
         this.id = id;
         this.name = name;
         this.departmentId = departmentId;
-        this.appointments = (appointments != null) ? appointments : new ArrayList<>();
     }
 
+    // Getters & Setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
@@ -30,21 +28,6 @@ public abstract class MedicalStaff {
     public String getDepartmentId() { return departmentId; }
     public void setDepartmentId(String departmentId) { this.departmentId = departmentId; }
 
-    public List<Appointment> getAppointments() {
-        return appointments != null ? appointments : new ArrayList<>();
-    }
-
-    public void setAppointments(List<Appointment> appointments) {
-        this.appointments = appointments != null ? appointments : new ArrayList<>();
-    }
-
-    @Override
-    public String toString() {
-        return "MedicalStaff{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", departmentId='" + departmentId + '\'' +
-                ", appointments=" + appointments.size() +
-                '}';
-    }
+    public List<Appointment> getAppointments() { return appointments; }
+    public void setAppointments(List<Appointment> appointments) { this.appointments = appointments; }
 }

@@ -1,39 +1,43 @@
 package com.example.demo.model;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Appointment {
+
     private String id;
-    private String patientName;
-    private String doctorName;
-    private LocalDateTime dateTime;
+    private String departmentId;
+    private String patientId;
+    private String admissionDate;
+    private String status; // "Active" or "Completed"
+    private List<MedicalStaff> medicalStaff = new ArrayList<>();
 
     public Appointment() {}
 
-    public Appointment(String id, String patientName, String doctorName, LocalDateTime dateTime) {
+    public Appointment(String id, String departmentId, String patientId, String admissionDate, String status) {
         this.id = id;
-        this.patientName = patientName;
-        this.doctorName = doctorName;
-        this.dateTime = dateTime;
+        this.departmentId = departmentId;
+        this.patientId = patientId;
+        this.admissionDate = admissionDate;
+        this.status = status;
     }
 
+    // Getters & Setters
     public String getId() { return id; }
-    public String getPatientName() { return patientName; }
-    public String getDoctorName() { return doctorName; }
-    public LocalDateTime getDateTime() { return dateTime; }
-
     public void setId(String id) { this.id = id; }
-    public void setPatientName(String patientName) { this.patientName = patientName; }
-    public void setDoctorName(String doctorName) { this.doctorName = doctorName; }
-    public void setDateTime(LocalDateTime dateTime) { this.dateTime = dateTime; }
 
-    @Override
-    public String toString() {
-        return "Appointment{" +
-                "id='" + id + '\'' +
-                ", patientName='" + patientName + '\'' +
-                ", doctorName='" + doctorName + '\'' +
-                ", dateTime=" + dateTime +
-                '}';
-    }
+    public String getDepartmentId() { return departmentId; }
+    public void setDepartmentId(String departmentId) { this.departmentId = departmentId; }
+
+    public String getPatientId() { return patientId; }
+    public void setPatientId(String patientId) { this.patientId = patientId; }
+
+    public String getAdmissionDate() { return admissionDate; }
+    public void setAdmissionDate(String admissionDate) { this.admissionDate = admissionDate; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public List<MedicalStaff> getMedicalStaff() { return medicalStaff; }
+    public void setMedicalStaff(List<MedicalStaff> medicalStaff) { this.medicalStaff = medicalStaff; }
 }
