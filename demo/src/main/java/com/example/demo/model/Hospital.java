@@ -1,4 +1,5 @@
 package com.example.demo.model;
+import com.example.demo.enums.RoomStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,7 @@ public class Hospital {
     private String Name;
     private String City;
     private List<String> Departments;
-    private List<String> Rooms;
+    private List<RoomStatus> rooms;
 
     public Hospital() {}
 
@@ -19,7 +20,7 @@ public class Hospital {
         this.Name = Name;
         this.City = City;
         this.Departments = new ArrayList<>();
-        this.Rooms = new ArrayList<>();
+        this.rooms = new ArrayList<>();
     }
 
     public Hospital(String Id, String Name, String City, List<String> Departments, List<String> Rooms) {
@@ -27,7 +28,7 @@ public class Hospital {
         this.Name = Name;
         this.City = City;
         this.Departments = Departments;
-        this.Rooms = Rooms;
+        this.rooms = rooms;
     }
 
     public String getId() {
@@ -62,12 +63,12 @@ public class Hospital {
         Departments = departments;
     }
 
-    public List<String> getRooms() {
-        return Rooms;
+    public List<RoomStatus> getRooms() {
+        return rooms;
     }
 
-    public void setRooms(List<String> rooms) {
-        Rooms = rooms;
+    public void setRooms(List<RoomStatus> rooms) {
+        this.rooms = rooms;
     }
 
     @Override
@@ -77,7 +78,7 @@ public class Hospital {
                 ", Name='" + Name + '\'' +
                 ", City='" + City + '\'' +
                 ", Departments=" + Departments +
-                ", Rooms=" + Rooms +
+                ", Rooms=" + rooms +
                 '}';
     }
 }
