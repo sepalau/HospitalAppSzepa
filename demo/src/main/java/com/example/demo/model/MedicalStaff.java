@@ -44,7 +44,7 @@ public abstract class MedicalStaff {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", departmentId='" + departmentId + '\'' +
-                ", appointments=" + (appointments != null ? appointments.size() : 0) +
+                ", appointments=" + appointments.size() +
                 '}';
     }
 }
