@@ -2,39 +2,23 @@ package com.example.demo.repository;
 
 import com.example.demo.model.Room;
 import org.springframework.stereotype.Repository;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Repository
-public class RoomRepository {
-
-    private final List<Room> rooms = new ArrayList<>();
-
-    public void create(Room room) {
-        rooms.add(room);
+public class RoomRepository extends InFileRepository<Room> {
+    public RoomRepository() {
+        super("src/main/resources/data/rooms.json", Room.class);
     }
 
-    public List<Room> readAll() {
-        return rooms;
+    public List<Room> findAvailableRooms() {
+        return findAll().stream()
+                .filter(r -> "Available".equalsIgnoreCase(r.getStatus()))
+                .toList();
     }
 
-    public Room findById(String id) {
-        return rooms.stream()
-                .filter(room -> room.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-    }
-
-    public void delete(String id) {
-        Iterator<Room> iterator = rooms.iterator();
-        while (iterator.hasNext()) {
-            Room room = iterator.next();
-            if (room.getId().equals(id)) {
-                iterator.remove();
-                return;
-            }
-        }
+    public List<Room> findByHospitalId(String hospitalId) {
+        return findAll().stream()
+                .filter(r -> hospitalId.equalsIgnoreCase(r.getHospitalId()))
+                .toList();
     }
 }

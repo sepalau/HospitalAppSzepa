@@ -2,28 +2,23 @@ package com.example.demo.repository;
 
 import com.example.demo.model.MedicalStaffAppointment;
 import org.springframework.stereotype.Repository;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class MedicalStaffAppointmentRepository {
-
-    private final List<MedicalStaffAppointment> appointments = new ArrayList<>();
-
-    public void create(MedicalStaffAppointment appointment) {
-        appointments.add(appointment);
+public class MedicalStaffAppointmentRepository extends InFileRepository<MedicalStaffAppointment> {
+    public MedicalStaffAppointmentRepository() {
+        super("src/main/resources/data/medicalStaffAppointments.json", MedicalStaffAppointment.class);
     }
 
-    public List<MedicalStaffAppointment> readAll() {
-        return appointments;
+    public List<MedicalStaffAppointment> findByAppointmentId(String appointmentId) {
+        return findAll().stream()
+                .filter(msa -> appointmentId.equalsIgnoreCase(msa.getAppointmentId()))
+                .toList();
     }
 
-    public MedicalStaffAppointment findById(String id) {
-        return appointments.stream().filter(a -> a.getId().equals(id)).findFirst().orElse(null);
-    }
-
-    public void delete(String id) {
-        appointments.removeIf(a -> a.getId().equals(id));
+    public List<MedicalStaffAppointment> findByMedicalStaffId(String staffId) {
+        return findAll().stream()
+                .filter(msa -> staffId.equalsIgnoreCase(msa.getMedicalStaffId()))
+                .toList();
     }
 }

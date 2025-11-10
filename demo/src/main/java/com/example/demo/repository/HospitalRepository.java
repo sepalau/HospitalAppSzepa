@@ -2,41 +2,24 @@ package com.example.demo.repository;
 
 import com.example.demo.model.Hospital;
 import org.springframework.stereotype.Repository;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Repository
-public class HospitalRepository {
-
-    private final List<Hospital> hospitals = new ArrayList<>();
-
-    public void create(Hospital hospital) {
-        hospitals.add(hospital);
+public class HospitalRepository extends InFileRepository<Hospital> {
+    public HospitalRepository() {
+        super("src/main/resources/data/hospitals.json", Hospital.class);
     }
 
-    public List<Hospital> readAll() {
-        return hospitals;
-    }
-
-    public Hospital findById(String id) {
-        return hospitals.stream()
-                .filter(h -> h.getId().equals(id))
+    public Hospital findByName(String name) {
+        return findAll().stream()
+                .filter(h -> name.equalsIgnoreCase(h.getName()))
                 .findFirst()
                 .orElse(null);
     }
 
-    public void update(String id, Hospital updatedHospital) {
-        for (int i = 0; i < hospitals.size(); i++) {
-            if (hospitals.get(i).getId().equals(id)) {
-                hospitals.set(i, updatedHospital);
-                return;
-            }
-        }
-    }
-
-    public void delete(String id) {
-        hospitals.removeIf(h -> h.getId().equals(id));
+    public List<Hospital> findByCity(String city) {
+        return findAll().stream()
+                .filter(h -> city.equalsIgnoreCase(h.getCity()))
+                .toList();
     }
 }

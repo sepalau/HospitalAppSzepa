@@ -2,49 +2,24 @@ package com.example.demo.repository;
 
 import com.example.demo.model.Doctor;
 import org.springframework.stereotype.Repository;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+
 @Repository
-public class DoctorRepository {
-
-    private final List<Doctor> doctors = new ArrayList<Doctor>();
-
-    public void create(Doctor doctor) {
-        doctors.add(doctor);
+public class DoctorRepository extends InFileRepository<Doctor> {
+    public DoctorRepository() {
+        super("src/main/resources/data/doctors.json", Doctor.class);
     }
 
-    public List<Doctor> readAll() {
-        return doctors;
+    public Doctor findByLicenseNumber(String licenseNumber) {
+        return findAll().stream()
+                .filter(d -> licenseNumber.equalsIgnoreCase(d.getLicenseNumber()))
+                .findFirst()
+                .orElse(null);
     }
 
-    public Doctor findById(String id) {
-        for (Doctor d : doctors) {
-            if (d.getId().equals(id)) {
-                return d;
-            }
-        }
-        return null;
-    }
-
-    public void update(String id, Doctor updatedDoctor) {
-        for (int i = 0; i < doctors.size(); i++) {
-            if (doctors.get(i).getId().equals(id)) {
-                doctors.set(i, updatedDoctor);
-                return;
-            }
-        }
-    }
-
-    public void delete(String id) {
-        Iterator<Doctor> iterator = doctors.iterator();
-        while (iterator.hasNext()) {
-            Doctor d = iterator.next();
-            if (d.getId().equals(id)) {
-                iterator.remove();
-                return;
-            }
-        }
+    public List<Doctor> findByDepartment(String departmentId) {
+        return findAll().stream()
+                .filter(d -> departmentId.equalsIgnoreCase(d.getDepartmentId()))
+                .toList();
     }
 }

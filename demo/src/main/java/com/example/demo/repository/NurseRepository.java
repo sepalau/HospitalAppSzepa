@@ -2,28 +2,23 @@ package com.example.demo.repository;
 
 import com.example.demo.model.Nurse;
 import org.springframework.stereotype.Repository;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class NurseRepository {
-
-    private final List<Nurse> nurses = new ArrayList<>();
-
-    public void create(Nurse nurse) {
-        nurses.add(nurse);
+public class NurseRepository extends InFileRepository<Nurse> {
+    public NurseRepository() {
+        super("src/main/resources/data/nurses.json", Nurse.class);
     }
 
-    public List<Nurse> readAll() {
-        return nurses;
+    public List<Nurse> findByQualification(String qualification) {
+        return findAll().stream()
+                .filter(n -> qualification.equalsIgnoreCase(n.getQualificationLevel()))
+                .toList();
     }
 
-    public Nurse findById(String id) {
-        return nurses.stream().filter(n -> n.getId().equals(id)).findFirst().orElse(null);
-    }
-
-    public void delete(String id) {
-        nurses.removeIf(n -> n.getId().equals(id));
+    public List<Nurse> findByDepartment(String departmentId) {
+        return findAll().stream()
+                .filter(n -> departmentId.equalsIgnoreCase(n.getDepartmentId()))
+                .toList();
     }
 }
