@@ -29,18 +29,20 @@
     <thead>
     <tr>
         <th>ID</th>
-        <th>Patient Name</th>
-        <th>Doctor Name</th>
-        <th>Appointment Date & Time</th>
+        <th>Patient ID</th>
+        <th>Department ID</th>
+        <th>Admission Date</th>
+        <th>Status</th>
         <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="appointment : ${appointments}">
         <td th:text="${appointment.id}"></td>
-        <td th:text="${appointment.patientName}"></td>
-        <td th:text="${appointment.doctorName}"></td>
-        <td th:text="${appointment.dateTime}"></td>
+        <td th:text="${appointment.patientId}"></td>
+        <td th:text="${appointment.departmentId}"></td>
+        <td th:text="${appointment.admissionDate}"></td>
+        <td th:text="${appointment.status}"></td>
         <td>
             <form th:action="@{/appointments/{id}/delete(id=${appointment.id})}" method="post">
                 <button type="submit">Delete</button>

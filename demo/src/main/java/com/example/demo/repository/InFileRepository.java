@@ -24,7 +24,7 @@ public class InFileRepository<T> implements AbstractRepository<T> {
 
     public InFileRepository(String fileName, TypeReference<List<T>> typeReference, IdExtractor<T> idExtractor) {
         this.resourcePath = "data/" + fileName;
-        this.filePath = Paths.get("data/" + fileName).toAbsolutePath();
+        this.filePath = Paths.get("demo/data/" + fileName).toAbsolutePath();
         this.objectMapper = new ObjectMapper();
         this.typeReference = typeReference;
         this.idExtractor = idExtractor;

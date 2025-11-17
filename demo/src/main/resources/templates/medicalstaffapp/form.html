@@ -2,31 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add Medical Staff Appointment</title>
+    <title>Create MedicalStaffAppointment</title>
+
+    <style>
+        label { display: block; margin-top: 10px; }
+        input { width: 300px; padding: 5px; }
+        button { margin-top: 20px; padding: 8px 14px; }
+    </style>
 </head>
 <body>
 
-<h1>Add New Appointment</h1>
+<h1>Add Medical Staff Appointment</h1>
 
-<form action="#" th:action="@{/medicalstaffapp}" th:object="${appointment}" method="post">
+<form th:action="@{/medicalstaffapp}" th:object="${medicalStaffAppointment}" method="post">
 
-    <label for="id">ID:</label><br>
-    <input type="text" id="id" th:field="*{id}" required><br><br>
+    <label>ID</label>
+    <input th:field="*{id}" required />
 
-    <label for="staffName">Staff Name:</label><br>
-    <input type="text" id="staffName" th:field="*{staffName}" required><br><br>
+    <label>Appointment ID</label>
+    <input th:field="*{appointmentId}" required />
 
-    <label for="department">Department:</label><br>
-    <input type="text" id="department" th:field="*{department}" required><br><br>
-
-    <label for="appointmentTime">Appointment Time (YYYY-MM-DDThh:mm):</label><br>
-    <input type="datetime-local" id="appointmentTime" th:field="*{appointmentTime}" required><br><br>
+    <label>Medical Staff ID</label>
+    <input th:field="*{medicalStaffId}" required />
 
     <button type="submit">Save</button>
 </form>
 
 <br>
-<a href="/medicalstaffapp">Back to List</a>
+<a href="/medicalstaffapp">Back</a>
 
 </body>
 </html>

@@ -2,19 +2,17 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Room;
 import com.example.demo.service.RoomService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/room")
+@RequestMapping("/rooms")
 public class RoomController {
 
-    private final RoomService roomService;
-
-    public RoomController(RoomService roomService) {
-        this.roomService = roomService;
-    }
+    @Autowired
+    private RoomService roomService;
 
     @GetMapping
     public String listRooms(Model model) {
@@ -29,14 +27,14 @@ public class RoomController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute Room room) {
+    public String createRoom(@ModelAttribute Room room) {
         roomService.create(room);
-        return "redirect:/room";
+        return "redirect:/rooms";
     }
 
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable String id) {
+    public String deleteRoom(@PathVariable String id) {
         roomService.delete(id);
-        return "redirect:/room";
+        return "redirect:/rooms";
     }
 }
