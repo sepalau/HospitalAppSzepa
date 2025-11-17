@@ -17,8 +17,8 @@ public class PatientService {
         patientRepository.create(patient);
     }
 
-    public List<Patient> readAll() {
-        return patientRepository.readAll();
+    public List<Patient> findAll() {
+        return patientRepository.findAll();
     }
 
     public Patient findById(String id) {
