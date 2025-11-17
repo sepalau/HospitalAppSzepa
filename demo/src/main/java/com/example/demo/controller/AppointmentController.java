@@ -16,7 +16,7 @@ public class AppointmentController {
 
     @GetMapping
     public String listAppointments(Model model) {
-        model.addAttribute("appointments", appointmentService.readAll());
+        model.addAttribute("appointments", appointmentService.findAll());
         return "appointment/index";
     }
 

@@ -18,7 +18,7 @@ public class RoomController {
 
     @GetMapping
     public String listRooms(Model model) {
-        model.addAttribute("rooms", roomService.readAll());
+        model.addAttribute("rooms", roomService.findAll());
         return "room/index";
     }
 
