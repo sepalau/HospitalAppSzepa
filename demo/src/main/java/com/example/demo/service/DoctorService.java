@@ -27,6 +27,10 @@ public class DoctorService {
         repo.create(doctor);
     }
 
+    public void update(String id, Doctor doctor) {
+        repo.update(id, doctor);
+    }
+
     public void delete(String id) {
         repo.delete(id);
     }

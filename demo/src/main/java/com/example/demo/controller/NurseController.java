@@ -34,6 +34,12 @@ public class NurseController {
         return "redirect:/nurses";
     }
 
+    @GetMapping("/{id}")
+    public String viewDetails(@PathVariable String id, Model model) {
+        model.addAttribute("nurse", nurseService.findById(id));
+        return "nurse/details";
+    }
+
     @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable String id, Model model) {
         Nurse nurse = nurseService.findById(id);
@@ -41,7 +47,7 @@ public class NurseController {
         return "nurse/form";
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/{id}/update")
     public String updateNurse(@PathVariable String id, @ModelAttribute Nurse nurse) {
         nurseService.update(id, nurse);
         return "redirect:/nurses";

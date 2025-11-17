@@ -27,6 +27,7 @@
         <td th:text="${item.appointmentId}"></td>
         <td th:text="${item.medicalStaffId}"></td>
         <td>
+            <a th:href="@{'/medicalstaffapp/' + ${item.id}}">Details</a> |
             <a th:href="@{'/medicalstaffapp/' + ${item.id} + '/edit'}">Edit</a>
 
             <form th:action="@{'/medicalstaffapp/' + ${item.id} + '/delete'}"

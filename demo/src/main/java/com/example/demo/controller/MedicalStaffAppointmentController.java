@@ -34,13 +34,19 @@ public class MedicalStaffAppointmentController {
         return "redirect:/medicalstaffapp";
     }
 
+    @GetMapping("/{id}")
+    public String showDetails(@PathVariable String id, Model model) {
+        model.addAttribute("medicalStaffAppointment", service.findById(id));
+        return "medicalstaffapp/details";
+    }
+
     @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable String id, Model model) {
         model.addAttribute("medicalStaffAppointment", service.findById(id));
         return "medicalstaffapp/form";
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/{id}/update")
     public String update(@PathVariable String id,
                          @ModelAttribute MedicalStaffAppointment msa) {
         service.update(id, msa);

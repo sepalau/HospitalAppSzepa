@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <title>Doctor List</title>
     <style>
-        table, th, td { border: 1px solid black; border-collapse: collapse; padding: 5px; }
-        th, td { text-align: left; }
+        table, th, td { border: 1px solid black; padding: 5px; border-collapse: collapse; }
         a { text-decoration: none; color: blue; }
     </style>
 </head>
@@ -26,6 +25,7 @@
         <th>Actions</th>
     </tr>
     </thead>
+
     <tbody>
     <tr th:each="doctor : ${doctors}">
         <td th:text="${doctor.id}"></td>
@@ -34,9 +34,8 @@
         <td th:text="${doctor.licenseNumber}"></td>
 
         <td>
-            <a th:href="@{/doctors/{id}/details(id=${doctor.id})}">Details</a>
-            &nbsp;|&nbsp;
-
+            <a th:href="@{/doctors/{id}(id=${doctor.id})}">Details</a> |
+            <a th:href="@{/doctors/{id}/edit(id=${doctor.id})}">Edit</a> |
             <form th:action="@{/doctors/{id}/delete(id=${doctor.id})}" method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>

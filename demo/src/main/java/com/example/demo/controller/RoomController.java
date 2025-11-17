@@ -28,6 +28,12 @@ public class RoomController {
         return "room/form";
     }
 
+    @GetMapping("/{id}")
+    public String details(@PathVariable String id, Model model) {
+        model.addAttribute("room", roomService.findById(id));
+        return "room/details";
+    }
+
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable String id, Model model) {
         model.addAttribute("room", roomService.findById(id));
@@ -37,12 +43,10 @@ public class RoomController {
     @PostMapping("/save")
     public String save(@ModelAttribute Room room) {
 
-        // NEW → create
         if (room.getId() == null || room.getId().isEmpty()) {
             room.setId("Room" + System.currentTimeMillis());
             roomService.create(room);
         }
-        // EDIT → update
         else {
             roomService.update(room.getId(), room);
         }

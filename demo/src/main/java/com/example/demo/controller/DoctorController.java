@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Doctor;
 import com.example.demo.service.DoctorService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,8 +10,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/doctors")
 public class DoctorController {
 
-    @Autowired
-    private DoctorService doctorService;
+    private final DoctorService doctorService;
+
+    public DoctorController(DoctorService doctorService) {
+        this.doctorService = doctorService;
+    }
 
     @GetMapping
     public String listDoctors(Model model) {
@@ -32,10 +34,22 @@ public class DoctorController {
         return "redirect:/doctors";
     }
 
-    @GetMapping("/{id}/details")
-    public String showDoctorDetails(@PathVariable String id, Model model) {
+    @GetMapping("/{id}")
+    public String showDetails(@PathVariable String id, Model model) {
         model.addAttribute("doctor", doctorService.read(id));
         return "doctor/details";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showEditForm(@PathVariable String id, Model model) {
+        model.addAttribute("doctor", doctorService.read(id));
+        return "doctor/form";
+    }
+
+    @PostMapping("/{id}/update")
+    public String updateDoctor(@PathVariable String id, @ModelAttribute Doctor doctor) {
+        doctorService.update(id, doctor);
+        return "redirect:/doctors";
     }
 
     @PostMapping("/{id}/delete")

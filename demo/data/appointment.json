@@ -71,7 +71,7 @@
 }, {
   "id" : "A11",
   "departmentId" : "211",
-  "patientId" : "12",
+  "patientId" : "22",
   "admissionDate" : "2025-12-25",
   "status" : "Active",
   "medicalStaff" : [ ]

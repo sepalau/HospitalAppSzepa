@@ -14,7 +14,9 @@
 <p><strong>License Number:</strong> <span th:text="${doctor.licenseNumber}"></span></p>
 
 <br>
-<a href="/doctors">Back to list</a>
+
+<a href="/doctors">Back</a> |
+<a th:href="@{/doctors/{id}/edit(id=${doctor.id})}">Edit</a>
 
 </body>
 </html>

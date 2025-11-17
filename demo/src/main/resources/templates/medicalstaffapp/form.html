@@ -8,14 +8,14 @@
 
 <h1 th:text="${medicalStaffAppointment.id == null ? 'Add' : 'Edit'}"></h1>
 
-<form th:action="@{${medicalStaffAppointment.id == null}
+<form th:action="${medicalStaffAppointment.id == null}
         ? '/medicalstaffapp'
-        : '/medicalstaffapp/' + ${medicalStaffAppointment.id}}"
+        : '/medicalstaffapp/' + ${medicalStaffAppointment.id} + '/update'"
       th:object="${medicalStaffAppointment}"
       method="post">
 
     <label>ID:</label>
-    <input type="text" th:field="*{id}" required>
+    <input type="text" th:field="*{id}" th:readonly="${medicalStaffAppointment.id != null}" required>
     <br>
 
     <label>Appointment ID:</label>
@@ -28,6 +28,9 @@
 
     <button type="submit">Save</button>
 </form>
+
+<br>
+<a href="/medicalstaffapp">Back</a>
 
 </body>
 </html>
