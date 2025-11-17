@@ -32,8 +32,12 @@
         <td th:text="${doctor.name}"></td>
         <td th:text="${doctor.departmentId}"></td>
         <td th:text="${doctor.licenseNumber}"></td>
+
         <td>
-            <form th:action="@{/doctors/{id}/delete(id=${doctor.id})}" method="post">
+            <a th:href="@{/doctors/{id}/details(id=${doctor.id})}">Details</a>
+            &nbsp;|&nbsp;
+
+            <form th:action="@{/doctors/{id}/delete(id=${doctor.id})}" method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
         </td>

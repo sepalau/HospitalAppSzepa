@@ -22,6 +22,8 @@
         <td th:text="${d.id}"></td>
         <td th:text="${d.name}"></td>
         <td>
+            <a th:href="@{/departments/{id}/details(id=${d.id})}">Details</a>
+            &nbsp;|&nbsp;
             <a th:href="@{/departments/{id}/edit(id=${d.id})}">Edit</a>
             &nbsp;|&nbsp;
             <form th:action="@{/departments/{id}/delete(id=${d.id})}" method="post" style="display:inline;">
@@ -29,7 +31,6 @@
             </form>
         </td>
     </tr>
-
 </table>
 
 </body>

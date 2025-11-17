@@ -51,4 +51,10 @@ public class AppointmentController {
         service.delete(id);
         return "redirect:/appointments";
     }
+
+    @GetMapping("/{id}/details")
+    public String showDetails(@PathVariable String id, Model model) {
+        model.addAttribute("appointment", service.findById(id));
+        return "appointment/details";
+    }
 }

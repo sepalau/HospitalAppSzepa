@@ -32,6 +32,12 @@ public class DoctorController {
         return "redirect:/doctors";
     }
 
+    @GetMapping("/{id}/details")
+    public String showDoctorDetails(@PathVariable String id, Model model) {
+        model.addAttribute("doctor", doctorService.read(id));
+        return "doctor/details";
+    }
+
     @PostMapping("/{id}/delete")
     public String deleteDoctor(@PathVariable String id) {
         doctorService.delete(id);
