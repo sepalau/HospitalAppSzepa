@@ -1,7 +1,7 @@
 [ {
   "id" : "H1",
   "name" : "Central Hospital",
-  "city" : "Berlin",
+  "city" : "Berlins",
   "departments" : [ ],
   "rooms" : [ ]
 }, {
@@ -59,9 +59,9 @@
   "departments" : [ ],
   "rooms" : [ ]
 }, {
-  "id" : "H11",
-  "name" : "Recuperares",
-  "city" : "Cluj-Napoca",
+  "id" : "23t",
+  "name" : "23f",
+  "city" : "f32",
   "departments" : [ ],
   "rooms" : [ ]
 } ]

@@ -38,12 +38,14 @@ public class InFileRepository<T> implements AbstractRepository<T> {
             if (!Files.exists(filePath)) {
                 Files.createDirectories(filePath.getParent());
                 ClassPathResource resource = new ClassPathResource(resourcePath);
+
                 if (resource.exists()) {
                     try (InputStream in = resource.getInputStream()) {
                         Files.copy(in, filePath, StandardCopyOption.REPLACE_EXISTING);
                         return;
                     }
                 }
+
                 Files.write(filePath, "[]".getBytes());
             }
         } catch (IOException e) {
@@ -84,7 +86,17 @@ public class InFileRepository<T> implements AbstractRepository<T> {
 
     @Override
     public void create(T entity) {
-        dataMap.put(idExtractor.getId(entity), entity);
+
+        String id = idExtractor.getId(entity);
+
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("ID cannot be null or empty.");
+        }
+        if (dataMap.containsKey(id)) {
+            throw new IllegalArgumentException("ID must be unique! Duplicate ID: " + id);
+        }
+
+        dataMap.put(id, entity);
         saveToFile();
     }
 

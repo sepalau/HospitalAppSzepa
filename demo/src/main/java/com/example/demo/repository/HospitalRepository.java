@@ -8,9 +8,10 @@ import java.nio.file.Paths;
 
 @Repository
 public class HospitalRepository extends InFileRepository<Hospital> {
+
     public HospitalRepository() {
         super("hospital.json", new TypeReference<>() {}, Hospital::getId);
         System.out.println("LOADING FROM: " + Paths.get("data/hospital.json").toAbsolutePath());
-
     }
+
 }

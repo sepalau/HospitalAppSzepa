@@ -34,8 +34,7 @@ public class HospitalController {
 
     @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable String id, Model model) {
-        Hospital hospital = hospitalService.findById(id);
-        model.addAttribute("hospital", hospital);
+        model.addAttribute("hospital", hospitalService.findById(id));
         return "hospital/form";
     }
 
@@ -49,5 +48,12 @@ public class HospitalController {
     public String deleteHospital(@PathVariable String id) {
         hospitalService.delete(id);
         return "redirect:/hospitals";
+    }
+
+    // NEW — DETAILS
+    @GetMapping("/{id}")
+    public String details(@PathVariable String id, Model model) {
+        model.addAttribute("hospital", hospitalService.findById(id));
+        return "hospital/details";
     }
 }

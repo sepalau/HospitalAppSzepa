@@ -9,7 +9,8 @@
 <h1 th:text="${hospital.id == null} ? 'Add Hospital' : 'Edit Hospital'"></h1>
 
 <form th:action="${hospital.id == null} ? '/hospitals' : '/hospitals/' + ${hospital.id} + '/update'"
-      th:object="${hospital}" method="post">
+      th:object="${hospital}"
+      method="post">
 
     <label>ID:</label><br>
     <input type="text" th:field="*{id}" th:readonly="${hospital.id != null}"><br><br>
