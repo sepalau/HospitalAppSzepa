@@ -1,0 +1,12 @@
+[
+  {"id": "Dep1", "name": "Cardiology"},
+  {"id": "Dep2", "name": "Radiology"},
+  {"id": "Dep3", "name": "Neurology"},
+  {"id": "Dep4", "name": "Oncology"},
+  {"id": "Dep5", "name": "Pediatrics"},
+  {"id": "Dep6", "name": "Gastroenterology"},
+  {"id": "Dep7", "name": "Orthopedics"},
+  {"id": "Dep8", "name": "Urology"},
+  {"id": "Dep9", "name": "Dermatology"},
+  {"id": "Dep10", "name": "Emergency"}
+]

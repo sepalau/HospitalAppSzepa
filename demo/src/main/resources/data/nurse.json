@@ -1,0 +1,12 @@
+[
+  { "id": "N1", "name": "Nurse Emma Schulz", "departmentId": "Cardiology", "qualificationLevel": "Registered Nurse", "appointments": [] },
+  { "id": "N2", "name": "Nurse Maria Becker", "departmentId": "Pediatrics", "qualificationLevel": "Registered Nurse", "appointments": [] },
+  { "id": "N3", "name": "Nurse Lara Hoffmann", "departmentId": "Surgery", "qualificationLevel": "Practical Nurse", "appointments": [] },
+  { "id": "N4", "name": "Nurse Sophie Klein", "departmentId": "Dermatology", "qualificationLevel": "Registered Nurse", "appointments": [] },
+  { "id": "N5", "name": "Nurse Nora Hahn", "departmentId": "ENT", "qualificationLevel": "Practical Nurse", "appointments": [] },
+  { "id": "N6", "name": "Nurse Mia Peters", "departmentId": "Neurology", "qualificationLevel": "Registered Nurse", "appointments": [] },
+  { "id": "N7", "name": "Nurse Ella Wagner", "departmentId": "Urology", "qualificationLevel": "Registered Nurse", "appointments": [] },
+  { "id": "N8", "name": "Nurse Sophie Albrecht", "departmentId": "Orthopedics", "qualificationLevel": "Practical Nurse", "appointments": [] },
+  { "id": "N9", "name": "Nurse Paula Engel", "departmentId": "Oncology", "qualificationLevel": "Registered Nurse", "appointments": [] },
+  { "id": "N10", "name": "Nurse Lina Otto", "departmentId": "General Medicine", "qualificationLevel": "Registered Nurse", "appointments": [] }
+]

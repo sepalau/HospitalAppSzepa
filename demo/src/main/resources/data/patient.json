@@ -1,0 +1,12 @@
+[
+  { "id": "P1", "name": "Alex Meyer", "appointments": [] },
+  { "id": "P2", "name": "Julia Stein", "appointments": [] },
+  { "id": "P3", "name": "Max Bauer", "appointments": [] },
+  { "id": "P4", "name": "Lisa Winter", "appointments": [] },
+  { "id": "P5", "name": "Markus Engel", "appointments": [] },
+  { "id": "P6", "name": "Hannah Kurz", "appointments": [] },
+  { "id": "P7", "name": "Lukas Hahn", "appointments": [] },
+  { "id": "P8", "name": "Sara König", "appointments": [] },
+  { "id": "P9", "name": "Tobias Wolf", "appointments": [] },
+  { "id": "P10", "name": "Eva Berger", "appointments": [] }
+]
