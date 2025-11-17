@@ -1,0 +1,67 @@
+[ {
+  "id" : "H1",
+  "name" : "Central Hospital",
+  "city" : "Berlin",
+  "departments" : [ ],
+  "rooms" : [ ]
+}, {
+  "id" : "H2",
+  "name" : "City Clinic",
+  "city" : "Munich",
+  "departments" : [ ],
+  "rooms" : [ ]
+}, {
+  "id" : "H3",
+  "name" : "St. George Medical Center",
+  "city" : "Hamburg",
+  "departments" : [ ],
+  "rooms" : [ ]
+}, {
+  "id" : "H4",
+  "name" : "West Care Hospital",
+  "city" : "Frankfurt",
+  "departments" : [ ],
+  "rooms" : [ ]
+}, {
+  "id" : "H5",
+  "name" : "North Health Clinic",
+  "city" : "Leipzig",
+  "departments" : [ ],
+  "rooms" : [ ]
+}, {
+  "id" : "H6",
+  "name" : "South Hospital",
+  "city" : "Stuttgart",
+  "departments" : [ ],
+  "rooms" : [ ]
+}, {
+  "id" : "H7",
+  "name" : "Hope Medical Center",
+  "city" : "Dresden",
+  "departments" : [ ],
+  "rooms" : [ ]
+}, {
+  "id" : "H8",
+  "name" : "Sunrise Clinic",
+  "city" : "Bremen",
+  "departments" : [ ],
+  "rooms" : [ ]
+}, {
+  "id" : "H9",
+  "name" : "Green Valley Hospital",
+  "city" : "Hannover",
+  "departments" : [ ],
+  "rooms" : [ ]
+}, {
+  "id" : "H10",
+  "name" : "Royal Care Clinic",
+  "city" : "Köln",
+  "departments" : [ ],
+  "rooms" : [ ]
+}, {
+  "id" : "H11",
+  "name" : "Recuperare",
+  "city" : "Cluj-Napoca",
+  "departments" : [ ],
+  "rooms" : [ ]
+} ]
