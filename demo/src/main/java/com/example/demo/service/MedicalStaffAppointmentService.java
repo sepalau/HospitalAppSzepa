@@ -20,7 +20,7 @@ public class MedicalStaffAppointmentService {
     }
 
     public List<MedicalStaffAppointment> readAll() {
-        return repository.readAll();
+        return repository.findAll();
     }
 
     public MedicalStaffAppointment findById(String id) {

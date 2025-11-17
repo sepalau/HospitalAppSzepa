@@ -20,7 +20,7 @@ public class NurseService {
     }
 
     public List<Nurse> readAll() {
-        return nurseRepository.readAll();
+        return nurseRepository.findAll();
     }
 
     public Nurse findById(String id) {

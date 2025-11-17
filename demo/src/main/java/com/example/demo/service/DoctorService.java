@@ -18,7 +18,7 @@ public class DoctorService {
     }
 
     public List<Doctor> readAll() {
-        return doctorRepository.readAll();
+        return doctorRepository.findAll();
     }
 
     public Doctor findById(String id) {

@@ -20,7 +20,7 @@ public class DepartmentService {
     }
 
     public List<Department> readAll() {
-        return departmentRepository.readAll();
+        return departmentRepository.findAll();
     }
 
     public Department findById(String id) {

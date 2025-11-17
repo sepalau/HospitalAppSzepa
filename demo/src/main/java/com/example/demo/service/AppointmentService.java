@@ -14,8 +14,8 @@ public class AppointmentService {
         appointmentRepository.create(appointment);
     }
 
-    public List<Appointment> readAll() {
-        return appointmentRepository.readAll();
+    public List<Appointment> findAll() {
+        return appointmentRepository.findAll();
     }
 
     public Appointment findById(String id) {
