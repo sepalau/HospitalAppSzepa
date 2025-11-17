@@ -1,0 +1,67 @@
+[ {
+  "id" : "D1",
+  "name" : "Dr. Lang",
+  "departmentId" : "Dep1",
+  "appointments" : [ ],
+  "licenseNumber" : "LIC1001"
+}, {
+  "id" : "D2",
+  "name" : "Dr. Weber",
+  "departmentId" : "Dep2",
+  "appointments" : [ ],
+  "licenseNumber" : "LIC1002"
+}, {
+  "id" : "D3",
+  "name" : "Dr. Schmidt",
+  "departmentId" : "Dep3",
+  "appointments" : [ ],
+  "licenseNumber" : "LIC1003"
+}, {
+  "id" : "D4",
+  "name" : "Dr. Beck",
+  "departmentId" : "Dep4",
+  "appointments" : [ ],
+  "licenseNumber" : "LIC1004"
+}, {
+  "id" : "D5",
+  "name" : "Dr. Klein",
+  "departmentId" : "Dep5",
+  "appointments" : [ ],
+  "licenseNumber" : "LIC1005"
+}, {
+  "id" : "D6",
+  "name" : "Dr. Meyer",
+  "departmentId" : "Dep6",
+  "appointments" : [ ],
+  "licenseNumber" : "LIC1006"
+}, {
+  "id" : "D7",
+  "name" : "Dr. Braun",
+  "departmentId" : "Dep7",
+  "appointments" : [ ],
+  "licenseNumber" : "LIC1007"
+}, {
+  "id" : "D8",
+  "name" : "Dr. Vogel",
+  "departmentId" : "Dep8",
+  "appointments" : [ ],
+  "licenseNumber" : "LIC1008"
+}, {
+  "id" : "D9",
+  "name" : "Dr. Otto",
+  "departmentId" : "Dep9",
+  "appointments" : [ ],
+  "licenseNumber" : "LIC1009"
+}, {
+  "id" : "D10",
+  "name" : "Dr. Seidel",
+  "departmentId" : "Dep10",
+  "appointments" : [ ],
+  "licenseNumber" : "LIC1010"
+}, {
+  "id" : "D11",
+  "name" : "AHA",
+  "departmentId" : "243",
+  "appointments" : [ ],
+  "licenseNumber" : "214"
+} ]

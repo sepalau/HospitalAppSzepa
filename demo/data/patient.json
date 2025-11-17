@@ -1,0 +1,45 @@
+[ {
+  "id" : "P1",
+  "name" : "Alice Müller",
+  "appointments" : [ ]
+}, {
+  "id" : "P2",
+  "name" : "Bob Schneider",
+  "appointments" : [ ]
+}, {
+  "id" : "P3",
+  "name" : "Chris Bauer",
+  "appointments" : [ ]
+}, {
+  "id" : "P4",
+  "name" : "Diana Weber",
+  "appointments" : [ ]
+}, {
+  "id" : "P5",
+  "name" : "Eva Koch",
+  "appointments" : [ ]
+}, {
+  "id" : "P6",
+  "name" : "Felix König",
+  "appointments" : [ ]
+}, {
+  "id" : "P7",
+  "name" : "Greta Sommer",
+  "appointments" : [ ]
+}, {
+  "id" : "P8",
+  "name" : "Hans Scholz",
+  "appointments" : [ ]
+}, {
+  "id" : "P9",
+  "name" : "Iris Hoffmann",
+  "appointments" : [ ]
+}, {
+  "id" : "P10",
+  "name" : "Jonas Richter",
+  "appointments" : [ ]
+}, {
+  "id" : "P11",
+  "name" : "SEPA",
+  "appointments" : [ ]
+} ]

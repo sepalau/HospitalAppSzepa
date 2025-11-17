@@ -1,0 +1,67 @@
+[ {
+  "id" : "N1",
+  "name" : "Nurse Anna",
+  "departmentId" : "Dep1",
+  "appointments" : [ ],
+  "qualificationLevel" : "Registered Nurse"
+}, {
+  "id" : "N2",
+  "name" : "Nurse Bella",
+  "departmentId" : "Dep2",
+  "appointments" : [ ],
+  "qualificationLevel" : "Practical Nurse"
+}, {
+  "id" : "N3",
+  "name" : "Nurse Clara",
+  "departmentId" : "Dep3",
+  "appointments" : [ ],
+  "qualificationLevel" : "Registered Nurse"
+}, {
+  "id" : "N4",
+  "name" : "Nurse Dana",
+  "departmentId" : "Dep4",
+  "appointments" : [ ],
+  "qualificationLevel" : "Registered Nurse"
+}, {
+  "id" : "N5",
+  "name" : "Nurse Ella",
+  "departmentId" : "Dep5",
+  "appointments" : [ ],
+  "qualificationLevel" : "Practical Nurse"
+}, {
+  "id" : "N6",
+  "name" : "Nurse Fiona",
+  "departmentId" : "Dep6",
+  "appointments" : [ ],
+  "qualificationLevel" : "Registered Nurse"
+}, {
+  "id" : "N7",
+  "name" : "Nurse Gina",
+  "departmentId" : "Dep7",
+  "appointments" : [ ],
+  "qualificationLevel" : "Practical Nurse"
+}, {
+  "id" : "N8",
+  "name" : "Nurse Hanna",
+  "departmentId" : "Dep8",
+  "appointments" : [ ],
+  "qualificationLevel" : "Registered Nurse"
+}, {
+  "id" : "N9",
+  "name" : "Nurse Ida",
+  "departmentId" : "Dep9",
+  "appointments" : [ ],
+  "qualificationLevel" : "Practical Nurse"
+}, {
+  "id" : "N10",
+  "name" : "Nurse Julia",
+  "departmentId" : "Dep10",
+  "appointments" : [ ],
+  "qualificationLevel" : "Registered Nurse"
+}, {
+  "id" : "N11",
+  "name" : "saga",
+  "departmentId" : "gsgs",
+  "appointments" : [ ],
+  "qualificationLevel" : "Practical Nurse"
+} ]
