@@ -1,0 +1,12 @@
+[
+  { "id": "R1", "hospitalId": "H1", "roomType": "SURGERY", "capacity": 2 },
+  { "id": "R2", "hospitalId": "H1", "roomType": "ICU", "capacity": 1 },
+  { "id": "R3", "hospitalId": "H1", "roomType": "GENERAL", "capacity": 4 },
+  { "id": "R4", "hospitalId": "H2", "roomType": "GENERAL", "capacity": 3 },
+  { "id": "R5", "hospitalId": "H2", "roomType": "PEDIATRIC", "capacity": 2 },
+  { "id": "R6", "hospitalId": "H3", "roomType": "ORTHOPEDIC", "capacity": 2 },
+  { "id": "R7", "hospitalId": "H4", "roomType": "ONCOLOGY", "capacity": 2 },
+  { "id": "R8", "hospitalId": "H4", "roomType": "GENERAL", "capacity": 5 },
+  { "id": "R9", "hospitalId": "H5", "roomType": "NEUROLOGY", "capacity": 2 },
+  { "id": "R10", "hospitalId": "H6", "roomType": "CARDIOLOGY", "capacity": 3 }
+]

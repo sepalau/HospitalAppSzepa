@@ -1,0 +1,12 @@
+[
+  { "id": "H1", "name": "Central Hospital", "city": "Berlin", "departments": ["Cardiology", "Surgery"], "rooms": ["R1","R2","R3"] },
+  { "id": "H2", "name": "City Clinic", "city": "Munich", "departments": ["Pediatrics"], "rooms": ["R4","R5"] },
+  { "id": "H3", "name": "St. George Medical Center", "city": "Hamburg", "departments": ["Orthopedics"], "rooms": ["R6"] },
+  { "id": "H4", "name": "West Care Hospital", "city": "Frankfurt", "departments": ["Oncology"], "rooms": ["R7","R8"] },
+  { "id": "H5", "name": "North Health Clinic", "city": "Leipzig", "departments": ["Neurology"], "rooms": ["R9"] },
+  { "id": "H6", "name": "South Hospital", "city": "Stuttgart", "departments": ["Cardiology"], "rooms": ["R10","R11"] },
+  { "id": "H7", "name": "Hope Medical Center", "city": "Dresden", "departments": ["Dermatology"], "rooms": ["R12"] },
+  { "id": "H8", "name": "Sunrise Clinic", "city": "Bremen", "departments": ["ENT"], "rooms": ["R13","R14"] },
+  { "id": "H9", "name": "Green Valley Hospital", "city": "Hannover", "departments": ["Urology"], "rooms": ["R15"] },
+  { "id": "H10", "name": "Royal Care Clinic", "city": "Köln", "departments": ["General Medicine"], "rooms": ["R16"] }
+]
