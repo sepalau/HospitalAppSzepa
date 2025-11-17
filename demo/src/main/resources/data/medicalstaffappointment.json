@@ -1,12 +1,12 @@
 [
-  {"id": "A1", "doctorId": "D1", "patientId": "P1", "roomId": "R1", "date": "2025-01-10"},
-  {"id": "A2", "doctorId": "D2", "patientId": "P2", "roomId": "R2", "date": "2025-01-11"},
-  {"id": "A3", "doctorId": "D4", "patientId": "P3", "roomId": "R3", "date": "2025-01-12"},
-  {"id": "A4", "doctorId": "D5", "patientId": "P5", "roomId": "R4", "date": "2025-01-13"},
-  {"id": "A5", "doctorId": "D1", "patientId": "P1", "roomId": "R5", "date": "2025-01-14"},
-  {"id": "A6", "doctorId": "D9", "patientId": "P7", "roomId": "R6", "date": "2025-01-15"},
-  {"id": "A7", "doctorId": "D4", "patientId": "P9", "roomId": "R7", "date": "2025-01-16"},
-  {"id": "A8", "doctorId": "D3", "patientId": "P4", "roomId": "R8", "date": "2025-01-17"},
-  {"id": "A9", "doctorId": "D6", "patientId": "P10", "roomId": "R9", "date": "2025-01-18"},
-  {"id": "A10", "doctorId": "D7", "patientId": "P6", "roomId": "R10", "date": "2025-01-19"}
+  { "id": "MSA1", "appointmentId": "A1", "medicalStaffId": "D1" },
+  { "id": "MSA2", "appointmentId": "A2", "medicalStaffId": "D2" },
+  { "id": "MSA3", "appointmentId": "A3", "medicalStaffId": "N1" },
+  { "id": "MSA4", "appointmentId": "A4", "medicalStaffId": "N2" },
+  { "id": "MSA5", "appointmentId": "A5", "medicalStaffId": "D3" },
+  { "id": "MSA6", "appointmentId": "A6", "medicalStaffId": "N3" },
+  { "id": "MSA7", "appointmentId": "A7", "medicalStaffId": "D4" },
+  { "id": "MSA8", "appointmentId": "A8", "medicalStaffId": "N4" },
+  { "id": "MSA9", "appointmentId": "A9", "medicalStaffId": "D5" },
+  { "id": "MSA10", "appointmentId": "A10", "medicalStaffId": "N5" }
 ]

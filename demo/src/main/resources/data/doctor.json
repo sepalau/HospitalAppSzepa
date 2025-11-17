@@ -1,12 +1,12 @@
 [
-  { "id": "D1", "name": "Dr. John Smith", "departmentId": "Cardiology", "licenseNumber": "L001", "appointments": [] },
-  { "id": "D2", "name": "Dr. Anna Müller", "departmentId": "Pediatrics", "licenseNumber": "L002", "appointments": [] },
-  { "id": "D3", "name": "Dr. Thomas König", "departmentId": "Surgery", "licenseNumber": "L003", "appointments": [] },
-  { "id": "D4", "name": "Dr. Laura Weber", "departmentId": "Oncology", "licenseNumber": "L004", "appointments": [] },
-  { "id": "D5", "name": "Dr. Felix Braun", "departmentId": "Neurology", "licenseNumber": "L005", "appointments": [] },
-  { "id": "D6", "name": "Dr. Julia Haas", "departmentId": "Dermatology", "licenseNumber": "L006", "appointments": [] },
-  { "id": "D7", "name": "Dr. Mark Fischer", "departmentId": "Urology", "licenseNumber": "L007", "appointments": [] },
-  { "id": "D8", "name": "Dr. Emma Roth", "departmentId": "ENT", "licenseNumber": "L008", "appointments": [] },
-  { "id": "D9", "name": "Dr. Kevin Adler", "departmentId": "Orthopedics", "licenseNumber": "L009", "appointments": [] },
-  { "id": "D10", "name": "Dr. Sarah Wolf", "departmentId": "General Medicine", "licenseNumber": "L010", "appointments": [] }
+  { "id": "D1", "name": "Dr. Lang", "departmentId": "Dep1", "licenseNumber": "LIC1001" },
+  { "id": "D2", "name": "Dr. Weber", "departmentId": "Dep2", "licenseNumber": "LIC1002" },
+  { "id": "D3", "name": "Dr. Schmidt", "departmentId": "Dep3", "licenseNumber": "LIC1003" },
+  { "id": "D4", "name": "Dr. Beck", "departmentId": "Dep4", "licenseNumber": "LIC1004" },
+  { "id": "D5", "name": "Dr. Klein", "departmentId": "Dep5", "licenseNumber": "LIC1005" },
+  { "id": "D6", "name": "Dr. Meyer", "departmentId": "Dep6", "licenseNumber": "LIC1006" },
+  { "id": "D7", "name": "Dr. Braun", "departmentId": "Dep7", "licenseNumber": "LIC1007" },
+  { "id": "D8", "name": "Dr. Vogel", "departmentId": "Dep8", "licenseNumber": "LIC1008" },
+  { "id": "D9", "name": "Dr. Otto", "departmentId": "Dep9", "licenseNumber": "LIC1009" },
+  { "id": "D10", "name": "Dr. Seidel", "departmentId": "Dep10", "licenseNumber": "LIC1010" }
 ]

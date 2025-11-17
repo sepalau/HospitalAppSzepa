@@ -20,7 +20,7 @@ public class HospitalService {
     }
 
     public List<Hospital> readAll() {
-        return hospitalRepository.readAll();
+        return hospitalRepository.findAll();
     }
 
     public Hospital findById(String id) {
