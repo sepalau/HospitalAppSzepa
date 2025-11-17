@@ -19,8 +19,8 @@ public class RoomService {
         repository.create(room);
     }
 
-    public List<Room> readAll() {
-        return repository.readAll();
+    public List<Room> findAll() {
+        return repository.findAll();
     }
 
     public Room findById(String id) {
