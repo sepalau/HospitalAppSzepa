@@ -3,24 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Medical Staff Appointments</title>
-
-    <style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-            padding: 5px;
-        }
-        th { background-color: #eee; }
-    </style>
 </head>
 <body>
 
-<h1>Medical Staff - Appointments</h1>
+<h1>Medical Staff Appointments</h1>
 
 <a href="/medicalstaffapp/new">Add New</a>
 <br><br>
 
-<table>
+<table border="1" cellpadding="5">
     <thead>
     <tr>
         <th>ID</th>
@@ -31,13 +22,15 @@
     </thead>
 
     <tbody>
-    <tr th:each="entry : ${medicalStaffAppointments}">
-        <td th:text="${entry.id}"></td>
-        <td th:text="${entry.appointmentId}"></td>
-        <td th:text="${entry.medicalStaffId}"></td>
-
+    <tr th:each="item : ${items}">
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.appointmentId}"></td>
+        <td th:text="${item.medicalStaffId}"></td>
         <td>
-            <form th:action="@{/medicalstaffapp/{id}/delete(id=${entry.id})}" method="post">
+            <a th:href="@{'/medicalstaffapp/' + ${item.id} + '/edit'}">Edit</a>
+
+            <form th:action="@{'/medicalstaffapp/' + ${item.id} + '/delete'}"
+                  method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
         </td>

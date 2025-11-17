@@ -2,50 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Department List</title>
-    <style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-            padding: 5px;
-        }
-        th, td {
-            text-align: left;
-        }
-        a {
-            text-decoration: none;
-            color: blue;
-        }
-    </style>
+    <title>Departments</title>
 </head>
 <body>
 
-<h1>List of Departments</h1>
+<h1>Departments</h1>
 
 <a href="/departments/new">Add New Department</a>
 <br><br>
 
-<table>
-    <thead>
+<table border="1" cellpadding="5">
     <tr>
         <th>ID</th>
         <th>Name</th>
-        <th>Hospital ID</th>
         <th>Actions</th>
     </tr>
-    </thead>
-    <tbody>
-    <tr th:each="department : ${departments}">
-        <td th:text="${department.id}"></td>
-        <td th:text="${department.name}"></td>
-        <td th:text="${department.hospitalId}"></td>
+
+    <tr th:each="d : ${departments}">
+        <td th:text="${d.id}"></td>
+        <td th:text="${d.name}"></td>
         <td>
-            <form th:action="@{/departments/{id}/delete(id=${department.id})}" method="post">
+            <a th:href="@{/departments/{id}/edit(id=${d.id})}">Edit</a>
+            &nbsp;|&nbsp;
+            <form th:action="@{/departments/{id}/delete(id=${d.id})}" method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
         </td>
     </tr>
-    </tbody>
+
 </table>
 
 </body>

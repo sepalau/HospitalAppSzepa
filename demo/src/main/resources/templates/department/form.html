@@ -2,28 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add Department</title>
+    <title>Department Form</title>
 </head>
 <body>
 
-<h1>Add New Department</h1>
+<h1 th:text="${department.id == null} ? 'Create Department' : 'Edit Department'"></h1>
 
-<form action="#" th:action="@{/departments}" th:object="${department}" method="post">
+<form th:action="${department.id == null} ? '/departments' : '/departments/' + ${department.id} + '/update'"
+      th:object="${department}"
+      method="post">
 
-    <label for="id">ID:</label><br>
-    <input type="text" id="id" th:field="*{id}" required><br><br>
+    <label>ID:</label>
+    <input type="text" th:field="*{id}" required><br><br>
 
-    <label for="name">Name:</label><br>
-    <input type="text" id="name" th:field="*{name}" required><br><br>
-
-    <label for="hospitalId">Hospital ID:</label><br>
-    <input type="text" id="hospitalId" th:field="*{hospitalId}" required><br><br>
+    <label>Name:</label>
+    <input type="text" th:field="*{name}" required><br><br>
 
     <button type="submit">Save</button>
 </form>
-
-<br>
-<a href="/departments">Back to List</a>
 
 </body>
 </html>

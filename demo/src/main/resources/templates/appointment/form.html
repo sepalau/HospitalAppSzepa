@@ -2,45 +2,45 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Create Appointment</title>
-
-    <style>
-        label { display:block; margin-top:10px; }
-        input, select { width: 300px; padding:5px; }
-        button { margin-top: 15px; padding: 8px 15px; }
-    </style>
+    <title>Appointment Form</title>
 </head>
 <body>
 
-<h1>Create Appointment</h1>
+<h1 th:text="${appointment.id == null} ? 'Add Appointment' : 'Edit Appointment'"></h1>
 
-<form th:action="@{/appointments}" th:object="${appointment}" method="post">
+<form th:action="@{${appointment.id == null} ? '/appointments' : '/appointments/' + ${appointment.id}}"
+      th:object="${appointment}"
+      method="post">
 
-    <label>ID</label>
-    <input th:field="*{id}" required/>
+    <label>ID:</label>
+    <input type="text" th:field="*{id}" required>
+    <br>
 
-    <label>Patient ID</label>
-    <input th:field="*{patientId}" required/>
+    <label>Department ID:</label>
+    <input type="text" th:field="*{departmentId}" required>
+    <br>
 
-    <label>Department ID</label>
-    <input th:field="*{departmentId}" required/>
+    <label>Patient ID:</label>
+    <input type="text" th:field="*{patientId}" required>
+    <br>
 
-    <label>Admission Date</label>
-    <input th:field="*{admissionDate}" placeholder="2025-01-15" required/>
+    <label>Admission Date:</label>
+    <input type="text" th:field="*{admissionDate}" required>
+    <br>
 
-    <label>Status</label>
+    <label>Status:</label>
     <select th:field="*{status}">
         <option value="Active">Active</option>
         <option value="Completed">Completed</option>
     </select>
+    <br>
 
+    <label>Medical Staff IDs (comma separated):</label>
+    <input type="text" placeholder="MS1, MS2, MS7">
     <br><br>
+
     <button type="submit">Save</button>
-
 </form>
-
-<br>
-<a href="/appointments">Back to list</a>
 
 </body>
 </html>

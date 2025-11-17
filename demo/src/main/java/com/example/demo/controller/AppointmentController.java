@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Appointment;
 import com.example.demo.service.AppointmentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,12 +10,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/appointments")
 public class AppointmentController {
 
-    @Autowired
-    private AppointmentService appointmentService;
+    private final AppointmentService service;
+
+    public AppointmentController(AppointmentService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public String listAppointments(Model model) {
-        model.addAttribute("appointments", appointmentService.findAll());
+        model.addAttribute("appointments", service.readAll());
         return "appointment/index";
     }
 
@@ -27,14 +29,26 @@ public class AppointmentController {
     }
 
     @PostMapping
-    public String createAppointment(@ModelAttribute Appointment appointment) {
-        appointmentService.create(appointment);
+    public String create(@ModelAttribute Appointment appointment) {
+        service.create(appointment);
+        return "redirect:/appointments";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showEditForm(@PathVariable String id, Model model) {
+        model.addAttribute("appointment", service.findById(id));
+        return "appointment/form";
+    }
+
+    @PostMapping("/{id}")
+    public String update(@PathVariable String id, @ModelAttribute Appointment appointment) {
+        service.update(id, appointment);
         return "redirect:/appointments";
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteAppointment(@PathVariable String id) {
-        appointmentService.delete(id);
+    public String delete(@PathVariable String id) {
+        service.delete(id);
         return "redirect:/appointments";
     }
 }

@@ -3,53 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Appointments</title>
-    <style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-            padding: 5px;
-        }
-        th, td {
-            text-align: left;
-        }
-        a {
-            text-decoration: none;
-            color: blue;
-        }
-    </style>
 </head>
 <body>
 
-<h1>List of Appointments</h1>
+<h1>Appointments</h1>
 
 <a href="/appointments/new">Add New Appointment</a>
 <br><br>
 
-<table>
+<table border="1">
     <thead>
     <tr>
         <th>ID</th>
-        <th>Patient ID</th>
         <th>Department ID</th>
+        <th>Patient ID</th>
         <th>Admission Date</th>
         <th>Status</th>
         <th>Actions</th>
     </tr>
     </thead>
+
     <tbody>
-    <tr th:each="appointment : ${appointments}">
-        <td th:text="${appointment.id}"></td>
-        <td th:text="${appointment.patientId}"></td>
-        <td th:text="${appointment.departmentId}"></td>
-        <td th:text="${appointment.admissionDate}"></td>
-        <td th:text="${appointment.status}"></td>
+    <tr th:each="a : ${appointments}">
+        <td th:text="${a.id}"></td>
+        <td th:text="${a.departmentId}"></td>
+        <td th:text="${a.patientId}"></td>
+        <td th:text="${a.admissionDate}"></td>
+        <td th:text="${a.status}"></td>
+
         <td>
-            <form th:action="@{/appointments/{id}/delete(id=${appointment.id})}" method="post">
+            <a th:href="@{/appointments/{id}/edit(id=${a.id})}">Edit</a>
+
+            <form th:action="@{/appointments/{id}/delete(id=${a.id})}" method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
         </td>
     </tr>
     </tbody>
+
 </table>
 
 </body>

@@ -70,7 +70,7 @@
   "medicalStaff" : [ ]
 }, {
   "id" : "A11",
-  "departmentId" : "21",
+  "departmentId" : "211",
   "patientId" : "12",
   "admissionDate" : "2025-12-25",
   "status" : "Active",

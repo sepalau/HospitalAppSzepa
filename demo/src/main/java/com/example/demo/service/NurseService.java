@@ -27,6 +27,10 @@ public class NurseService {
         return nurseRepository.findById(id);
     }
 
+    public void update(String id, Nurse nurse) {
+        nurseRepository.update(id, nurse);
+    }
+
     public void delete(String id) {
         nurseRepository.delete(id);
     }

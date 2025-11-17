@@ -2,20 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Nurse List</title>
-    <style>
-        table, th, td { border: 1px solid black; border-collapse: collapse; padding: 5px; }
-        th, td { text-align: left; }
-        a { text-decoration: none; color: blue; }
-    </style>
+    <title>Nurses</title>
 </head>
 <body>
 
-<h1>List of Nurses</h1>
+<h1>Nurses</h1>
 
-<a href="/nurses/new">Add New Nurse</a><br><br>
+<a href="/nurses/new">Add New Nurse</a>
+<br><br>
 
-<table>
+<table border="1">
     <thead>
     <tr>
         <th>ID</th>
@@ -25,14 +21,18 @@
         <th>Actions</th>
     </tr>
     </thead>
+
     <tbody>
-    <tr th:each="nurse : ${nurses}">
-        <td th:text="${nurse.id}"></td>
-        <td th:text="${nurse.name}"></td>
-        <td th:text="${nurse.departmentId}"></td>
-        <td th:text="${nurse.qualificationLevel}"></td>
+    <tr th:each="n : ${nurses}">
+        <td th:text="${n.id}"></td>
+        <td th:text="${n.name}"></td>
+        <td th:text="${n.departmentId}"></td>
+        <td th:text="${n.qualificationLevel}"></td>
+
         <td>
-            <form th:action="@{/nurses/{id}/delete(id=${nurse.id})}" method="post">
+            <a th:href="@{/nurses/{id}/edit(id=${n.id})}">Edit</a>
+
+            <form th:action="@{/nurses/{id}/delete(id=${n.id})}" method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
         </td>

@@ -2,25 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Hospital List</title>
+    <title>Hospitals</title>
     <style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-            padding: 5px;
-        }
-        th, td {
-            text-align: left;
-        }
-        a {
-            text-decoration: none;
-            color: blue;
-        }
+        table, th, td { border: 1px solid black; padding: 6px; }
+        th { background: #f5f5f5; }
+        a { text-decoration: none; color: blue; }
+        button { cursor: pointer; }
     </style>
 </head>
 <body>
 
-<h1>List of Hospitals</h1>
+<h1>Hospitals</h1>
 
 <a href="/hospitals/new">Add New Hospital</a>
 <br><br>
@@ -34,13 +26,18 @@
         <th>Actions</th>
     </tr>
     </thead>
+
     <tbody>
     <tr th:each="hospital : ${hospitals}">
         <td th:text="${hospital.id}"></td>
         <td th:text="${hospital.name}"></td>
         <td th:text="${hospital.city}"></td>
+
         <td>
-            <form th:action="@{/hospitals/{id}/delete(id=${hospital.id})}" method="post">
+            <a th:href="@{/hospitals/{id}/edit(id=${hospital.id})}">Edit</a>
+            &nbsp;|&nbsp;
+            <form th:action="@{/hospitals/{id}/delete(id=${hospital.id})}"
+                  method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
         </td>

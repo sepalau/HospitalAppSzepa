@@ -2,28 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add Hospital</title>
+    <title>Hospital Form</title>
 </head>
 <body>
 
-<h1>Add New Hospital</h1>
+<h1 th:text="${hospital.id == null} ? 'Add Hospital' : 'Edit Hospital'"></h1>
 
-<form action="#" th:action="@{/hospitals}" th:object="${hospital}" method="post">
+<form th:action="${hospital.id == null} ? '/hospitals' : '/hospitals/' + ${hospital.id} + '/update'"
+      th:object="${hospital}" method="post">
 
-    <label for="id">ID:</label><br>
-    <input type="text" id="id" th:field="*{id}" required><br><br>
+    <label>ID:</label><br>
+    <input type="text" th:field="*{id}" th:readonly="${hospital.id != null}"><br><br>
 
-    <label for="name">Name:</label><br>
-    <input type="text" id="name" th:field="*{name}" required><br><br>
+    <label>Name:</label><br>
+    <input type="text" th:field="*{name}"><br><br>
 
-    <label for="city">City:</label><br>
-    <input type="text" id="city" th:field="*{city}" required><br><br>
+    <label>City:</label><br>
+    <input type="text" th:field="*{city}"><br><br>
 
-    <button type="submit">Save</button>
+    <button type="submit" th:text="${hospital.id == null} ? 'Create' : 'Update'"></button>
 </form>
 
 <br>
-<a href="/hospitals">Back to List</a>
+<a href="/hospitals">Back</a>
 
 </body>
 </html>

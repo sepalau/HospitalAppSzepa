@@ -17,7 +17,7 @@ public class NurseController {
     }
 
     @GetMapping
-    public String getAllNurses(Model model) {
+    public String listNurses(Model model) {
         model.addAttribute("nurses", nurseService.readAll());
         return "nurse/index";
     }
@@ -31,6 +31,19 @@ public class NurseController {
     @PostMapping
     public String createNurse(@ModelAttribute Nurse nurse) {
         nurseService.create(nurse);
+        return "redirect:/nurses";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showEditForm(@PathVariable String id, Model model) {
+        Nurse nurse = nurseService.findById(id);
+        model.addAttribute("nurse", nurse);
+        return "nurse/form";
+    }
+
+    @PostMapping("/{id}")
+    public String updateNurse(@PathVariable String id, @ModelAttribute Nurse nurse) {
+        nurseService.update(id, nurse);
         return "redirect:/nurses";
     }
 

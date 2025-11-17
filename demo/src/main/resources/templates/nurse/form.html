@@ -2,34 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add Nurse</title>
+    <title>Nurse Form</title>
 </head>
 <body>
 
-<h1>Add New Nurse</h1>
+<h1 th:text="${nurse.id == null} ? 'Add Nurse' : 'Edit Nurse'"></h1>
 
-<form action="#" th:action="@{/nurses}" th:object="${nurse}" method="post">
+<form th:action="@{${nurse.id == null} ? '/nurses' : '/nurses/' + ${nurse.id}}"
+      method="post" th:object="${nurse}">
 
-    <label for="id">ID:</label><br>
-    <input type="text" id="id" th:field="*{id}" required><br><br>
+    <label>ID:</label>
+    <input type="text" th:field="*{id}" required>
+    <br>
 
-    <label for="name">Name:</label><br>
-    <input type="text" id="name" th:field="*{name}" required><br><br>
+    <label>Name:</label>
+    <input type="text" th:field="*{name}" required>
+    <br>
 
-    <label for="departmentId">Department ID:</label><br>
-    <input type="text" id="departmentId" th:field="*{departmentId}" required><br><br>
+    <label>Department ID:</label>
+    <input type="text" th:field="*{departmentId}" required>
+    <br>
 
-    <label for="qualificationLevel">Qualification Level:</label><br>
-    <select id="qualificationLevel" th:field="*{qualificationLevel}" required>
+    <label>Qualification Level:</label>
+    <select th:field="*{qualificationLevel}">
         <option value="Registered Nurse">Registered Nurse</option>
         <option value="Practical Nurse">Practical Nurse</option>
-    </select><br><br>
+    </select>
+    <br><br>
 
     <button type="submit">Save</button>
 </form>
-
-<br>
-<a href="/nurses">Back to List</a>
 
 </body>
 </html>

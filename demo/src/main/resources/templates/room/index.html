@@ -16,23 +16,28 @@
     <tr>
         <th>ID</th>
         <th>Hospital ID</th>
+        <th>Room Number</th>
         <th>Capacity</th>
-        <th>Number</th>
         <th>Status</th>
         <th>Actions</th>
     </tr>
     </thead>
 
     <tbody>
-    <tr th:each="room : ${rooms}">
-        <td th:text="${room.id}"></td>
-        <td th:text="${room.hospitalId}"></td>
-        <td th:text="${room.capacity}"></td>
-        <td th:text="${room.number}"></td>
-        <td th:text="${room.status}"></td>
+    <tr th:each="r : ${rooms}">
+        <td th:text="${r.id}"></td>
+        <td th:text="${r.hospitalId}"></td>
+
+        <!-- FIX AICI -->
+        <td th:text="${r.number}"></td>
+
+        <td th:text="${r.capacity}"></td>
+        <td th:text="${r.status}"></td>
 
         <td>
-            <form th:action="@{/rooms/{id}/delete(id=${room.id})}" method="post">
+            <a th:href="@{/rooms/{id}/edit(id=${r.id})}">Edit</a>
+
+            <form th:action="@{/rooms/{id}/delete(id=${r.id})}" method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
         </td>
