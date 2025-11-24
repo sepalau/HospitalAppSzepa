@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<h1>Doctor Form</h1>
+<h2 th:text="${doctor.id == null ? 'Add Doctor' : 'Edit Doctor'}"></h2>
 
 <form th:action="@{/doctor/save}" th:object="${doctor}" method="post">
 
@@ -13,23 +13,27 @@
 
     <label>Name:</label>
     <input type="text" th:field="*{name}" required/>
-    <br><br>
+    <br/>
 
     <label>License Number:</label>
     <input type="text" th:field="*{licenseNumber}" required/>
-    <br><br>
+    <br/>
 
     <label>Department:</label>
-    <select th:field="*{department}">
-        <option th:each="d : ${departments}" th:value="${d}" th:text="${d.name}"></option>
+    <select name="department.id" required>
+        <option value="">Select department</option>
+        <th:block th:each="d : ${departments}">
+            <option th:value="${d.id}"
+                    th:text="${d.name}"
+                    th:selected="${doctor.department != null and doctor.department.id == d.id}">
+            </option>
+        </th:block>
     </select>
-    <br><br>
+    <br/><br/>
 
     <button type="submit">Save</button>
 
 </form>
-
-<a href="/doctor">Back</a>
 
 </body>
 </html>

@@ -2,10 +2,12 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class Doctor extends MedicalStaff {
 
     @ManyToOne
@@ -14,4 +16,12 @@ public class Doctor extends MedicalStaff {
 
     @NotBlank(message = "License number is required")
     private String licenseNumber;
+
+    @Override
+    public String toString() {
+        return "Doctor{id=" + getId() +
+                ", name='" + getName() + '\'' +
+                ", licenseNumber='" + licenseNumber + '\'' +
+                '}';
+    }
 }

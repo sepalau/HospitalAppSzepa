@@ -2,11 +2,14 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class Hospital {
 
     @Id
@@ -24,4 +27,12 @@ public class Hospital {
 
     @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL)
     private List<Room> rooms;
+
+    @Override
+    public String toString() {
+        return "Hospital{id=" + id +
+                ", name='" + name + '\'' +
+                ", city='" + city + '\'' +
+                '}';
+    }
 }

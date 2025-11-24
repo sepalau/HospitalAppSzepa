@@ -2,10 +2,12 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class Department {
 
     @Id
@@ -18,4 +20,11 @@ public class Department {
     @ManyToOne
     @JoinColumn(name = "hospital_id", nullable = false)
     private Hospital hospital;
+
+    @Override
+    public String toString() {
+        return "Department{id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

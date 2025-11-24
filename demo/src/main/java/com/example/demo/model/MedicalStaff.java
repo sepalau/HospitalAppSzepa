@@ -2,11 +2,13 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Data
+@Getter
+@Setter
 public abstract class MedicalStaff {
 
     @Id
@@ -15,4 +17,11 @@ public abstract class MedicalStaff {
 
     @NotBlank
     private String name;
+
+    @Override
+    public String toString() {
+        return "MedicalStaff{id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

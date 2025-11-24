@@ -11,22 +11,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AppointmentService {
 
-    private final AppointmentRepository repo;
+    private final AppointmentRepository repository;
 
     public List<Appointment> getAll() {
-        return repo.findAll();
+        return repository.findAll();
     }
 
     public Appointment getById(Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Appointment not found: " + id));
+        return repository.findById(id).orElseThrow(() -> new RuntimeException("Appointment not found"));
     }
 
     public Appointment save(Appointment appointment) {
-        return repo.save(appointment);
+        return repository.save(appointment);
     }
 
     public void delete(Long id) {
-        repo.deleteById(id);
+        repository.deleteById(id);
     }
 }

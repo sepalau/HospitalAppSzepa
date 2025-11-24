@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/patients")
+@RequestMapping("/patient")
 @RequiredArgsConstructor
 public class PatientController {
 
@@ -16,31 +16,31 @@ public class PatientController {
 
     @GetMapping
     public String list(Model model) {
-        model.addAttribute("patients", patientService.getAll());
-        return "patients/index";
+        model.addAttribute("patient", patientService.getAll());
+        return "patient/index";
     }
 
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("patient", new Patient());
-        return "patients/form";
+        return "patient/form";
     }
 
     @PostMapping("/save")
     public String save(@ModelAttribute Patient patient) {
         patientService.save(patient);
-        return "redirect:/patients";
+        return "redirect:/patient";
     }
 
     @GetMapping("/{id}")
     public String details(@PathVariable Long id, Model model) {
         model.addAttribute("patient", patientService.getById(id));
-        return "patients/details";
+        return "patient/details";
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         patientService.delete(id);
-        return "redirect:/patients";
+        return "redirect:/patient";
     }
 }
