@@ -1,40 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Doctor Form</title>
-</head>
+<head><title>Doctor Form</title></head>
 <body>
 
 <h1 th:text="${doctor.id == null ? 'Add Doctor' : 'Edit Doctor'}"></h1>
 
-<form th:action="@{${doctor.id == null}
-        ? '/doctors'
-        : '/doctors/' + ${doctor.id} + '/update'}"
-      th:object="${doctor}" method="post">
-
-    <label>ID:</label>
-    <input type="text" th:field="*{id}">
-    <p th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></p>
-    <br>
+<form th:action="@{${doctor.id == null}? '/doctors' : '/doctors/' + ${doctor.id} + '/update'}"
+      th:object="${doctor}"
+      method="post">
 
     <label>Name:</label>
     <input type="text" th:field="*{name}">
-    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+    <p th:errors="*{name}" style="color:red"></p>
     <br>
 
-    <label>Department ID:</label>
-    <input type="text" th:field="*{departmentId}">
-    <p th:if="${#fields.hasErrors('departmentId')}" th:errors="*{departmentId}"></p>
+    <label>Department:</label>
+    <select th:field="*{department}">
+        <option th:each="d: ${departments}" th:value="${d}" th:text="${d.name}"></option>
+    </select>
+    <p th:errors="*{department}" style="color:red"></p>
     <br>
 
     <label>License Number:</label>
     <input type="text" th:field="*{licenseNumber}">
-    <p th:if="${#fields.hasErrors('licenseNumber')}" th:errors="*{licenseNumber}"></p>
+    <p th:errors="*{licenseNumber}" style="color:red"></p>
+    <br>
 
-    <br><br>
     <button type="submit">Save</button>
-
 </form>
 
 </body>

@@ -2,50 +2,30 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "appointments")
+@Data
 public class Appointment {
 
     @Id
-    @NotBlank(message = "ID is required.")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @NotBlank(message = "Department ID is required.")
-    private String departmentId;
+    @ManyToOne
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
 
-    @NotBlank(message = "Patient ID is required.")
-    private String patientId;
+    @ManyToOne
+    @JoinColumn(name = "patient_id", nullable = false)
+    private Patient patient;
 
-    @NotBlank(message = "Admission date is required.")
-    private String admissionDate;
+    @NotNull(message = "Admission date is required")
+    private LocalDate admissionDate;
 
-    @NotBlank(message = "Status is required.")
+    @NotBlank(message = "Status is required")
     private String status;
-
-    public Appointment() {}
-
-    public Appointment(String id, String departmentId, String patientId, String admissionDate, String status) {
-        this.id = id;
-        this.departmentId = departmentId;
-        this.patientId = patientId;
-        this.admissionDate = admissionDate;
-        this.status = status;
-    }
-
-    // Getters & Setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-
-    public String getDepartmentId() { return departmentId; }
-    public void setDepartmentId(String departmentId) { this.departmentId = departmentId; }
-
-    public String getPatientId() { return patientId; }
-    public void setPatientId(String patientId) { this.patientId = patientId; }
-
-    public String getAdmissionDate() { return admissionDate; }
-    public void setAdmissionDate(String admissionDate) { this.admissionDate = admissionDate; }
-
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
 }

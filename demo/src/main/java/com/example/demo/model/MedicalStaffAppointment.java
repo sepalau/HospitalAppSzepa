@@ -1,36 +1,19 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
 @Entity
-@Table(name = "medical_staff_appointments")
+@Data
 public class MedicalStaffAppointment {
 
     @Id
-    @NotBlank(message = "ID is required.")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @NotBlank(message = "Appointment ID is required.")
-    private String appointmentId;
+    @ManyToOne
+    private MedicalStaff staff;
 
-    @NotBlank(message = "Medical Staff ID is required.")
-    private String medicalStaffId;
-
-    public MedicalStaffAppointment() {}
-
-    public MedicalStaffAppointment(String id, String appointmentId, String medicalStaffId) {
-        this.id = id;
-        this.appointmentId = appointmentId;
-        this.medicalStaffId = medicalStaffId;
-    }
-
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-
-    public String getAppointmentId() { return appointmentId; }
-    public void setAppointmentId(String appointmentId) { this.appointmentId = appointmentId; }
-
-    public String getMedicalStaffId() { return medicalStaffId; }
-    public void setMedicalStaffId(String medicalStaffId) { this.medicalStaffId = medicalStaffId; }
+    @ManyToOne
+    private Appointment appointment;
 }

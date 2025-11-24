@@ -1,43 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Medical Staff Appointments</title>
+    <title>Medical Staff Assignments</title>
 </head>
 <body>
 
-<h1>Medical Staff Appointments</h1>
+<h1>Medical Staff Assignments</h1>
 
-<a href="/medicalstaffapp/new">Add New Assignment</a>
+<a href="/medicalstaffapp/new">Assign Staff to Appointment</a>
 <br><br>
 
-<table border="1" cellpadding="5">
-    <thead>
+<table border="1">
     <tr>
         <th>ID</th>
-        <th>Appointment ID</th>
-        <th>Staff ID</th>
+        <th>Staff</th>
+        <th>Role</th>
+        <th>Appointment</th>
         <th>Actions</th>
     </tr>
-    </thead>
 
-    <tbody>
-    <tr th:each="i : ${items}">
-        <td th:text="${i.id}"></td>
-        <td th:text="${i.appointmentId}"></td>
-        <td th:text="${i.medicalStaffId}"></td>
+    <tr th:each="a : ${assigned}">
+        <td th:text="${a.id}"></td>
+        <td th:text="${a.staff.name}"></td>
+        <td th:text="${a.staff.getClass().getSimpleName()}"></td>
+        <td th:text="${a.appointment.id}"></td>
 
         <td>
-            <a th:href="@{/medicalstaffapp/{id}(id=${i.id})}">Details</a> |
-            <a th:href="@{/medicalstaffapp/{id}/edit(id=${i.id})}">Edit</a>
-
-            <form th:action="@{/medicalstaffapp/{id}/delete(id=${i.id})}"
-                  method="post" style="display:inline;">
-                <button type="submit">Delete</button>
+            <a th:href="@{/medicalstaffapp/{id}(id=${a.id})}">Details</a> |
+            <form th:action="@{/medicalstaffapp/{id}/delete(id=${a.id})}"
+                  method="post"
+                  style="display:inline;">
+                <button>Delete</button>
             </form>
         </td>
     </tr>
-    </tbody>
 </table>
 
 </body>

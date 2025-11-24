@@ -1,50 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Room Form</title>
-</head>
+<head><title>Room Form</title></head>
 <body>
 
 <h1 th:text="${room.id == null ? 'Add Room' : 'Edit Room'}"></h1>
 
-<form th:action="@{${room.id == null} ? '/rooms' : '/rooms/' + ${room.id} + '/update'}"
+<form th:action="@{${room.id == null}? '/rooms' : '/rooms/' + ${room.id} + '/update'}"
       th:object="${room}"
       method="post">
 
-    <label>ID:</label>
-    <input type="text" th:field="*{id}">
-    <p th:errors="*{id}" th:if="${#fields.hasErrors('id')}"></p>
-    <br>
-
-    <label>Hospital ID:</label>
-    <input type="text" th:field="*{hospitalId}">
-    <p th:errors="*{hospitalId}" th:if="${#fields.hasErrors('hospitalId')}"></p>
-    <br>
-
-    <label>Room Number:</label>
-    <input type="text" th:field="*{number}">
-    <p th:errors="*{number}" th:if="${#fields.hasErrors('number')}"></p>
-    <br>
-
-    <label>Capacity:</label>
-    <input type="number" th:field="*{capacity}">
-    <p th:errors="*{capacity}" th:if="${#fields.hasErrors('capacity')}"></p>
+    <label>Department:</label>
+    <select th:field="*{department}">
+        <option th:each="d : ${departments}"
+                th:value="${d}"
+                th:text="${d.name}">
+        </option>
+    </select>
+    <p th:errors="*{department}" style="color:red"></p>
     <br>
 
     <label>Status:</label>
     <select th:field="*{status}">
-        <option value="Available">Available</option>
-        <option value="Occupied">Occupied</option>
+        <option th:each="s : ${T(com.example.demo.model.RoomStatus).values()}"
+                th:value="${s}"
+                th:text="${s}">
+        </option>
     </select>
-    <p th:errors="*{status}" th:if="${#fields.hasErrors('status')}"></p>
-    <br><br>
+    <p th:errors="*{status}" style="color:red"></p>
+    <br>
 
-    <button type="submit">Save</button>
+    <button>Save</button>
 </form>
-
-<br>
-<a href="/rooms">Back</a>
 
 </body>
 </html>

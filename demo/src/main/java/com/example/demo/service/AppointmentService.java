@@ -2,36 +2,31 @@ package com.example.demo.service;
 
 import com.example.demo.model.Appointment;
 import com.example.demo.repository.AppointmentRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AppointmentService {
 
     private final AppointmentRepository repo;
 
-    public AppointmentService(AppointmentRepository repo) {
-        this.repo = repo;
-    }
-
-    public List<Appointment> readAll() {
+    public List<Appointment> getAll() {
         return repo.findAll();
     }
 
-    public Appointment findById(String id) {
-        return repo.findById(id).orElse(null);
+    public Appointment getById(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Appointment not found: " + id));
     }
 
-    public void create(Appointment a) {
-        repo.save(a);
+    public Appointment save(Appointment appointment) {
+        return repo.save(appointment);
     }
 
-    public void update(String id, Appointment a) {
-        repo.save(a);
-    }
-
-    public void delete(String id) {
+    public void delete(Long id) {
         repo.deleteById(id);
     }
 }

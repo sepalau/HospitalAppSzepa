@@ -3,24 +3,22 @@ package com.example.demo.controller;
 import com.example.demo.model.Patient;
 import com.example.demo.service.PatientService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/patients")
 public class PatientController {
 
-    private final PatientService service;
-
-    public PatientController(PatientService service) {
-        this.service = service;
-    }
+    private final PatientService patientService;
 
     @GetMapping
     public String list(Model model) {
-        model.addAttribute("patients", service.readAll());
+        model.addAttribute("patients", patientService.getAll());
         return "patient/index";
     }
 
@@ -31,44 +29,44 @@ public class PatientController {
     }
 
     @PostMapping
-    public String create(@Valid @ModelAttribute("patient") Patient patient,
-                         BindingResult result) {
+    public String create(
+            @Valid @ModelAttribute("patient") Patient patient,
+            BindingResult result
+    ) {
+        if (result.hasErrors()) return "patient/form";
 
-        if (result.hasErrors())
-            return "patient/form";
-
-        service.create(patient);
+        patientService.save(patient);
         return "redirect:/patients";
     }
 
     @GetMapping("/{id}/edit")
-    public String editForm(@PathVariable String id, Model model) {
-        model.addAttribute("patient", service.findById(id));
+    public String editForm(@PathVariable Long id, Model model) {
+        model.addAttribute("patient", patientService.getById(id));
         return "patient/form";
     }
 
     @PostMapping("/{id}/update")
-    public String update(@PathVariable String id,
-                         @Valid @ModelAttribute("patient") Patient patient,
-                         BindingResult result) {
+    public String update(
+            @PathVariable Long id,
+            @Valid @ModelAttribute("patient") Patient patient,
+            BindingResult result
+    ) {
+        if (result.hasErrors()) return "patient/form";
 
-        if (result.hasErrors())
-            return "patient/form";
-
-        service.update(id, patient);
+        patient.setId(id);
+        patientService.save(patient);
         return "redirect:/patients";
     }
 
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable String id) {
-        service.delete(id);
+    public String delete(@PathVariable Long id) {
+        patientService.delete(id);
         return "redirect:/patients";
     }
 
-    // DETAILS
     @GetMapping("/{id}")
-    public String details(@PathVariable String id, Model model) {
-        model.addAttribute("patient", service.findById(id));
+    public String details(@PathVariable Long id, Model model) {
+        model.addAttribute("patient", patientService.getById(id));
         return "patient/details";
     }
 }

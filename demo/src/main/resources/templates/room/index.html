@@ -1,48 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Rooms</title>
-</head>
+<head><title>Rooms</title></head>
 <body>
 
 <h1>Rooms</h1>
 
-<a href="/rooms/new">Add New Room</a>
-<br><br>
+<a href="/rooms/new">Add Room</a><br><br>
 
-<table border="1" cellpadding="5">
-    <thead>
+<table border="1">
     <tr>
         <th>ID</th>
-        <th>Hospital ID</th>
-        <th>Number</th>
-        <th>Capacity</th>
+        <th>Department</th>
         <th>Status</th>
         <th>Actions</th>
     </tr>
-    </thead>
 
-    <tbody>
     <tr th:each="r : ${rooms}">
         <td th:text="${r.id}"></td>
-        <td th:text="${r.hospitalId}"></td>
-        <td th:text="${r.number}"></td>
-        <td th:text="${r.capacity}"></td>
+        <td th:text="${r.department.name}"></td>
         <td th:text="${r.status}"></td>
 
         <td>
             <a th:href="@{/rooms/{id}(id=${r.id})}">Details</a> |
-            <a th:href="@{/rooms/{id}/edit(id=${r.id})}">Edit</a>
-
+            <a th:href="@{/rooms/{id}/edit(id=${r.id})}">Edit</a> |
             <form th:action="@{/rooms/{id}/delete(id=${r.id})}" method="post" style="display:inline;">
-                <button type="submit">
-                    Delete
-                </button>
+                <button>Delete</button>
             </form>
         </td>
     </tr>
-    </tbody>
 </table>
 
 </body>

@@ -1,41 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Patients</title>
-</head>
+<head><title>Patients</title></head>
 <body>
 
 <h1>Patients</h1>
 
-<a href="/patients/new">Add New Patient</a>
-<br><br>
+<a href="/patients/new">Add Patient</a><br><br>
 
-<table border="1" cellpadding="5">
-    <thead>
+<table border="1">
     <tr>
         <th>ID</th>
         <th>Name</th>
+        <th>Address</th>
         <th>Actions</th>
     </tr>
-    </thead>
 
-    <tbody>
     <tr th:each="p : ${patients}">
         <td th:text="${p.id}"></td>
         <td th:text="${p.name}"></td>
+        <td th:text="${p.address}"></td>
 
         <td>
             <a th:href="@{/patients/{id}(id=${p.id})}">Details</a> |
-            <a th:href="@{/patients/{id}/edit(id=${p.id})}">Edit</a>
-
-            <form th:action="@{/patients/{id}/delete(id=${p.id})}"
-                  method="post" style="display:inline;">
-                <button type="submit">Delete</button>
+            <a th:href="@{/patients/{id}/edit(id=${p.id})}">Edit</a> |
+            <form th:action="@{/patients/{id}/delete(id=${p.id})}" method="post" style="display:inline;">
+                <button>Delete</button>
             </form>
         </td>
     </tr>
-    </tbody>
 </table>
 
 </body>

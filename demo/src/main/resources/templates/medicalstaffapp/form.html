@@ -1,39 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Medical Staff Appointment Form</title>
-</head>
+<head><title>Assign Medical Staff</title></head>
 <body>
 
-<h1 th:text="${medicalStaffAppointment.id == null ? 'Add Assignment' : 'Edit Assignment'}"></h1>
+<h1>Assign Medical Staff to Appointment</h1>
 
-<form th:action="@{${medicalStaffAppointment.id == null}
-        ? '/medicalstaffapp'
-        : '/medicalstaffapp/' + ${medicalStaffAppointment.id} + '/update'}"
-      th:object="${medicalStaffAppointment}"
+<form th:action="@{/medicalstaffapp}"
+      th:object="${assignment}"
       method="post">
 
-    <label>ID:</label>
-    <input type="text" th:field="*{id}">
-    <p th:errors="*{id}" th:if="${#fields.hasErrors('id')}"></p>
+    <label>Staff:</label>
+    <select th:field="*{staff}">
+        <optgroup label="Doctors">
+            <option th:each="d : ${doctors}"
+                    th:value="${d}"
+                    th:text="${d.name}">
+            </option>
+        </optgroup>
+
+        <optgroup label="Nurses">
+            <option th:each="n : ${nurses}"
+                    th:value="${n}"
+                    th:text="${n.name}">
+            </option>
+        </optgroup>
+    </select>
+    <p th:errors="*{staff}" style="color:red"></p>
     <br>
 
-    <label>Appointment ID:</label>
-    <input type="text" th:field="*{appointmentId}">
-    <p th:errors="*{appointmentId}" th:if="${#fields.hasErrors('appointmentId')}"></p>
+    <label>Appointment:</label>
+    <select th:field="*{appointment}">
+        <option th:each="app : ${appointments}"
+                th:value="${app}"
+                th:text="${'Appointment ' + app.id + ' - ' + app.patient.name}">
+        </option>
+    </select>
+    <p th:errors="*{appointment}" style="color:red"></p>
     <br>
 
-    <label>Medical Staff ID:</label>
-    <input type="text" th:field="*{medicalStaffId}">
-    <p th:errors="*{medicalStaffId}" th:if="${#fields.hasErrors('medicalStaffId')}"></p>
-    <br><br>
-
-    <button type="submit">Save</button>
+    <button type="submit">Assign</button>
 </form>
-
-<br>
-<a href="/medicalstaffapp">Back</a>
 
 </body>
 </html>
