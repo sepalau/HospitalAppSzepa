@@ -8,13 +8,12 @@
 
 <h1>Hospital Details</h1>
 
-<p><strong>ID:</strong> <span th:text="${hospital.id}"></span></p>
-<p><strong>Name:</strong> <span th:text="${hospital.name}"></span></p>
-<p><strong>City:</strong> <span th:text="${hospital.city}"></span></p>
+<p><b>ID:</b> <span th:text="${hospital.id}"></span></p>
+<p><b>Name:</b> <span th:text="${hospital.name}"></span></p>
+<p><b>City:</b> <span th:text="${hospital.city}"></span></p>
 
 <br>
-<a th:href="@{/hospitals/{id}/edit(id=${hospital.id})}">Edit</a> |
-<a href="/hospitals">Back to list</a>
+<a href="/hospitals">Back</a>
 
 </body>
 </html>

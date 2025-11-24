@@ -6,23 +6,26 @@
 </head>
 <body>
 
-<h1 th:text="${department.id == null} ? 'Create Department' : 'Edit Department'"></h1>
+<h1 th:text="${department.id == null ? 'Add Department' : 'Edit Department'}"></h1>
 
-<form th:action="${department.id == null} ? '/departments' : '/departments/' + ${department.id} + '/update'"
-      th:object="${department}"
-      method="post">
+<form th:action="@{${department.id == null}
+    ? '/departments'
+    : '/departments/' + ${department.id} + '/update'}"
+      th:object="${department}" method="post">
 
     <label>ID:</label>
-    <input type="text" th:field="*{id}" required><br><br>
+    <input type="text" th:field="*{id}">
+    <p th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></p>
+    <br>
 
     <label>Name:</label>
-    <input type="text" th:field="*{name}" required><br><br>
+    <input type="text" th:field="*{name}">
+    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
 
+    <br><br>
     <button type="submit">Save</button>
-</form>
 
-<br>
-<a href="/departments">Back</a>
+</form>
 
 </body>
 </html>

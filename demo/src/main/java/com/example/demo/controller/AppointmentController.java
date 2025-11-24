@@ -2,8 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Appointment;
 import com.example.demo.service.AppointmentService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -17,31 +19,44 @@ public class AppointmentController {
     }
 
     @GetMapping
-    public String listAppointments(Model model) {
+    public String list(Model model) {
         model.addAttribute("appointments", service.readAll());
         return "appointment/index";
     }
 
     @GetMapping("/new")
-    public String showCreateForm(Model model) {
+    public String createForm(Model model) {
         model.addAttribute("appointment", new Appointment());
         return "appointment/form";
     }
 
     @PostMapping
-    public String create(@ModelAttribute Appointment appointment) {
+    public String create(@Valid @ModelAttribute("appointment") Appointment appointment,
+                         BindingResult result) {
+
+        if (result.hasErrors()) {
+            return "appointment/form";
+        }
+
         service.create(appointment);
         return "redirect:/appointments";
     }
 
     @GetMapping("/{id}/edit")
-    public String showEditForm(@PathVariable String id, Model model) {
+    public String editForm(@PathVariable String id, Model model) {
         model.addAttribute("appointment", service.findById(id));
         return "appointment/form";
     }
 
-    @PostMapping("/{id}")
-    public String update(@PathVariable String id, @ModelAttribute Appointment appointment) {
+    @PostMapping("/{id}/update")
+    public String update(@PathVariable String id,
+                         @Valid @ModelAttribute("appointment") Appointment appointment,
+                         BindingResult result) {
+
+        if (result.hasErrors()) {
+            return "appointment/form";
+        }
+
         service.update(id, appointment);
         return "redirect:/appointments";
     }
@@ -50,11 +65,5 @@ public class AppointmentController {
     public String delete(@PathVariable String id) {
         service.delete(id);
         return "redirect:/appointments";
-    }
-
-    @GetMapping("/{id}/details")
-    public String showDetails(@PathVariable String id, Model model) {
-        model.addAttribute("appointment", service.findById(id));
-        return "appointment/details";
     }
 }

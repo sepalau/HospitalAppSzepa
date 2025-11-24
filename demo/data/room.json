@@ -68,11 +68,4 @@
   "number" : "801",
   "status" : "Available",
   "appointments" : [ ]
-}, {
-  "id" : "R11",
-  "hospitalId" : "SGAaabcahca",
-  "capacity" : 1.1,
-  "number" : "431",
-  "status" : "Available",
-  "appointments" : [ ]
 } ]

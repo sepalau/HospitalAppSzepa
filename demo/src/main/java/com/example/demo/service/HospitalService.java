@@ -9,29 +9,29 @@ import java.util.List;
 @Service
 public class HospitalService {
 
-    private final HospitalRepository hospitalRepository;
+    private final HospitalRepository repo;
 
-    public HospitalService(HospitalRepository hospitalRepository) {
-        this.hospitalRepository = hospitalRepository;
-    }
-
-    public void create(Hospital hospital) {
-        hospitalRepository.create(hospital);
+    public HospitalService(HospitalRepository repo) {
+        this.repo = repo;
     }
 
     public List<Hospital> readAll() {
-        return hospitalRepository.findAll();
+        return repo.findAll();
     }
 
     public Hospital findById(String id) {
-        return hospitalRepository.findById(id);
+        return repo.findById(id).orElse(null);
     }
 
-    public void update(String id, Hospital updatedHospital) {
-        hospitalRepository.update(id, updatedHospital);
+    public void create(Hospital h) {
+        repo.save(h);
+    }
+
+    public void update(String id, Hospital h) {
+        repo.save(h);
     }
 
     public void delete(String id) {
-        hospitalRepository.delete(id);
+        repo.deleteById(id);
     }
 }

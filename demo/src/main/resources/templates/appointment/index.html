@@ -32,19 +32,15 @@
         <td th:text="${a.status}"></td>
 
         <td>
-            <a th:href="@{/appointments/{id}/details(id=${a.id})}">Details</a>
-            &nbsp;|&nbsp;
             <a th:href="@{/appointments/{id}/edit(id=${a.id})}">Edit</a>
 
             <form th:action="@{/appointments/{id}/delete(id=${a.id})}"
-                  method="post"
-                  style="display:inline;">
+                  method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
         </td>
     </tr>
     </tbody>
-
 </table>
 
 </body>

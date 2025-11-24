@@ -8,15 +8,13 @@
 
 <h1>Doctor Details</h1>
 
-<p><strong>ID:</strong> <span th:text="${doctor.id}"></span></p>
-<p><strong>Name:</strong> <span th:text="${doctor.name}"></span></p>
-<p><strong>Department ID:</strong> <span th:text="${doctor.departmentId}"></span></p>
-<p><strong>License Number:</strong> <span th:text="${doctor.licenseNumber}"></span></p>
+<p><b>ID:</b> <span th:text="${doctor.id}"></span></p>
+<p><b>Name:</b> <span th:text="${doctor.name}"></span></p>
+<p><b>Department ID:</b> <span th:text="${doctor.departmentId}"></span></p>
+<p><b>License Number:</b> <span th:text="${doctor.licenseNumber}"></span></p>
 
 <br>
-
-<a href="/doctors">Back</a> |
-<a th:href="@{/doctors/{id}/edit(id=${doctor.id})}">Edit</a>
+<a href="/doctors">Back</a>
 
 </body>
 </html>

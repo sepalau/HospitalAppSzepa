@@ -1,15 +1,21 @@
 package com.example.demo.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
+@Entity
+@Table(name = "hospitals")
 public class Hospital {
 
+    @Id
+    @NotBlank(message = "ID is required.")
     private String id;
+
+    @NotBlank(message = "Name is required.")
     private String name;
+
+    @NotBlank(message = "City is required.")
     private String city;
-    private List<Department> departments = new ArrayList<>();
-    private List<Room> rooms = new ArrayList<>();
 
     public Hospital() {}
 
@@ -19,7 +25,6 @@ public class Hospital {
         this.city = city;
     }
 
-    // Getters & Setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
@@ -28,10 +33,4 @@ public class Hospital {
 
     public String getCity() { return city; }
     public void setCity(String city) { this.city = city; }
-
-    public List<Department> getDepartments() { return departments; }
-    public void setDepartments(List<Department> departments) { this.departments = departments; }
-
-    public List<Room> getRooms() { return rooms; }
-    public void setRooms(List<Room> rooms) { this.rooms = rooms; }
 }

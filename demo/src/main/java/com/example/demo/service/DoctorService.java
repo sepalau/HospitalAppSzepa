@@ -19,19 +19,19 @@ public class DoctorService {
         return repo.findAll();
     }
 
-    public Doctor read(String id) {
-        return repo.findById(id);
+    public Doctor findById(String id) {
+        return repo.findById(id).orElse(null);
     }
 
     public void create(Doctor doctor) {
-        repo.create(doctor);
+        repo.save(doctor);
     }
 
     public void update(String id, Doctor doctor) {
-        repo.update(id, doctor);
+        repo.save(doctor);
     }
 
     public void delete(String id) {
-        repo.delete(id);
+        repo.deleteById(id);
     }
 }
