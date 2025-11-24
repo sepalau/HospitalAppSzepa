@@ -5,9 +5,9 @@
 </head>
 <body>
 
-<h1>Departments</h1>
+<h2>Departments</h2>
 
-<a href="/department/add">Add Department</a>
+<a href="/departments/new">Add Department</a>
 
 <table border="1">
     <tr>
@@ -23,10 +23,10 @@
         <td th:text="${d.hospital.name}"></td>
 
         <td>
-            <a th:href="@{/department/details/{id}(id=${d.id})}">Details</a> |
-            <a th:href="@{/department/edit/{id}(id=${d.id})}">Edit</a> |
-            <a th:href="@{/department/delete/{id}(id=${d.id})}"
-               onclick="return confirm('Sure?')">Delete</a>
+            <a th:href="@{/departments/details/{id}(id=${d.id})}">Details</a> |
+            <a th:href="@{/departments/edit/{id}(id=${d.id})}">Edit</a> |
+            <a th:href="@{/departments/delete/{id}(id=${d.id})}"
+               onclick="return confirm('Are you sure?')">Delete</a>
         </td>
     </tr>
 

@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -23,10 +22,10 @@ public class Appointment {
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
 
-    @NotNull(message = "Admission date is required")
+    @NotNull
     private LocalDate admissionDate;
 
-    @NotBlank(message = "Status is required")
+    @NotNull
     private String status;
 
     @ManyToOne

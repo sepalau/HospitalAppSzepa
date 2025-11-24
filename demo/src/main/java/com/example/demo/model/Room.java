@@ -2,7 +2,6 @@ package com.example.demo.model;
 
 import com.example.demo.enums.RoomStatus;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Entity
@@ -14,10 +13,13 @@ public class Room {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "department_id", nullable = false)
-    private Department department;
+    @JoinColumn(name = "hospital_id", nullable = false)
+    private Hospital hospital;
+
+    private int capacity;
+
+    private int number;
 
     @Enumerated(EnumType.STRING)
-    @NotNull
     private RoomStatus status;
 }

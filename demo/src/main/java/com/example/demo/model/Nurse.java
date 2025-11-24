@@ -1,15 +1,17 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.validation.constraints.NotBlank;
+import com.example.demo.enums.QualificationLevel;
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = true)
 public class Nurse extends MedicalStaff {
 
-    @NotBlank(message = "Qualification level is required")
-    private String qualificationLevel; // Ex: "Registered Nurse"
+    @Enumerated(EnumType.STRING)
+    private QualificationLevel qualificationLevel;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
 }

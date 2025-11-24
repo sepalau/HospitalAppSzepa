@@ -1,36 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Hospitals</title>
+    <title>Hospital Form</title>
 </head>
 <body>
 
-<h1>Hospitals</h1>
+<h1>Hospital Form</h1>
 
-<a href="/hospital/add">Add Hospital</a>
+<form th:action="@{/hospital/save}" th:object="${hospital}" method="post">
 
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>City</th>
-        <th>Actions</th>
-    </tr>
+    <input type="hidden" th:field="*{id}"/>
 
-    <tr th:each="h : ${hospitals}">
-        <td th:text="${h.id}"></td>
-        <td th:text="${h.name}"></td>
-        <td th:text="${h.city}"></td>
+    <label>Name:</label>
+    <input type="text" th:field="*{name}" required/>
+    <br><br>
 
-        <td>
-            <a th:href="@{/hospital/details/{id}(id=${h.id})}">Details</a> |
-            <a th:href="@{/hospital/edit/{id}(id=${h.id})}">Edit</a> |
-            <a th:href="@{/hospital/delete/{id}(id=${h.id})}"
-               onclick="return confirm('Sure?')">Delete</a>
-        </td>
-    </tr>
+    <label>City:</label>
+    <input type="text" th:field="*{city}" required/>
+    <br><br>
 
-</table>
+    <button type="submit">Save</button>
+</form>
+
+<a href="/hospital">Back</a>
 
 </body>
 </html>

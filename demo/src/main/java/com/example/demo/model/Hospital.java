@@ -3,7 +3,6 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-
 import java.util.List;
 
 @Entity
@@ -14,10 +13,10 @@ public class Hospital {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Hospital name is required")
+    @NotBlank
     private String name;
 
-    @NotBlank(message = "City is required")
+    @NotBlank
     private String city;
 
     @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL)
