@@ -13,7 +13,7 @@ public class NurseService {
 
     private final NurseRepository repo;
 
-    public List<Nurse> findAll() {
+    public List<Nurse> getAll() {
         return repo.findAll();
     }
 

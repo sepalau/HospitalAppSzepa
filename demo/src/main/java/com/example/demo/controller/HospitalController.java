@@ -5,14 +5,11 @@ import com.example.demo.service.HospitalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
-
 @Controller
-@RequestMapping("/hospital")
 @RequiredArgsConstructor
+@RequestMapping("/hospital")
 public class HospitalController {
 
     private final HospitalService hospitalService;
@@ -24,19 +21,13 @@ public class HospitalController {
     }
 
     @GetMapping("/add")
-    public String addForm(Model model) {
+    public String add(Model model) {
         model.addAttribute("hospital", new Hospital());
         return "hospital/form";
     }
 
     @PostMapping("/save")
-    public String save(@Valid @ModelAttribute Hospital hospital,
-                       BindingResult result) {
-
-        if (result.hasErrors()) {
-            return "hospital/form";
-        }
-
+    public String save(@ModelAttribute Hospital hospital) {
         hospitalService.save(hospital);
         return "redirect:/hospital";
     }

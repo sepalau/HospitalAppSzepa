@@ -6,14 +6,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Doctor {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @NotBlank(message = "Name is required")
-    private String name;
+public class Doctor extends MedicalStaff {
 
     @ManyToOne
     @JoinColumn(name = "department_id", nullable = false)

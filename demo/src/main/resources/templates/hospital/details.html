@@ -1,28 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Hospital Form</title>
+    <title>Hospital Details</title>
 </head>
 <body>
 
-<h1>Hospital Form</h1>
+<h1>Hospital Details</h1>
 
-<form th:action="@{/hospital/save}" th:object="${hospital}" method="post">
-
-    <input type="hidden" th:field="*{id}" />
-
-    <label>Name:</label>
-    <input type="text" th:field="*{name}" />
-    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-    <br>
-
-    <label>City:</label>
-    <input type="text" th:field="*{city}" />
-    <div th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
-    <br>
-
-    <button type="submit">Save</button>
-</form>
+<p><b>ID:</b> <span th:text="${hospital.id}"></span></p>
+<p><b>Name:</b> <span th:text="${hospital.name}"></span></p>
+<p><b>City:</b> <span th:text="${hospital.city}"></span></p>
 
 <a href="/hospital">Back</a>
 

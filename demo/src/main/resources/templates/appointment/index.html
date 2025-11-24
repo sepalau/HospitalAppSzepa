@@ -1,37 +1,54 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Appointments</title></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Appointments</title>
+</head>
 <body>
 
 <h1>Appointments</h1>
 
-<a href="/appointments/new">Add Appointment</a><br><br>
+<a th:href="@{/appointments/add}">Add Appointment</a>
 
-<table border="1">
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
     <tr>
         <th>ID</th>
         <th>Department</th>
         <th>Patient</th>
         <th>Admission Date</th>
         <th>Status</th>
+        <th>Medical Staff</th>
         <th>Actions</th>
     </tr>
+    </thead>
 
+    <tbody>
     <tr th:each="a : ${appointments}">
         <td th:text="${a.id}"></td>
-        <td th:text="${a.department.name}"></td>
-        <td th:text="${a.patient.name}"></td>
+
+        <td th:text="${a.department != null ? a.department.name : 'N/A'}"></td>
+
+        <td th:text="${a.patient != null ? a.patient.name : 'N/A'}"></td>
+
         <td th:text="${a.admissionDate}"></td>
+
         <td th:text="${a.status}"></td>
 
         <td>
-            <a th:href="@{/appointments/{id}(id=${a.id})}">Details</a> |
-            <a th:href="@{/appointments/{id}/edit(id=${a.id})}">Edit</a> |
-            <form th:action="@{/appointments/{id}/delete(id=${a.id})}" method="post" style="display:inline;">
-                <button>Delete</button>
-            </form>
+            <span th:if="${a.medicalStaff != null}"
+                  th:text="${a.medicalStaff.name}">
+            </span>
+            <span th:if="${a.medicalStaff == null}">None</span>
+        </td>
+
+        <td>
+            <a th:href="@{'/appointments/details/' + ${a.id}}">Details</a> |
+            <a th:href="@{'/appointments/delete/' + ${a.id}}"
+               onclick="return confirm('Are you sure?');">Delete</a>
         </td>
     </tr>
+    </tbody>
 </table>
 
 </body>

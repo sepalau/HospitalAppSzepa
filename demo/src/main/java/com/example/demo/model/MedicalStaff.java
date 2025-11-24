@@ -16,4 +16,3 @@ public abstract class MedicalStaff {
     @NotBlank
     private String name;
 }
-
