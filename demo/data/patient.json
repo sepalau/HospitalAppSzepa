@@ -3,10 +3,6 @@
   "name" : "Alice Müller",
   "appointments" : [ ]
 }, {
-  "id" : "P2",
-  "name" : "Bob Schneider",
-  "appointments" : [ ]
-}, {
   "id" : "P3",
   "name" : "Chris Bauer",
   "appointments" : [ ]
@@ -20,7 +16,7 @@
   "appointments" : [ ]
 }, {
   "id" : "P6",
-  "name" : "Felix König",
+  "name" : "Felix Rege",
   "appointments" : [ ]
 }, {
   "id" : "P7",

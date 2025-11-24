@@ -58,10 +58,4 @@
   "departmentId" : "Dep10",
   "appointments" : [ ],
   "licenseNumber" : "LIC1010"
-}, {
-  "id" : "D11",
-  "name" : "AHA",
-  "departmentId" : "243",
-  "appointments" : [ ],
-  "licenseNumber" : "222"
 } ]
