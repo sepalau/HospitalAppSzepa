@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Doctor Details</title></head>
+<head>
+    <title>Doctor Details</title>
+</head>
 <body>
 
 <h1>Doctor Details</h1>
 
+<p><b>ID:</b> <span th:text="${doctor.id}"></span></p>
 <p><b>Name:</b> <span th:text="${doctor.name}"></span></p>
+<p><b>License number:</b> <span th:text="${doctor.licenseNumber}"></span></p>
 <p><b>Department:</b> <span th:text="${doctor.department.name}"></span></p>
-<p><b>License Number:</b> <span th:text="${doctor.licenseNumber}"></span></p>
 
-<a href="/doctors">Back</a>
+<a href="/doctor">Back</a>
 
 </body>
 </html>

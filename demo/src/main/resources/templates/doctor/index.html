@@ -1,33 +1,34 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Doctors</title></head>
+<head>
+    <title>Doctors</title>
+</head>
 <body>
 
 <h1>Doctors</h1>
 
-<a href="/doctors/new">Add Doctor</a><br><br>
+<a href="/doctor/add">Add Doctor</a>
 
 <table border="1">
     <tr>
         <th>ID</th>
         <th>Name</th>
-        <th>Department</th>
         <th>License</th>
+        <th>Department</th>
         <th>Actions</th>
     </tr>
 
     <tr th:each="d : ${doctors}">
         <td th:text="${d.id}"></td>
         <td th:text="${d.name}"></td>
-        <td th:text="${d.department.name}"></td>
         <td th:text="${d.licenseNumber}"></td>
+        <td th:text="${d.department.name}"></td>
 
         <td>
-            <a th:href="@{/doctors/{id}(id=${d.id})}">Details</a> |
-            <a th:href="@{/doctors/{id}/edit(id=${d.id})}">Edit</a> |
-            <form th:action="@{/doctors/{id}/delete(id=${d.id})}" method="post" style="display:inline;">
-                <button>Delete</button>
-            </form>
+            <a th:href="@{/doctor/details/{id}(id=${d.id})}">Details</a> |
+            <a th:href="@{/doctor/edit/{id}(id=${d.id})}">Edit</a> |
+            <a th:href="@{/doctor/delete/{id}(id=${d.id})}"
+               onclick="return confirm('Are you sure?');">Delete</a>
         </td>
     </tr>
 </table>

@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-import java.util.List;
-
 @Entity
 @Data
 public class Department {
@@ -20,13 +18,4 @@ public class Department {
     @ManyToOne
     @JoinColumn(name = "hospital_id", nullable = false)
     private Hospital hospital;
-
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
-    private List<Doctor> doctors;
-
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
-    private List<Room> rooms;
-
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
-    private List<Appointment> appointments;
 }

@@ -1,90 +1,81 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Appointment;
-import com.example.demo.service.AppointmentService;
-import com.example.demo.service.DepartmentService;
-import com.example.demo.service.PatientService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import com.example.demo.model.*;
+import com.example.demo.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/appointments")
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
     private final DepartmentService departmentService;
     private final PatientService patientService;
+    private final DoctorService doctorService;
+    private final NurseService nurseService;
+
+    public AppointmentController(AppointmentService appointmentService,
+                                 DepartmentService departmentService,
+                                 PatientService patientService,
+                                 DoctorService doctorService,
+                                 NurseService nurseService) {
+
+        this.appointmentService = appointmentService;
+        this.departmentService = departmentService;
+        this.patientService = patientService;
+        this.doctorService = doctorService;
+        this.nurseService = nurseService;
+    }
 
     @GetMapping
     public String list(Model model) {
-        model.addAttribute("appointments", appointmentService.getAll());
+        model.addAttribute("appointments", appointmentService.findAll());
         return "appointment/index";
     }
 
-    @GetMapping("/new")
-    public String createForm(Model model) {
+    @GetMapping("/create")
+    public String create(Model model) {
+
+        List<MedicalStaff> staffList = new ArrayList<>();
+
+        // Add doctors
+        for (Doctor d : doctorService.findAll()) {
+            staffList.add(d);
+        }
+
+        // Add nurses
+        for (Nurse n : nurseService.findAll()) {
+            staffList.add(n);
+        }
+
         model.addAttribute("appointment", new Appointment());
-        model.addAttribute("departments", departmentService.getAll());
-        model.addAttribute("patients", patientService.getAll());
+        model.addAttribute("departments", departmentService.findAll());
+        model.addAttribute("patients", patientService.findAll());
+        model.addAttribute("staffList", staffList);
+
         return "appointment/form";
     }
 
-    @PostMapping
-    public String create(
-            @Valid @ModelAttribute("appointment") Appointment appointment,
-            BindingResult result,
-            Model model
-    ) {
-        if (result.hasErrors()) {
-            model.addAttribute("departments", departmentService.getAll());
-            model.addAttribute("patients", patientService.getAll());
-            return "appointment/form";
-        }
-
+    @PostMapping("/save")
+    public String save(@ModelAttribute Appointment appointment) {
         appointmentService.save(appointment);
         return "redirect:/appointments";
     }
 
-    @GetMapping("/{id}/edit")
-    public String editForm(@PathVariable Long id, Model model) {
-        model.addAttribute("appointment", appointmentService.getById(id));
-        model.addAttribute("departments", departmentService.getAll());
-        model.addAttribute("patients", patientService.getAll());
-        return "appointment/form";
+    @GetMapping("/details/{id}")
+    public String details(@PathVariable Long id, Model model) {
+        model.addAttribute("appointment", appointmentService.findById(id));
+        return "appointment/details";
     }
 
-    @PostMapping("/{id}/update")
-    public String update(
-            @PathVariable Long id,
-            @Valid @ModelAttribute("appointment") Appointment appointment,
-            BindingResult result,
-            Model model
-    ) {
-        if (result.hasErrors()) {
-            model.addAttribute("departments", departmentService.getAll());
-            model.addAttribute("patients", patientService.getAll());
-            return "appointment/form";
-        }
-
-        appointment.setId(id);
-        appointmentService.save(appointment);
-        return "redirect:/appointments";
-    }
-
-    @PostMapping("/{id}/delete")
+    @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         appointmentService.delete(id);
         return "redirect:/appointments";
-    }
-
-    @GetMapping("/{id}")
-    public String details(@PathVariable Long id, Model model) {
-        model.addAttribute("appointment", appointmentService.getById(id));
-        return "appointment/details";
     }
 }

@@ -28,4 +28,8 @@ public class Appointment {
 
     @NotBlank(message = "Status is required")
     private String status;
+
+    @ManyToOne
+    @JoinColumn(name = "medical_staff_id", nullable = false)
+    private MedicalStaff medicalStaff;
 }
