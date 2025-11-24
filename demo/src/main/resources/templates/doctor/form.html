@@ -1,33 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Doctor Form</title></head>
+<head>
+    <title>Doctor Form</title>
+</head>
 <body>
 
-<h1 th:text="${doctor.id == null ? 'Add Doctor' : 'Edit Doctor'}"></h1>
+<h1>Doctor Form</h1>
 
-<form th:action="@{${doctor.id == null}? '/doctors' : '/doctors/' + ${doctor.id} + '/update'}"
-      th:object="${doctor}"
-      method="post">
+<form th:action="@{/doctor/save}" th:object="${doctor}" method="post">
+
+    <input type="hidden" th:field="*{id}"/>
 
     <label>Name:</label>
-    <input type="text" th:field="*{name}">
-    <p th:errors="*{name}" style="color:red"></p>
-    <br>
+    <input type="text" th:field="*{name}" required/>
+    <br><br>
+
+    <label>License Number:</label>
+    <input type="text" th:field="*{licenseNumber}" required/>
+    <br><br>
 
     <label>Department:</label>
     <select th:field="*{department}">
-        <option th:each="d: ${departments}" th:value="${d}" th:text="${d.name}"></option>
+        <option th:each="d : ${departments}" th:value="${d}" th:text="${d.name}"></option>
     </select>
-    <p th:errors="*{department}" style="color:red"></p>
-    <br>
-
-    <label>License Number:</label>
-    <input type="text" th:field="*{licenseNumber}">
-    <p th:errors="*{licenseNumber}" style="color:red"></p>
-    <br>
+    <br><br>
 
     <button type="submit">Save</button>
+
 </form>
+
+<a href="/doctor">Back</a>
 
 </body>
 </html>

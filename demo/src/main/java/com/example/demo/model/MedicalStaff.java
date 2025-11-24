@@ -3,7 +3,6 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -14,14 +13,6 @@ public abstract class MedicalStaff {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Name is required")
+    @NotBlank
     private String name;
-
-    @ManyToOne
-    @JoinColumn(name = "department_id", nullable = false)
-    private Department department;
-
-
-    @OneToMany(mappedBy = "medicalStaff", cascade = CascadeType.ALL)
-    private List<MedicalStaffAppointment> appointments;
 }

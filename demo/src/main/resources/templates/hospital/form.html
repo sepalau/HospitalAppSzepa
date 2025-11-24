@@ -1,33 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Hospital Form</title>
+    <title>Hospitals</title>
 </head>
 <body>
 
-<h1 th:text="${hospital.id == null ? 'Add Hospital' : 'Edit Hospital'}"></h1>
+<h1>Hospitals</h1>
 
-<form th:action="@{${hospital.id == null} ? '/hospitals' : '/hospitals/' + ${hospital.id} + '/update'}"
-      th:object="${hospital}"
-      method="post">
+<a href="/hospital/add">Add Hospital</a>
 
-    <label>Name:</label>
-    <input type="text" th:field="*{name}">
-    <p th:errors="*{name}" style="color:red"></p>
-    <br>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>City</th>
+        <th>Actions</th>
+    </tr>
 
-    <label>Address:</label>
-    <input type="text" th:field="*{address}">
-    <p th:errors="*{address}" style="color:red"></p>
-    <br>
+    <tr th:each="h : ${hospitals}">
+        <td th:text="${h.id}"></td>
+        <td th:text="${h.name}"></td>
+        <td th:text="${h.city}"></td>
 
-    <label>Phone:</label>
-    <input type="text" th:field="*{phoneNumber}">
-    <p th:errors="*{phoneNumber}" style="color:red"></p>
-    <br>
+        <td>
+            <a th:href="@{/hospital/details/{id}(id=${h.id})}">Details</a> |
+            <a th:href="@{/hospital/edit/{id}(id=${h.id})}">Edit</a> |
+            <a th:href="@{/hospital/delete/{id}(id=${h.id})}"
+               onclick="return confirm('Sure?')">Delete</a>
+        </td>
+    </tr>
 
-    <button type="submit">Save</button>
-</form>
+</table>
 
 </body>
 </html>

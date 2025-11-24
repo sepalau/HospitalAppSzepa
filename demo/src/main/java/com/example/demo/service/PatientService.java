@@ -12,7 +12,7 @@ public class PatientService {
 
     private final PatientRepository repo;
 
-    public List<Patient> getAll() {
+    public List<Patient> findAll() {
         return repo.findAll();
     }
 
