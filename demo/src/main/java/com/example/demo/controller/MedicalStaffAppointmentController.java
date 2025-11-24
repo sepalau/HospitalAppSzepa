@@ -1,61 +1,68 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.MedicalStaffAppointment;
+import com.example.demo.service.AppointmentService;
+import com.example.demo.service.DoctorService;
 import com.example.demo.service.MedicalStaffAppointmentService;
+import com.example.demo.service.NurseService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/medicalstaffapp")
 public class MedicalStaffAppointmentController {
 
-    private final MedicalStaffAppointmentService service;
-
-    public MedicalStaffAppointmentController(MedicalStaffAppointmentService service) {
-        this.service = service;
-    }
+    private final MedicalStaffAppointmentService msaService;
+    private final AppointmentService appointmentService;
+    private final DoctorService doctorService;
+    private final NurseService nurseService;
 
     @GetMapping
-    public String listAll(Model model) {
-        model.addAttribute("items", service.readAll());
+    public String list(Model model) {
+        model.addAttribute("assigned", msaService.getAll());
         return "medicalstaffapp/index";
     }
 
     @GetMapping("/new")
-    public String showCreateForm(Model model) {
-        model.addAttribute("medicalStaffAppointment", new MedicalStaffAppointment());
+    public String createForm(Model model) {
+        model.addAttribute("assignment", new MedicalStaffAppointment());
+        model.addAttribute("appointments", appointmentService.getAll());
+        model.addAttribute("doctors", doctorService.getAll());
+        model.addAttribute("nurses", nurseService.getAll());
         return "medicalstaffapp/form";
     }
 
     @PostMapping
-    public String create(@ModelAttribute MedicalStaffAppointment msa) {
-        service.create(msa);
+    public String create(
+            @Valid @ModelAttribute("assignment") MedicalStaffAppointment assignment,
+            BindingResult result,
+            Model model
+    ) {
+        if (result.hasErrors()) {
+            model.addAttribute("appointments", appointmentService.getAll());
+            model.addAttribute("doctors", doctorService.getAll());
+            model.addAttribute("nurses", nurseService.getAll());
+            return "medicalstaffapp/form";
+        }
+
+        msaService.save(assignment);
         return "redirect:/medicalstaffapp";
     }
 
     @GetMapping("/{id}")
-    public String showDetails(@PathVariable String id, Model model) {
-        model.addAttribute("medicalStaffAppointment", service.findById(id));
+    public String details(@PathVariable Long id, Model model) {
+        model.addAttribute("assignment", msaService.getById(id));
         return "medicalstaffapp/details";
     }
 
-    @GetMapping("/{id}/edit")
-    public String showEditForm(@PathVariable String id, Model model) {
-        model.addAttribute("medicalStaffAppointment", service.findById(id));
-        return "medicalstaffapp/form";
-    }
-
-    @PostMapping("/{id}/update")
-    public String update(@PathVariable String id,
-                         @ModelAttribute MedicalStaffAppointment msa) {
-        service.update(id, msa);
-        return "redirect:/medicalstaffapp";
-    }
-
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable String id) {
-        service.delete(id);
+    public String delete(@PathVariable Long id) {
+        msaService.delete(id);
         return "redirect:/medicalstaffapp";
     }
 }

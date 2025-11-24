@@ -1,67 +1,85 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Doctor;
+import com.example.demo.service.DepartmentService;
 import com.example.demo.service.DoctorService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/doctors")
 public class DoctorController {
 
-    private final DoctorService service;
-
-    public DoctorController(DoctorService service) {
-        this.service = service;
-    }
+    private final DoctorService doctorService;
+    private final DepartmentService departmentService;
 
     @GetMapping
     public String list(Model model) {
-        model.addAttribute("doctors", service.readAll());
+        model.addAttribute("doctors", doctorService.getAll());
         return "doctor/index";
     }
 
     @GetMapping("/new")
     public String createForm(Model model) {
         model.addAttribute("doctor", new Doctor());
+        model.addAttribute("departments", departmentService.getAll());
         return "doctor/form";
     }
 
     @PostMapping
-    public String create(@Valid @ModelAttribute("doctor") Doctor doctor,
-                         BindingResult result) {
-
-        if (result.hasErrors())
+    public String create(
+            @Valid @ModelAttribute("doctor") Doctor doctor,
+            BindingResult result,
+            Model model
+    ) {
+        if (result.hasErrors()) {
+            model.addAttribute("departments", departmentService.getAll());
             return "doctor/form";
+        }
 
-        service.create(doctor);
+        doctorService.save(doctor);
         return "redirect:/doctors";
     }
 
     @GetMapping("/{id}/edit")
-    public String editForm(@PathVariable String id, Model model) {
-        model.addAttribute("doctor", service.findById(id));
+    public String editForm(@PathVariable Long id, Model model) {
+        model.addAttribute("doctor", doctorService.getById(id));
+        model.addAttribute("departments", departmentService.getAll());
         return "doctor/form";
     }
 
     @PostMapping("/{id}/update")
-    public String update(@PathVariable String id,
-                         @Valid @ModelAttribute("doctor") Doctor doctor,
-                         BindingResult result) {
-
-        if (result.hasErrors())
+    public String update(
+            @PathVariable Long id,
+            @Valid @ModelAttribute("doctor") Doctor doctor,
+            BindingResult result,
+            Model model
+    ) {
+        if (result.hasErrors()) {
+            model.addAttribute("departments", departmentService.getAll());
             return "doctor/form";
+        }
 
-        service.update(id, doctor);
+        doctor.setId(id);
+        doctorService.save(doctor);
+
         return "redirect:/doctors";
     }
 
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable String id) {
-        service.delete(id);
+    public String delete(@PathVariable Long id) {
+        doctorService.delete(id);
         return "redirect:/doctors";
+    }
+
+    @GetMapping("/{id}")
+    public String details(@PathVariable Long id, Model model) {
+        model.addAttribute("doctor", doctorService.getById(id));
+        return "doctor/details";
     }
 }

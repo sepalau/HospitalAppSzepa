@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Department Form</title>
-</head>
+<head><title>Department Form</title></head>
 <body>
 
 <h1 th:text="${department.id == null ? 'Add Department' : 'Edit Department'}"></h1>
 
-<form th:action="@{${department.id == null}
-    ? '/departments'
-    : '/departments/' + ${department.id} + '/update'}"
-      th:object="${department}" method="post">
-
-    <label>ID:</label>
-    <input type="text" th:field="*{id}">
-    <p th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></p>
-    <br>
+<form th:action="@{${department.id == null}? '/departments' : '/departments/' + ${department.id} + '/update'}"
+      th:object="${department}"
+      method="post">
 
     <label>Name:</label>
     <input type="text" th:field="*{name}">
-    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+    <p th:errors="*{name}" style="color:red"></p>
+    <br>
 
-    <br><br>
+    <label>Hospital:</label>
+    <select th:field="*{hospital}">
+        <option th:each="h: ${hospitals}"
+                th:value="${h}"
+                th:text="${h.name}">
+        </option>
+    </select>
+    <p th:errors="*{hospital}" style="color:red"></p>
+    <br>
+
     <button type="submit">Save</button>
-
 </form>
 
 </body>

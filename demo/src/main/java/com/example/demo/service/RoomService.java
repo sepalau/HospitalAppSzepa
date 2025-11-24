@@ -2,36 +2,31 @@ package com.example.demo.service;
 
 import com.example.demo.model.Room;
 import com.example.demo.repository.RoomRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RoomService {
 
-    private final RoomRepository roomRepository;
+    private final RoomRepository repo;
 
-    public RoomService(RoomRepository roomRepository) {
-        this.roomRepository = roomRepository;
+    public List<Room> getAll() {
+        return repo.findAll();
     }
 
-    public void create(Room room) {
-        roomRepository.create(room);
+    public Room getById(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Room not found: " + id));
     }
 
-    public List<Room> readAll() {
-        return roomRepository.findAll();
+    public Room save(Room room) {
+        return repo.save(room);
     }
 
-    public Room findById(String id) {
-        return roomRepository.findById(id);
-    }
-
-    public void update(String id, Room updatedRoom) {
-        roomRepository.update(id, updatedRoom);
-    }
-
-    public void delete(String id) {
-        roomRepository.delete(id);
+    public void delete(Long id) {
+        repo.deleteById(id);
     }
 }

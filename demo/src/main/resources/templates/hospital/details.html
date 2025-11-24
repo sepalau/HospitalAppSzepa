@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Hospital Details</title>
-</head>
+<head><title>Hospital Details</title></head>
 <body>
 
 <h1>Hospital Details</h1>
 
-<p><b>ID:</b> <span th:text="${hospital.id}"></span></p>
 <p><b>Name:</b> <span th:text="${hospital.name}"></span></p>
-<p><b>City:</b> <span th:text="${hospital.city}"></span></p>
+<p><b>Address:</b> <span th:text="${hospital.address}"></span></p>
+<p><b>Phone:</b> <span th:text="${hospital.phoneNumber}"></span></p>
+
+<h2>Departments</h2>
+
+<ul>
+    <li th:each="d : ${hospital.departments}">
+        <span th:text="${d.name}"></span>
+    </li>
+</ul>
 
 <br>
 <a href="/hospitals">Back</a>

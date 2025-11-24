@@ -2,36 +2,31 @@ package com.example.demo.service;
 
 import com.example.demo.model.Doctor;
 import com.example.demo.repository.DoctorRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DoctorService {
 
     private final DoctorRepository repo;
 
-    public DoctorService(DoctorRepository repo) {
-        this.repo = repo;
-    }
-
-    public List<Doctor> readAll() {
+    public List<Doctor> getAll() {
         return repo.findAll();
     }
 
-    public Doctor findById(String id) {
-        return repo.findById(id).orElse(null);
+    public Doctor getById(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Doctor not found: " + id));
     }
 
-    public void create(Doctor doctor) {
-        repo.save(doctor);
+    public Doctor save(Doctor doctor) {
+        return repo.save(doctor);
     }
 
-    public void update(String id, Doctor doctor) {
-        repo.save(doctor);
-    }
-
-    public void delete(String id) {
+    public void delete(Long id) {
         repo.deleteById(id);
     }
 }

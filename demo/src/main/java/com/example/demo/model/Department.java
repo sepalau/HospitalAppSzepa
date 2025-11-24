@@ -2,28 +2,31 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+
+import java.util.List;
 
 @Entity
-@Table(name = "departments")
+@Data
 public class Department {
 
     @Id
-    @NotBlank(message = "ID is required.")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @NotBlank(message = "Name is required.")
+    @NotBlank(message = "Department name is required")
     private String name;
 
-    public Department() {}
+    @ManyToOne
+    @JoinColumn(name = "hospital_id", nullable = false)
+    private Hospital hospital;
 
-    public Department(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    private List<Doctor> doctors;
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    private List<Room> rooms;
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    private List<Appointment> appointments;
 }

@@ -3,72 +3,70 @@ package com.example.demo.controller;
 import com.example.demo.model.Hospital;
 import com.example.demo.service.HospitalService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/hospitals")
 public class HospitalController {
 
-    private final HospitalService service;
-
-    public HospitalController(HospitalService service) {
-        this.service = service;
-    }
+    private final HospitalService hospitalService;
 
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("hospitals", service.readAll());
+    public String listHospitals(Model model) {
+        model.addAttribute("hospitals", hospitalService.getAll());
         return "hospital/index";
     }
 
     @GetMapping("/new")
-    public String createForm(Model model) {
+    public String showCreateForm(Model model) {
         model.addAttribute("hospital", new Hospital());
         return "hospital/form";
     }
 
     @PostMapping
-    public String create(@Valid @ModelAttribute("hospital") Hospital hospital,
-                         BindingResult result) {
+    public String createHospital(
+            @Valid @ModelAttribute("hospital") Hospital hospital,
+            BindingResult result
+    ) {
+        if (result.hasErrors()) return "hospital/form";
 
-        if (result.hasErrors())
-            return "hospital/form";
-
-        service.create(hospital);
+        hospitalService.save(hospital);
         return "redirect:/hospitals";
     }
 
     @GetMapping("/{id}/edit")
-    public String editForm(@PathVariable String id, Model model) {
-        model.addAttribute("hospital", service.findById(id));
+    public String showEditForm(@PathVariable Long id, Model model) {
+        model.addAttribute("hospital", hospitalService.getById(id));
         return "hospital/form";
     }
 
     @PostMapping("/{id}/update")
-    public String update(@PathVariable String id,
-                         @Valid @ModelAttribute("hospital") Hospital hospital,
-                         BindingResult result) {
+    public String updateHospital(
+            @PathVariable Long id,
+            @Valid @ModelAttribute("hospital") Hospital hospital,
+            BindingResult result
+    ) {
+        if (result.hasErrors()) return "hospital/form";
 
-        if (result.hasErrors())
-            return "hospital/form";
-
-        service.update(id, hospital);
+        hospital.setId(id);
+        hospitalService.save(hospital);
         return "redirect:/hospitals";
     }
 
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable String id) {
-        service.delete(id);
+    public String deleteHospital(@PathVariable Long id) {
+        hospitalService.delete(id);
         return "redirect:/hospitals";
     }
 
-    // DETAILS PAGE
     @GetMapping("/{id}")
-    public String details(@PathVariable String id, Model model) {
-        model.addAttribute("hospital", service.findById(id));
+    public String details(@PathVariable Long id, Model model) {
+        model.addAttribute("hospital", hospitalService.getById(id));
         return "hospital/details";
     }
 }

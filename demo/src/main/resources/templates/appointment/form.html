@@ -1,41 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Appointment Form</title>
-</head>
+<head><title>Appointment Form</title></head>
 <body>
 
-<h1 th:text="${appointment.id == null} ? 'Add Appointment' : 'Edit Appointment'"></h1>
+<h1 th:text="${appointment.id == null ? 'Add Appointment' : 'Edit Appointment'}"></h1>
 
-<form th:action="@{${appointment.id == null} ? '/appointments' : '/appointments/' + ${appointment.id} + '/update'}"
+<form th:action="@{${appointment.id == null}? '/appointments' : '/appointments/' + ${appointment.id} + '/update'}"
       th:object="${appointment}"
       method="post">
 
-    <label>ID:</label>
-    <input type="text" th:field="*{id}">
-    <p th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></p>
+    <label>Department:</label>
+    <select th:field="*{department}">
+        <option th:each="d : ${departments}"
+                th:value="${d}"
+                th:text="${d.name}">
+        </option>
+    </select>
+    <p th:errors="*{department}" style="color:red"></p>
     <br>
 
-    <label>Department ID:</label>
-    <input type="text" th:field="*{departmentId}">
-    <p th:if="${#fields.hasErrors('departmentId')}" th:errors="*{departmentId}"></p>
-    <br>
-
-    <label>Patient ID:</label>
-    <input type="text" th:field="*{patientId}">
-    <p th:if="${#fields.hasErrors('patientId')}" th:errors="*{patientId}"></p>
+    <label>Patient:</label>
+    <select th:field="*{patient}">
+        <option th:each="p : ${patients}"
+                th:value="${p}"
+                th:text="${p.name}">
+        </option>
+    </select>
+    <p th:errors="*{patient}" style="color:red"></p>
     <br>
 
     <label>Admission Date:</label>
-    <input type="text" th:field="*{admissionDate}">
-    <p th:if="${#fields.hasErrors('admissionDate')}" th:errors="*{admissionDate}"></p>
+    <input type="date" th:field="*{admissionDate}">
+    <p th:errors="*{admissionDate}" style="color:red"></p>
     <br>
 
     <label>Status:</label>
     <input type="text" th:field="*{status}">
-    <p th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></p>
-    <br><br>
+    <p th:errors="*{status}" style="color:red"></p>
+    <br>
 
     <button type="submit">Save</button>
 </form>

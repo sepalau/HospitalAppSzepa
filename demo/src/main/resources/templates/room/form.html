@@ -1,43 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Room Form</title>
-</head>
-
+<head><title>Room Form</title></head>
 <body>
 
 <h1 th:text="${room.id == null ? 'Add Room' : 'Edit Room'}"></h1>
 
-<form th:action="@{/rooms/save}" th:object="${room}" method="post">
+<form th:action="@{${room.id == null}? '/rooms' : '/rooms/' + ${room.id} + '/update'}"
+      th:object="${room}"
+      method="post">
 
-    <input type="hidden" th:field="*{id}"/>
-
-    <label>Hospital ID:</label>
-    <input type="text" th:field="*{hospitalId}" required/>
-    <br><br>
-
-    <label>Room Number:</label>
-    <input type="text" th:field="*{number}" required/>
-    <br><br>
-
-    <label>Capacity:</label>
-    <input type="number" step="1" th:field="*{capacity}" required/>
-    <br><br>
+    <label>Department:</label>
+    <select th:field="*{department}">
+        <option th:each="d : ${departments}"
+                th:value="${d}"
+                th:text="${d.name}">
+        </option>
+    </select>
+    <p th:errors="*{department}" style="color:red"></p>
+    <br>
 
     <label>Status:</label>
     <select th:field="*{status}">
-        <option value="Available">Available</option>
-        <option value="Occupied">Occupied</option>
+        <option th:each="s : ${T(com.example.demo.model.RoomStatus).values()}"
+                th:value="${s}"
+                th:text="${s}">
+        </option>
     </select>
-    <br><br>
+    <p th:errors="*{status}" style="color:red"></p>
+    <br>
 
-    <button type="submit">Save</button>
+    <button>Save</button>
 </form>
-
-<br>
-<a href="/rooms">Back to list</a>
 
 </body>
 </html>
