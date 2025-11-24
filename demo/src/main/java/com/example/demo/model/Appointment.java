@@ -1,16 +1,27 @@
 package com.example.demo.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
+@Entity
+@Table(name = "appointments")
 public class Appointment {
 
+    @Id
+    @NotBlank(message = "ID is required.")
     private String id;
+
+    @NotBlank(message = "Department ID is required.")
     private String departmentId;
+
+    @NotBlank(message = "Patient ID is required.")
     private String patientId;
+
+    @NotBlank(message = "Admission date is required.")
     private String admissionDate;
-    private String status; // "Active" or "Completed"
-    private List<MedicalStaff> medicalStaff = new ArrayList<>();
+
+    @NotBlank(message = "Status is required.")
+    private String status;
 
     public Appointment() {}
 
@@ -37,7 +48,4 @@ public class Appointment {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
-
-    public List<MedicalStaff> getMedicalStaff() { return medicalStaff; }
-    public void setMedicalStaff(List<MedicalStaff> medicalStaff) { this.medicalStaff = medicalStaff; }
 }

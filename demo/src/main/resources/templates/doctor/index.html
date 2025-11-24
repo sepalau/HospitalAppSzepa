@@ -2,20 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Doctor List</title>
-    <style>
-        table, th, td { border: 1px solid black; padding: 5px; border-collapse: collapse; }
-        a { text-decoration: none; color: blue; }
-    </style>
+    <title>Doctors</title>
 </head>
 <body>
 
-<h1>List of Doctors</h1>
+<h1>Doctors</h1>
 
 <a href="/doctors/new">Add New Doctor</a>
 <br><br>
 
-<table>
+<table border="1">
     <thead>
     <tr>
         <th>ID</th>
@@ -27,16 +23,16 @@
     </thead>
 
     <tbody>
-    <tr th:each="doctor : ${doctors}">
-        <td th:text="${doctor.id}"></td>
-        <td th:text="${doctor.name}"></td>
-        <td th:text="${doctor.departmentId}"></td>
-        <td th:text="${doctor.licenseNumber}"></td>
-
+    <tr th:each="d : ${doctors}">
+        <td th:text="${d.id}"></td>
+        <td th:text="${d.name}"></td>
+        <td th:text="${d.departmentId}"></td>
+        <td th:text="${d.licenseNumber}"></td>
         <td>
-            <a th:href="@{/doctors/{id}(id=${doctor.id})}">Details</a> |
-            <a th:href="@{/doctors/{id}/edit(id=${doctor.id})}">Edit</a> |
-            <form th:action="@{/doctors/{id}/delete(id=${doctor.id})}" method="post" style="display:inline;">
+            <a th:href="@{/doctors/{id}/edit(id=${d.id})}">Edit</a>
+
+            <form th:action="@{/doctors/{id}/delete(id=${d.id})}"
+                  method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
         </td>

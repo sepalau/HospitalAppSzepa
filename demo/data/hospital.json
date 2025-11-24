@@ -58,10 +58,4 @@
   "city" : "Köln",
   "departments" : [ ],
   "rooms" : [ ]
-}, {
-  "id" : "23t",
-  "name" : "23f",
-  "city" : "f32",
-  "departments" : [ ],
-  "rooms" : [ ]
 } ]

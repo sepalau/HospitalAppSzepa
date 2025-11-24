@@ -9,29 +9,29 @@ import java.util.List;
 @Service
 public class AppointmentService {
 
-    private final AppointmentRepository repository;
+    private final AppointmentRepository repo;
 
-    public AppointmentService(AppointmentRepository repository) {
-        this.repository = repository;
+    public AppointmentService(AppointmentRepository repo) {
+        this.repo = repo;
     }
 
     public List<Appointment> readAll() {
-        return repository.findAll();
+        return repo.findAll();
     }
 
     public Appointment findById(String id) {
-        return repository.findById(id);
+        return repo.findById(id).orElse(null);
     }
 
-    public void create(Appointment appointment) {
-        repository.create(appointment);
+    public void create(Appointment a) {
+        repo.save(a);
     }
 
-    public void update(String id, Appointment appointment) {
-        repository.update(id, appointment);
+    public void update(String id, Appointment a) {
+        repo.save(a);
     }
 
     public void delete(String id) {
-        repository.delete(id);
+        repo.deleteById(id);
     }
 }

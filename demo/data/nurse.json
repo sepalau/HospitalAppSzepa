@@ -58,10 +58,4 @@
   "departmentId" : "Dep10",
   "appointments" : [ ],
   "qualificationLevel" : "Registered Nurse"
-}, {
-  "id" : "N11",
-  "name" : "sagaA",
-  "departmentId" : "gsgsabdada",
-  "appointments" : [ ],
-  "qualificationLevel" : "Practical Nurse"
 } ]

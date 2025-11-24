@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Department;
-import com.example.demo.repository.AbstractRepository;
+import com.example.demo.repository.DepartmentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,9 +9,9 @@ import java.util.List;
 @Service
 public class DepartmentService {
 
-    private final AbstractRepository<Department> repo;
+    private final DepartmentRepository repo;
 
-    public DepartmentService(AbstractRepository<Department> repo) {
+    public DepartmentService(DepartmentRepository repo) {
         this.repo = repo;
     }
 
@@ -19,19 +19,19 @@ public class DepartmentService {
         return repo.findAll();
     }
 
-    public Department read(String id) {
-        return repo.findById(id);
+    public Department findById(String id) {
+        return repo.findById(id).orElse(null);
     }
 
     public void create(Department d) {
-        repo.create(d);
+        repo.save(d);
     }
 
     public void update(String id, Department d) {
-        repo.update(id, d);
+        repo.save(d);
     }
 
     public void delete(String id) {
-        repo.delete(id);
+        repo.deleteById(id);
     }
 }

@@ -11,26 +11,29 @@
 <a href="/departments/new">Add New Department</a>
 <br><br>
 
-<table border="1" cellpadding="5">
+<table border="1">
+    <thead>
     <tr>
         <th>ID</th>
         <th>Name</th>
         <th>Actions</th>
     </tr>
+    </thead>
 
+    <tbody>
     <tr th:each="d : ${departments}">
         <td th:text="${d.id}"></td>
         <td th:text="${d.name}"></td>
         <td>
-            <a th:href="@{/departments/{id}/details(id=${d.id})}">Details</a>
-            &nbsp;|&nbsp;
             <a th:href="@{/departments/{id}/edit(id=${d.id})}">Edit</a>
-            &nbsp;|&nbsp;
-            <form th:action="@{/departments/{id}/delete(id=${d.id})}" method="post" style="display:inline;">
+
+            <form th:action="@{/departments/{id}/delete(id=${d.id})}"
+                  method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
         </td>
     </tr>
+    </tbody>
 </table>
 
 </body>
