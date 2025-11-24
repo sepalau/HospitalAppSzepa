@@ -1,16 +1,30 @@
 package com.example.demo.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
+@Entity
+@Table(name = "rooms")
 public class Room {
 
+    @Id
+    @NotBlank(message = "ID cannot be empty")
     private String id;
+
+    @NotBlank(message = "Hospital ID cannot be empty")
     private String hospitalId;
+
+    @Positive(message = "Capacity must be a positive number")
     private double capacity;
+
+    @NotBlank(message = "Room number cannot be empty")
     private String number;
-    private String status; // "Available" or "Occupied"
-    private List<Appointment> appointments = new ArrayList<>();
+
+    @NotBlank(message = "Status cannot be empty")
+    private String status; // Available / Occupied
 
     public Room() {}
 
@@ -22,7 +36,6 @@ public class Room {
         this.status = status;
     }
 
-    // Getters & Setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
@@ -37,7 +50,4 @@ public class Room {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
-
-    public List<Appointment> getAppointments() { return appointments; }
-    public void setAppointments(List<Appointment> appointments) { this.appointments = appointments; }
 }

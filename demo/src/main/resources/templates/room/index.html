@@ -6,17 +6,17 @@
 </head>
 <body>
 
-<h1>Room List</h1>
+<h1>Rooms</h1>
 
 <a href="/rooms/new">Add New Room</a>
 <br><br>
 
-<table border="1">
+<table border="1" cellpadding="5">
     <thead>
     <tr>
         <th>ID</th>
         <th>Hospital ID</th>
-        <th>Room Number</th>
+        <th>Number</th>
         <th>Capacity</th>
         <th>Status</th>
         <th>Actions</th>
@@ -36,7 +36,9 @@
             <a th:href="@{/rooms/{id}/edit(id=${r.id})}">Edit</a>
 
             <form th:action="@{/rooms/{id}/delete(id=${r.id})}" method="post" style="display:inline;">
-                <button type="submit">Delete</button>
+                <button type="submit">
+                    Delete
+                </button>
             </form>
         </td>
     </tr>

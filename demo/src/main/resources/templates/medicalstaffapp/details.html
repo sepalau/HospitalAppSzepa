@@ -2,20 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Medical Staff Appointment Details</title>
+    <title>Assignment Details</title>
 </head>
 <body>
 
 <h1>Medical Staff Appointment Details</h1>
 
-<p><strong>ID:</strong> <span th:text="${medicalStaffAppointment.id}"></span></p>
-<p><strong>Appointment ID:</strong> <span th:text="${medicalStaffAppointment.appointmentId}"></span></p>
-<p><strong>Medical Staff ID:</strong> <span th:text="${medicalStaffAppointment.medicalStaffId}"></span></p>
+<p><b>ID:</b> <span th:text="${medicalStaffAppointment.id}"></span></p>
+<p><b>Appointment ID:</b> <span th:text="${medicalStaffAppointment.appointmentId}"></span></p>
+<p><b>Medical Staff ID:</b> <span th:text="${medicalStaffAppointment.medicalStaffId}"></span></p>
 
 <br>
-
-<a href="/medicalstaffapp">Back</a> |
-<a th:href="@{'/medicalstaffapp/' + ${medicalStaffAppointment.id} + '/edit'}">Edit</a>
+<a href="/medicalstaffapp">Back</a>
 
 </body>
 </html>

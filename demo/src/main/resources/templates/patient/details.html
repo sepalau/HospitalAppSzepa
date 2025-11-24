@@ -8,13 +8,11 @@
 
 <h1>Patient Details</h1>
 
-<p><strong>ID:</strong> <span th:text="${patient.id}"></span></p>
-<p><strong>Name:</strong> <span th:text="${patient.name}"></span></p>
+<p><b>ID:</b> <span th:text="${patient.id}"></span></p>
+<p><b>Name:</b> <span th:text="${patient.name}"></span></p>
 
 <br>
-
-<a href="/patients">Back</a> |
-<a th:href="@{'/patients/' + ${patient.id} + '/edit'}">Edit</a>
+<a href="/patients">Back</a>
 
 </body>
 </html>

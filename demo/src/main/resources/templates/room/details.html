@@ -8,16 +8,14 @@
 
 <h1>Room Details</h1>
 
-<p><strong>ID:</strong> <span th:text="${room.id}"></span></p>
-<p><strong>Hospital ID:</strong> <span th:text="${room.hospitalId}"></span></p>
-<p><strong>Number:</strong> <span th:text="${room.number}"></span></p>
-<p><strong>Capacity:</strong> <span th:text="${room.capacity}"></span></p>
-<p><strong>Status:</strong> <span th:text="${room.status}"></span></p>
+<p><b>ID:</b> <span th:text="${room.id}"></span></p>
+<p><b>Hospital ID:</b> <span th:text="${room.hospitalId}"></span></p>
+<p><b>Number:</b> <span th:text="${room.number}"></span></p>
+<p><b>Capacity:</b> <span th:text="${room.capacity}"></span></p>
+<p><b>Status:</b> <span th:text="${room.status}"></span></p>
 
 <br>
-
-<a href="/rooms">Back</a> |
-<a th:href="@{'/rooms/' + ${room.id} + '/edit'}">Edit</a>
+<a href="/rooms">Back</a>
 
 </body>
 </html>

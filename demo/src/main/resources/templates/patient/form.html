@@ -6,18 +6,21 @@
 </head>
 <body>
 
-<h1 th:text="${patient.id == null} ? 'Add Patient' : 'Edit Patient'"></h1>
+<h1 th:text="${patient.id == null ? 'Add Patient' : 'Edit Patient'}"></h1>
 
-<form th:action="${patient.id == null}
-        ? '/patients'
-        : '/patients/' + ${patient.id} + '/update'"
-      method="post" th:object="${patient}">
+<form th:action="@{${patient.id == null} ? '/patients' : '/patients/' + ${patient.id} + '/update'}"
+      th:object="${patient}"
+      method="post">
 
     <label>ID:</label>
-    <input type="text" th:field="*{id}" th:readonly="${patient.id != null}" required><br>
+    <input type="text" th:field="*{id}">
+    <p th:errors="*{id}" th:if="${#fields.hasErrors('id')}"></p>
+    <br>
 
     <label>Name:</label>
-    <input type="text" th:field="*{name}" required><br>
+    <input type="text" th:field="*{name}">
+    <p th:errors="*{name}" th:if="${#fields.hasErrors('name')}"></p>
+    <br>
 
     <button type="submit">Save</button>
 </form>

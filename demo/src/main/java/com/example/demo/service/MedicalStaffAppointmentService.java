@@ -20,18 +20,18 @@ public class MedicalStaffAppointmentService {
     }
 
     public MedicalStaffAppointment findById(String id) {
-        return repo.findById(id);
+        return repo.findById(id).orElse(null);
     }
 
     public void create(MedicalStaffAppointment msa) {
-        repo.create(msa);
+        repo.save(msa);
     }
 
     public void update(String id, MedicalStaffAppointment msa) {
-        repo.update(id, msa);
+        repo.save(msa);
     }
 
     public void delete(String id) {
-        repo.delete(id);
+        repo.deleteById(id);
     }
 }

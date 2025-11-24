@@ -8,7 +8,7 @@
 
 <h1>Medical Staff Appointments</h1>
 
-<a href="/medicalstaffapp/new">Add New</a>
+<a href="/medicalstaffapp/new">Add New Assignment</a>
 <br><br>
 
 <table border="1" cellpadding="5">
@@ -16,21 +16,22 @@
     <tr>
         <th>ID</th>
         <th>Appointment ID</th>
-        <th>Medical Staff ID</th>
+        <th>Staff ID</th>
         <th>Actions</th>
     </tr>
     </thead>
 
     <tbody>
-    <tr th:each="item : ${items}">
-        <td th:text="${item.id}"></td>
-        <td th:text="${item.appointmentId}"></td>
-        <td th:text="${item.medicalStaffId}"></td>
-        <td>
-            <a th:href="@{'/medicalstaffapp/' + ${item.id}}">Details</a> |
-            <a th:href="@{'/medicalstaffapp/' + ${item.id} + '/edit'}">Edit</a>
+    <tr th:each="i : ${items}">
+        <td th:text="${i.id}"></td>
+        <td th:text="${i.appointmentId}"></td>
+        <td th:text="${i.medicalStaffId}"></td>
 
-            <form th:action="@{'/medicalstaffapp/' + ${item.id} + '/delete'}"
+        <td>
+            <a th:href="@{/medicalstaffapp/{id}(id=${i.id})}">Details</a> |
+            <a th:href="@{/medicalstaffapp/{id}/edit(id=${i.id})}">Edit</a>
+
+            <form th:action="@{/medicalstaffapp/{id}/delete(id=${i.id})}"
                   method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>

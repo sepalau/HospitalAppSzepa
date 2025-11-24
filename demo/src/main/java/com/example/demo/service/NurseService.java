@@ -9,29 +9,29 @@ import java.util.List;
 @Service
 public class NurseService {
 
-    private final NurseRepository nurseRepository;
+    private final NurseRepository repo;
 
-    public NurseService(NurseRepository nurseRepository) {
-        this.nurseRepository = nurseRepository;
-    }
-
-    public void create(Nurse nurse) {
-        nurseRepository.create(nurse);
+    public NurseService(NurseRepository repo) {
+        this.repo = repo;
     }
 
     public List<Nurse> readAll() {
-        return nurseRepository.findAll();
+        return repo.findAll();
     }
 
     public Nurse findById(String id) {
-        return nurseRepository.findById(id);
+        return repo.findById(id).orElse(null);
+    }
+
+    public void create(Nurse nurse) {
+        repo.save(nurse);
     }
 
     public void update(String id, Nurse nurse) {
-        nurseRepository.update(id, nurse);
+        repo.save(nurse);
     }
 
     public void delete(String id) {
-        nurseRepository.delete(id);
+        repo.deleteById(id);
     }
 }

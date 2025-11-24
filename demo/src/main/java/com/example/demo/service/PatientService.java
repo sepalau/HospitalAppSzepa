@@ -9,29 +9,29 @@ import java.util.List;
 @Service
 public class PatientService {
 
-    private final PatientRepository patientRepository;
+    private final PatientRepository repo;
 
-    public PatientService(PatientRepository patientRepository) {
-        this.patientRepository = patientRepository;
-    }
-
-    public void create(Patient patient) {
-        patientRepository.create(patient);
+    public PatientService(PatientRepository repo) {
+        this.repo = repo;
     }
 
     public List<Patient> readAll() {
-        return patientRepository.findAll();
+        return repo.findAll();
     }
 
     public Patient findById(String id) {
-        return patientRepository.findById(id);
+        return repo.findById(id).orElse(null);
     }
 
-    public void update(String id, Patient updatedPatient) {
-        patientRepository.update(id, updatedPatient);
+    public void create(Patient patient) {
+        repo.save(patient);
+    }
+
+    public void update(String id, Patient patient) {
+        repo.save(patient);
     }
 
     public void delete(String id) {
-        patientRepository.delete(id);
+        repo.deleteById(id);
     }
 }

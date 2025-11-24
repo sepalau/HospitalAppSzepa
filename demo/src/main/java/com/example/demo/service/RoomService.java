@@ -9,29 +9,29 @@ import java.util.List;
 @Service
 public class RoomService {
 
-    private final RoomRepository roomRepository;
+    private final RoomRepository repo;
 
-    public RoomService(RoomRepository roomRepository) {
-        this.roomRepository = roomRepository;
-    }
-
-    public void create(Room room) {
-        roomRepository.create(room);
+    public RoomService(RoomRepository repo) {
+        this.repo = repo;
     }
 
     public List<Room> readAll() {
-        return roomRepository.findAll();
+        return repo.findAll();
     }
 
     public Room findById(String id) {
-        return roomRepository.findById(id);
+        return repo.findById(id).orElse(null);
     }
 
-    public void update(String id, Room updatedRoom) {
-        roomRepository.update(id, updatedRoom);
+    public void create(Room room) {
+        repo.save(room);
+    }
+
+    public void update(String id, Room room) {
+        repo.save(room);
     }
 
     public void delete(String id) {
-        roomRepository.delete(id);
+        repo.deleteById(id);
     }
 }

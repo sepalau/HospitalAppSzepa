@@ -11,13 +11,13 @@
 <a href="/nurses/new">Add New Nurse</a>
 <br><br>
 
-<table border="1">
+<table border="1" cellpadding="5">
     <thead>
     <tr>
         <th>ID</th>
         <th>Name</th>
         <th>Department ID</th>
-        <th>Qualification Level</th>
+        <th>Qualification</th>
         <th>Actions</th>
     </tr>
     </thead>
@@ -33,7 +33,9 @@
             <a th:href="@{/nurses/{id}(id=${n.id})}">Details</a> |
             <a th:href="@{/nurses/{id}/edit(id=${n.id})}">Edit</a>
 
-            <form th:action="@{/nurses/{id}/delete(id=${n.id})}" method="post" style="display:inline;">
+            <form th:action="@{/nurses/{id}/delete(id=${n.id})}"
+                  method="post"
+                  style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
         </td>

@@ -1,13 +1,8 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.Nurse;
-import com.fasterxml.jackson.core.type.TypeReference;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.List;
 
 @Repository
-public class NurseRepository extends InFileRepository<Nurse> {
-    public NurseRepository() {
-        super("nurse.json", new TypeReference<>() {}, Nurse::getId);
-    }
-}
+public interface NurseRepository extends JpaRepository<Nurse, String> {}

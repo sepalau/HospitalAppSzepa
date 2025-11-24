@@ -1,10 +1,14 @@
 package com.example.demo.model;
 
-import java.util.List;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
+@Entity
+@Table(name = "nurses")
 public class Nurse extends MedicalStaff {
 
-    private String qualificationLevel; // "Registered Nurse" or "Practical Nurse"
+    @NotBlank(message = "Qualification level is required.")
+    private String qualificationLevel; // Registered Nurse / Practical Nurse
 
     public Nurse() { super(); }
 
@@ -16,9 +20,6 @@ public class Nurse extends MedicalStaff {
     public String getQualificationLevel() { return qualificationLevel; }
 
     public void setQualificationLevel(String qualificationLevel) {
-        if (!qualificationLevel.equals("Registered Nurse") && !qualificationLevel.equals("Practical Nurse")) {
-            throw new IllegalArgumentException("Invalid qualification level");
-        }
         this.qualificationLevel = qualificationLevel;
     }
 }

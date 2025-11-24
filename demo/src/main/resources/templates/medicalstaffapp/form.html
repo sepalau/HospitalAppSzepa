@@ -6,24 +6,27 @@
 </head>
 <body>
 
-<h1 th:text="${medicalStaffAppointment.id == null ? 'Add' : 'Edit'}"></h1>
+<h1 th:text="${medicalStaffAppointment.id == null ? 'Add Assignment' : 'Edit Assignment'}"></h1>
 
-<form th:action="${medicalStaffAppointment.id == null}
+<form th:action="@{${medicalStaffAppointment.id == null}
         ? '/medicalstaffapp'
-        : '/medicalstaffapp/' + ${medicalStaffAppointment.id} + '/update'"
+        : '/medicalstaffapp/' + ${medicalStaffAppointment.id} + '/update'}"
       th:object="${medicalStaffAppointment}"
       method="post">
 
     <label>ID:</label>
-    <input type="text" th:field="*{id}" th:readonly="${medicalStaffAppointment.id != null}" required>
+    <input type="text" th:field="*{id}">
+    <p th:errors="*{id}" th:if="${#fields.hasErrors('id')}"></p>
     <br>
 
     <label>Appointment ID:</label>
-    <input type="text" th:field="*{appointmentId}" required>
+    <input type="text" th:field="*{appointmentId}">
+    <p th:errors="*{appointmentId}" th:if="${#fields.hasErrors('appointmentId')}"></p>
     <br>
 
     <label>Medical Staff ID:</label>
-    <input type="text" th:field="*{medicalStaffId}" required>
+    <input type="text" th:field="*{medicalStaffId}">
+    <p th:errors="*{medicalStaffId}" th:if="${#fields.hasErrors('medicalStaffId')}"></p>
     <br><br>
 
     <button type="submit">Save</button>

@@ -2,8 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.model.MedicalStaffAppointment;
 import com.example.demo.service.MedicalStaffAppointmentService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -17,38 +19,42 @@ public class MedicalStaffAppointmentController {
     }
 
     @GetMapping
-    public String listAll(Model model) {
+    public String list(Model model) {
         model.addAttribute("items", service.readAll());
         return "medicalstaffapp/index";
     }
 
     @GetMapping("/new")
-    public String showCreateForm(Model model) {
+    public String createForm(Model model) {
         model.addAttribute("medicalStaffAppointment", new MedicalStaffAppointment());
         return "medicalstaffapp/form";
     }
 
     @PostMapping
-    public String create(@ModelAttribute MedicalStaffAppointment msa) {
+    public String create(@Valid @ModelAttribute("medicalStaffAppointment") MedicalStaffAppointment msa,
+                         BindingResult result) {
+
+        if (result.hasErrors())
+            return "medicalstaffapp/form";
+
         service.create(msa);
         return "redirect:/medicalstaffapp";
     }
 
-    @GetMapping("/{id}")
-    public String showDetails(@PathVariable String id, Model model) {
-        model.addAttribute("medicalStaffAppointment", service.findById(id));
-        return "medicalstaffapp/details";
-    }
-
     @GetMapping("/{id}/edit")
-    public String showEditForm(@PathVariable String id, Model model) {
+    public String editForm(@PathVariable String id, Model model) {
         model.addAttribute("medicalStaffAppointment", service.findById(id));
         return "medicalstaffapp/form";
     }
 
     @PostMapping("/{id}/update")
-    public String update(@PathVariable String id,
-                         @ModelAttribute MedicalStaffAppointment msa) {
+    public String update (@PathVariable String id,
+                          @Valid @ModelAttribute("medicalStaffAppointment") MedicalStaffAppointment msa,
+                          BindingResult result) {
+
+        if (result.hasErrors())
+            return "medicalstaffapp/form";
+
         service.update(id, msa);
         return "redirect:/medicalstaffapp";
     }
@@ -57,5 +63,12 @@ public class MedicalStaffAppointmentController {
     public String delete(@PathVariable String id) {
         service.delete(id);
         return "redirect:/medicalstaffapp";
+    }
+
+    // DETAILS
+    @GetMapping("/{id}")
+    public String details(@PathVariable String id, Model model) {
+        model.addAttribute("medicalStaffAppointment", service.findById(id));
+        return "medicalstaffapp/details";
     }
 }

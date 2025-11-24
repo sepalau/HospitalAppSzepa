@@ -50,7 +50,6 @@ public class HospitalController {
         return "redirect:/hospitals";
     }
 
-    // NEW — DETAILS
     @GetMapping("/{id}")
     public String details(@PathVariable String id, Model model) {
         model.addAttribute("hospital", hospitalService.findById(id));

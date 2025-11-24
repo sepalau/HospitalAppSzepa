@@ -6,23 +6,25 @@
 </head>
 <body>
 
-<h1 th:text="${nurse.id == null} ? 'Add Nurse' : 'Edit Nurse'"></h1>
+<h1 th:text="${nurse.id == null ? 'Add Nurse' : 'Edit Nurse'}"></h1>
 
-<form th:action="${nurse.id == null}
-        ? '/nurses'
-        : '/nurses/' + ${nurse.id} + '/update'"
-      method="post" th:object="${nurse}">
+<form th:action="@{${nurse.id == null} ? '/nurses' : '/nurses/' + ${nurse.id} + '/update'}"
+      th:object="${nurse}"
+      method="post">
 
     <label>ID:</label>
-    <input type="text" th:field="*{id}" th:readonly="${nurse.id != null}" required>
+    <input type="text" th:field="*{id}">
+    <p th:errors="*{id}" th:if="${#fields.hasErrors('id')}"></p>
     <br>
 
     <label>Name:</label>
-    <input type="text" th:field="*{name}" required>
+    <input type="text" th:field="*{name}">
+    <p th:errors="*{name}" th:if="${#fields.hasErrors('name')}"></p>
     <br>
 
     <label>Department ID:</label>
-    <input type="text" th:field="*{departmentId}" required>
+    <input type="text" th:field="*{departmentId}">
+    <p th:errors="*{departmentId}" th:if="${#fields.hasErrors('departmentId')}"></p>
     <br>
 
     <label>Qualification Level:</label>
@@ -30,6 +32,7 @@
         <option value="Registered Nurse">Registered Nurse</option>
         <option value="Practical Nurse">Practical Nurse</option>
     </select>
+    <p th:errors="*{qualificationLevel}" th:if="${#fields.hasErrors('qualificationLevel')}"></p>
     <br><br>
 
     <button type="submit">Save</button>

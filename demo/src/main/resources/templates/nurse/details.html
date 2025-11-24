@@ -8,15 +8,13 @@
 
 <h1>Nurse Details</h1>
 
-<p><strong>ID:</strong> <span th:text="${nurse.id}"></span></p>
-<p><strong>Name:</strong> <span th:text="${nurse.name}"></span></p>
-<p><strong>Department ID:</strong> <span th:text="${nurse.departmentId}"></span></p>
-<p><strong>Qualification Level:</strong> <span th:text="${nurse.qualificationLevel}"></span></p>
+<p><b>ID:</b> <span th:text="${nurse.id}"></span></p>
+<p><b>Name:</b> <span th:text="${nurse.name}"></span></p>
+<p><b>Department ID:</b> <span th:text="${nurse.departmentId}"></span></p>
+<p><b>Qualification:</b> <span th:text="${nurse.qualificationLevel}"></span></p>
 
 <br>
-
-<a href="/nurses">Back</a> |
-<a th:href="@{'/nurses/' + ${nurse.id} + '/edit'}">Edit</a>
+<a href="/nurses">Back</a>
 
 </body>
 </html>
