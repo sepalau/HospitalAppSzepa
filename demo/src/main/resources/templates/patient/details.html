@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Patient Details</title></head>
+<head>
+    <title>Patient Details</title>
+</head>
 <body>
 
-<h1>Patient Details</h1>
+<h2>Patient Details</h2>
 
-<p><b>Name:</b> <span th:text="${patient.name}"></span></p>
-<p><b>Address:</b> <span th:text="${patient.address}"></span></p>
+<p><strong>ID:</strong> <span th:text="${patient.id}"></span></p>
+<p><strong>Name:</strong> <span th:text="${patient.name}"></span></p>
 
-<a href="/patients">Back</a>
+<br/>
+
+<a th:href="@{'/patient'}">Back to List</a>
+&nbsp;|&nbsp;
+<a th:href="@{'/patient/delete/' + ${patient.id}}">Delete</a>
 
 </body>
 </html>

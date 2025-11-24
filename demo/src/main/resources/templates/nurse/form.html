@@ -1,30 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Nurse Form</title></head>
+<head>
+    <title>Nurse Form</title>
+</head>
+
 <body>
 
-<h1 th:text="${nurse.id == null ? 'Add Nurse' : 'Edit Nurse'}"></h1>
+<h2 th:text="${nurse.id == null} ? 'Add Nurse' : 'Edit Nurse'"></h2>
 
-<form th:action="@{${nurse.id == null}? '/nurses' : '/nurses/' + ${nurse.id} + '/update'}"
-      th:object="${nurse}"
-      method="post">
+<form th:action="@{/nurses/save}" th:object="${nurse}" method="post">
 
+    <input type="hidden" th:field="*{id}" />
+
+    <!-- Name -->
     <label>Name:</label>
-    <input type="text" th:field="*{name}">
-    <p th:errors="*{name}" style="color:red"></p>
-    <br>
+    <input type="text" th:field="*{name}" required />
+    <br/><br/>
 
+    <!-- Qualification Level -->
     <label>Qualification Level:</label>
-    <select th:field="*{qualificationLevel}">
-        <option th:each="q : ${T(com.example.demo.model.QualificationLevel).values()}"
-                th:value="${q}"
-                th:text="${q}">
+    <select th:field="*{qualificationLevel}" required>
+        <option value="">-- Select level --</option>
+        <option th:each="lvl : ${levels}"
+                th:value="${lvl}"
+                th:text="${lvl}">
         </option>
     </select>
-    <p th:errors="*{qualificationLevel}" style="color:red"></p>
-    <br>
+    <br/><br/>
 
-    <button>Save</button>
+    <!-- Department -->
+    <label>Department:</label>
+    <select th:field="*{department}" required>
+        <option value="">-- Select department --</option>
+        <option th:each="d : ${departments}"
+                th:value="${d.id}"
+                th:text="${d.name}">
+        </option>
+    </select>
+    <br/><br/>
+
+    <button type="submit">Save</button>
 </form>
 
 </body>

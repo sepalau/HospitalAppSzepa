@@ -1,16 +1,49 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Appointment Details</title></head>
+<head>
+    <title>Appointment Details</title>
+</head>
 <body>
 
-<h1>Appointment Details</h1>
+<h2>Appointment Details</h2>
 
-<p><b>Department:</b> <span th:text="${appointment.department.name}"></span></p>
-<p><b>Patient:</b> <span th:text="${appointment.patient.name}"></span></p>
-<p><b>Date:</b> <span th:text="${appointment.admissionDate}"></span></p>
-<p><b>Status:</b> <span th:text="${appointment.status}"></span></p>
+<table border="1" cellpadding="8">
 
-<a href="/appointments">Back</a>
+    <tr>
+        <th>ID</th>
+        <td th:text="${appointment.id}"></td>
+    </tr>
+
+    <tr>
+        <th>Patient</th>
+        <td th:text="${appointment.patient.name}"></td>
+    </tr>
+
+    <tr>
+        <th>Department</th>
+        <td th:text="${appointment.department.name}"></td>
+    </tr>
+
+    <tr>
+        <th>Medical Staff</th>
+        <td th:text="${appointment.medicalStaff.name}"></td>
+    </tr>
+
+    <tr>
+        <th>Admission Date</th>
+        <td th:text="${appointment.admissionDate}"></td>
+    </tr>
+
+    <tr>
+        <th>Status</th>
+        <td th:text="${appointment.status}"></td>
+    </tr>
+
+</table>
+
+<br/>
+
+<a th:href="@{/appointments}">Back to list</a>
 
 </body>
 </html>

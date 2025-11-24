@@ -1,36 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Add Appointment</title>
+    <title>Create Appointment</title>
 </head>
 <body>
-<h1>Add Appointment</h1>
 
-<form th:action="@{/appointments/save}" th:object="${appointment}" method="post">
+<h2>Create Appointment</h2>
 
-    <label>Department:</label>
-    <select th:field="*{department}">
-        <option th:each="d : ${departments}"
-                th:value="${d}"
-                th:text="${d.name}">Department</option>
-    </select>
-    <br><br>
+<form th:action="@{/appointment/save}" th:object="${appointment}" method="post">
+
+    <input type="hidden" th:field="*{id}" />
 
     <label>Patient:</label>
-    <select th:field="*{patient}">
-        <option th:each="p : ${patients}"
-                th:value="${p}"
-                th:text="${p.name}">Patient</option>
+    <select th:field="*{patient.id}">
+        <option value="">-- Select patient --</option>
+        <option th:each="p : ${patient}"
+                th:value="${p.id}"
+                th:text="${p.name}">
+        </option>
     </select>
-    <br><br>
+    <br/><br/>
+
+    <label>Department:</label>
+    <select th:field="*{department.id}">
+        <option value="">-- Select department --</option>
+        <option th:each="d : ${department}"
+                th:value="${d.id}"
+                th:text="${d.name}">
+        </option>
+    </select>
+    <br/><br/>
+
+    <label>Medical Staff:</label>
+    <select th:field="*{medicalStaff.id}">
+        <option value="">-- Select staff --</option>
+        <option th:each="m : ${medicalStaffList}"
+                th:value="${m.id}"
+                th:text="${m.name}">
+        </option>
+    </select>
+    <br/><br/>
 
     <label>Admission date:</label>
-    <input type="date" th:field="*{admissionDate}"/>
-    <br><br>
+    <input type="date" th:field="*{admissionDate}" required />
+    <br/><br/>
 
     <label>Status:</label>
-    <input type="text" th:field="*{status}"/>
-    <br><br>
+    <input type="text" th:field="*{status}" required />
+    <br/><br/>
 
     <button type="submit">Save</button>
 </form>
