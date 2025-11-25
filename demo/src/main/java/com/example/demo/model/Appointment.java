@@ -15,20 +15,15 @@ public class Appointment {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "department_id", nullable = false)
+    private Patient patient;
+
+    @ManyToOne
     private Department department;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id", nullable = false)
-    private Patient patient;
-
-    @NotNull
-    private LocalDate admissionDate;
-
-    @NotNull
-    private String status;
-
-    @ManyToOne
-    @JoinColumn(name = "medical_staff_id", nullable = false)
     private MedicalStaff medicalStaff;
+
+    private String admissionDate;
+    private String status;
 }
+
