@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Medical Staff Assignments</title>
+    <title>Staff Assignments</title>
 </head>
 <body>
 
-<h1>Medical Staff Assignments</h1>
+<h1>Staff Assignments List</h1>
 
 <a th:href="@{/medicalstaffapp/new}">Assign New Staff</a>
 <br/><br/>
@@ -14,23 +14,22 @@
     <thead>
     <tr>
         <th>ID</th>
-        <th>Staff Name</th>
-        <th>Appointment ID</th>
-        <th>Actions</th>
+        <th>Appointment Date</th>
+        <th>Staff Name</th> <th>Actions</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="assignment : ${assignments}">
-        <td th:text="${assignment.id}"></td>
+    <tr th:each="link : ${links}">
+        <td th:text="${link.id}"></td>
 
-        <!-- AICI ERA PROBLEMA: am pus .medicalStaff -->
-        <td th:text="${assignment.medicalStaff?.name}"></td>
+        <td th:text="${link.appointment?.admissionDate}"></td>
 
-        <td th:text="${assignment.appointment?.id}"></td>
+        <td th:text="${link.medicalStaff?.name}"></td>
+
         <td>
-            <a th:href="@{/medicalstaffapp/details/{id}(id=${assignment.id})}">Details</a> |
-            <a th:href="@{/medicalstaffapp/edit/{id}(id=${assignment.id})}">Edit</a> |
-            <a th:href="@{/medicalstaffapp/delete/{id}(id=${assignment.id})}"
+            <a th:href="@{/medicalstaffapp/{id}/details(id=${link.id})}">Details</a>
+            |
+            <a th:href="@{/medicalstaffapp/{id}/delete(id=${link.id})}"
                onclick="return confirm('Are you sure?')">Delete</a>
         </td>
     </tr>

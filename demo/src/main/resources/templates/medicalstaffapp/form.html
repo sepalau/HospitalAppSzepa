@@ -1,52 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Assign Medical Staff</title></head>
+<head>
+    <title>New Assignment</title>
+</head>
 <body>
 
-<h1 th:text="${assignment.id == null ? 'Assign Staff' : 'Edit Assignment'}"></h1>
+<h1>Assign Staff to Appointment</h1>
 
-<form th:action="@{/medicalstaffapp/save}"
-      th:object="${assignment}"
-      method="post">
+<form th:action="@{/medicalstaffapp}" method="post" th:object="${link}">
 
-    <input type="hidden" th:field="*{id}" />
-
-    <label>Staff:</label>
-    <!-- Se leagă la staffId din DTO -->
-    <select th:field="*{staffId}" required>
-        <option value="">-- Select Staff --</option>
-        <optgroup label="Doctors">
-            <option th:each="d : ${doctors}"
-                    th:value="${d.id}"
-                    th:text="${d.name}">
-            </option>
-        </optgroup>
-        <optgroup label="Nurses">
-            <option th:each="n : ${nurses}"
-                    th:value="${n.id}"
-                    th:text="${n.name}">
-            </option>
-        </optgroup>
-    </select>
-    <br/><br/>
-
-    <label>Appointment:</label>
-    <!-- Se leagă la appointmentId din DTO -->
-    <select th:field="*{appointmentId}" required>
-        <option value="">-- Select Appointment --</option>
+    <label>Select Appointment:</label>
+    <select name="appointmentId" required>
+        <option value="">-- Select --</option>
         <option th:each="app : ${appointments}"
                 th:value="${app.id}"
-        <!-- Folosim o verificare pentru pacient ca sa nu crape daca e null -->
-        th:text="${'App #' + app.id + ' (' + (app.patient != null ? app.patient.name : 'Unknown') + ')'}">
+                th:text="'Data: ' + ${app.admissionDate} + ' (Pacient: ' + ${app.patient?.name} + ')'">
         </option>
     </select>
     <br/><br/>
 
-    <button type="submit">Assign</button>
-</form>
+    <label>Select Staff:</label>
+    <select name="staffId" required>
+        <option value="">-- Select --</option>
+        <option th:each="staff : ${staffList}"
+                th:value="${staff.id}"
+                th:text="${staff.name}">
+        </option>
+    </select>
+    <br/><br/>
 
-<br>
-<a th:href="@{/medicalstaffapp}">Back</a>
+    <button type="submit">Save</button>
+    <a th:href="@{/medicalstaffapp}">Cancel</a>
+</form>
 
 </body>
 </html>

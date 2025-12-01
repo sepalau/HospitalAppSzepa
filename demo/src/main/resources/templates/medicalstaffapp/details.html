@@ -5,58 +5,42 @@
 </head>
 <body>
 
-<h1>Medical Staff Assignment Details</h1>
+<h1>Assignment Details</h1>
 
-<p><b>Assignment ID:</b> <span th:text="${assignment.id}"></span></p>
+<table border="1">
+    <tr>
+        <th>Assignment ID:</th>
+        <td th:text="${link.id}"></td>
+    </tr>
 
-<hr/>
+    <tr>
+        <th>Appointment ID:</th>
+        <td th:text="${link.appointment?.id}"></td>
+    </tr>
+    <tr>
+        <th>Date:</th>
+        <td th:text="${link.appointment?.admissionDate}"></td>
+    </tr>
+    <tr>
+        <th>Patient:</th>
+        <td th:text="${link.appointment?.patient?.name}"></td>
+    </tr>
 
-<!-- SECȚIUNEA MEDICAL STAFF -->
-<h3>Medical Staff</h3>
-<!-- Verificăm dacă există medic asignat -->
-<div th:if="${assignment.medicalStaff != null}">
-    <p><b>Name:</b> <span th:text="${assignment.medicalStaff.name}"></span></p>
-    <!-- Putem afișa ID-ul sau alte detalii ale medicului -->
-    <p><b>Staff ID:</b> <span th:text="${assignment.medicalStaff.id}"></span></p>
-</div>
-<!-- Mesaj de eroare dacă medicul e null -->
-<div th:if="${assignment.medicalStaff == null}">
-    <p style="color:red">No Medical Staff data found (Corrupt Data)</p>
-</div>
-
-<hr/>
-
-<!-- SECȚIUNEA APPOINTMENT -->
-<h3>Appointment Details</h3>
-<!-- Verificăm dacă există programare legată -->
-<div th:if="${assignment.appointment != null}">
-    <p><b>Appointment ID:</b> <span th:text="${assignment.appointment.id}"></span></p>
-
-    <p><b>Department:</b>
-        <span th:text="${assignment.appointment.department?.name}"></span>
-    </p>
-
-    <p><b>Patient:</b>
-        <span th:text="${assignment.appointment.patient?.name}"></span>
-    </p>
-
-    <p><b>Admission Date:</b>
-        <span th:text="${assignment.appointment.admissionDate}"></span>
-    </p>
-
-    <p><b>Status:</b>
-        <span th:text="${assignment.appointment.status}"></span>
-    </p>
-</div>
-<!-- Mesaj de eroare dacă programarea e null -->
-<div th:if="${assignment.appointment == null}">
-    <p style="color:red">No Appointment linked (Corrupt Data)</p>
-</div>
-
-<hr/>
+    <tr>
+        <th>Medical Staff ID:</th>
+        <td th:text="${link.medicalStaff?.id}"></td>
+    </tr>
+    <tr>
+        <th>Staff Name:</th>
+        <td th:text="${link.medicalStaff?.name}"></td>
+    </tr>
+</table>
 
 <br>
 <a th:href="@{/medicalstaffapp}">Back to List</a>
+|
+<a th:href="@{/medicalstaffapp/{id}/delete(id=${link.id})}"
+   onclick="return confirm('Are you sure?')">Delete</a>
 
 </body>
 </html>

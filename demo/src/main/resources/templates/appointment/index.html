@@ -1,40 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Appointments</title>
+    <title>Appointments List</title>
 </head>
 <body>
-<h2>Appointments</h2>
 
-<!-- CORECTAT: /appointments/create -->
-<a th:href="@{/appointments/create}">Create new</a>
+<h1>Appointments List</h1>
+
+<a th:href="@{/appointments/new}">Add New Appointment</a>
+<br/><br/>
 
 <table border="1">
+    <thead>
     <tr>
         <th>ID</th>
-        <th>Patient</th>
-        <th>Department</th>
-        <th>Admission Date</th>
+        <th>Date</th>
         <th>Status</th>
+        <th>Patient Name</th>
+        <th>Department Name</th>
+        <th>Staff Name</th>
         <th>Actions</th>
     </tr>
-    <tr th:each="a : ${appointments}">
-        <td th:text="${a.id}">1</td>
-        <!-- Folosim ?. pentru siguranta -->
-        <td th:text="${a.patient?.name}">Patient</td>
-        <td th:text="${a.department?.name}">Department</td>
-        <td th:text="${a.admissionDate}">Date</td>
-        <td th:text="${a.status}">Status</td>
+    </thead>
+    <tbody>
+    <tr th:each="app : ${appointments}">
+
+        <td th:text="${app.id}"></td>
+
+        <td th:text="${app.admissionDate}"></td>
+
+        <td th:text="${app.status}"></td>
+
+        <td th:text="${app.patient?.name}"></td>
+
+        <td th:text="${app.department?.name}"></td>
+
+        <td th:text="${app.medicalStaff?.name}"></td>
+
         <td>
-            <!-- CORECTAT TOATE LINKURILE LA PLURAL (/appointments/...) -->
-            <a th:href="@{/appointments/details/{id}(id=${a.id})}">Details</a> |
-            <a th:href="@{/appointments/edit/{id}(id=${a.id})}">Edit</a> |
-            <a th:href="@{/appointments/delete/{id}(id=${a.id})}"
-               onclick="return confirm('Delete this appointment?');">Delete</a>
+            <a th:href="@{/appointments/{id}/details(id=${app.id})}">Details</a>
+            |
+            <a th:href="@{/appointments/{id}/edit(id=${app.id})}">Edit</a>
+            |
+            <a th:href="@{/appointments/{id}/delete(id=${app.id})}"
+               onclick="return confirm('Are you sure you want to delete this appointment?')">Delete</a>
         </td>
     </tr>
+    </tbody>
 </table>
+
 <br>
 <a th:href="@{/}">Back to Home</a>
+
 </body>
 </html>
