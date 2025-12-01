@@ -12,8 +12,10 @@ public class MedicalStaffAppointment {
     private Long id;
 
     @ManyToOne
-    private MedicalStaff staff;
+    @JoinColumn(name = "appointment_id", nullable = false)
+    private Appointment appointment;
 
     @ManyToOne
-    private Appointment appointment;
+    @JoinColumn(name = "medical_staff_id", nullable = false)
+    private MedicalStaff medicalStaff;
 }

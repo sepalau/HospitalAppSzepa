@@ -82,4 +82,11 @@
   "admissionDate" : "2025-12-25",
   "status" : "Completed",
   "medicalStaff" : [ ]
+}, {
+  "id" : "abc",
+  "departmentId" : "abc",
+  "patientId" : "abc",
+  "admissionDate" : "2025-12-25",
+  "status" : "Active",
+  "medicalStaff" : [ ]
 } ]

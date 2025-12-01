@@ -3,6 +3,7 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import java.util.List;
 
 @Entity
 @Data
@@ -12,9 +13,9 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Patient name is required")
+    @NotBlank(message = "Name is required")
     private String name;
 
-    @NotBlank(message = "Address is required")
-    private String address;
+    @OneToMany(mappedBy = "patient")
+    private List<Appointment> appointments;
 }
