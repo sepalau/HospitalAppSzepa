@@ -1,15 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Room Details</title></head>
+<head>
+    <title>Room Details</title>
+</head>
 <body>
 
 <h1>Room Details</h1>
 
-<p><b>ID:</b> <span th:text="${room.id}"></span></p>
-<p><b>Department:</b> <span th:text="${room.department.name}"></span></p>
-<p><b>Status:</b> <span th:text="${room.status}"></span></p>
+<div th:if="${room != null}">
+    <p><strong>ID:</strong> <span th:text="${room.id}"></span></p>
 
-<a href="/rooms">Back</a>
+    <p><strong>Hospital:</strong>
+        <!-- Folosim ?. pentru a evita eroarea daca spitalul e null -->
+        <span th:text="${room.hospital?.name}"></span>
+        (City: <span th:text="${room.hospital?.city}"></span>)
+    </p>
+
+    <p><strong>Room Number:</strong> <span th:text="${room.number}"></span></p>
+
+    <p><strong>Capacity:</strong> <span th:text="${room.capacity}"></span> patients</p>
+
+    <p><strong>Status:</strong> <span th:text="${room.status}"></span></p>
+</div>
+
+<br>
+<a th:href="@{/rooms/edit/{id}(id=${room.id})}">Edit</a> |
+<a th:href="@{/rooms}">Back to List</a>
 
 </body>
 </html>

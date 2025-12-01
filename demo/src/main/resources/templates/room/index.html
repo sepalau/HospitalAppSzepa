@@ -1,34 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Rooms</title></head>
+<head>
+    <title>Rooms List</title>
+</head>
 <body>
 
-<h1>Rooms</h1>
+<h1>Rooms List</h1>
 
-<a href="/rooms/new">Add Room</a><br><br>
+<a th:href="@{/rooms/add}">Add New Room</a>
+<br/><br/>
 
 <table border="1">
+    <thead>
     <tr>
         <th>ID</th>
-        <th>Department</th>
+        <th>Hospital</th>
+        <th>Number</th>
+        <th>Capacity</th>
         <th>Status</th>
         <th>Actions</th>
     </tr>
-
-    <tr th:each="r : ${rooms}">
-        <td th:text="${r.id}"></td>
-        <td th:text="${r.department.name}"></td>
-        <td th:text="${r.status}"></td>
-
+    </thead>
+    <tbody>
+    <tr th:each="room : ${rooms}">
+        <td th:text="${room.id}"></td>
+        <!-- Folosim ?. pentru siguranță -->
+        <td th:text="${room.hospital?.name}"></td>
+        <td th:text="${room.number}"></td>
+        <td th:text="${room.capacity}"></td>
+        <td th:text="${room.status}"></td>
         <td>
-            <a th:href="@{/rooms/{id}(id=${r.id})}">Details</a> |
-            <a th:href="@{/rooms/{id}/edit(id=${r.id})}">Edit</a> |
-            <form th:action="@{/rooms/{id}/delete(id=${r.id})}" method="post" style="display:inline;">
-                <button>Delete</button>
-            </form>
+            <!-- Buton DETAILS -->
+            <a th:href="@{/rooms/details/{id}(id=${room.id})}">Details</a>
+            |
+            <!-- Buton EDIT -->
+            <a th:href="@{/rooms/edit/{id}(id=${room.id})}">Edit</a>
+            |
+            <!-- Buton DELETE -->
+            <a th:href="@{/rooms/delete/{id}(id=${room.id})}"
+               onclick="return confirm('Are you sure?')">Delete</a>
         </td>
     </tr>
+    </tbody>
 </table>
+
+<br>
+<a th:href="@{/}">Back to Home</a>
 
 </body>
 </html>

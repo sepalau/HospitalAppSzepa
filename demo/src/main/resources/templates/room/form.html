@@ -5,23 +5,39 @@
 
 <h1 th:text="${room.id == null ? 'Add Room' : 'Edit Room'}"></h1>
 
-<form th:action="@{${room.id == null}? '/rooms' : '/rooms/' + ${room.id} + '/update'}"
-      th:object="${room}"
-      method="post">
+<!-- Atenție: Asigură-te că link-urile din Controller corespund cu acestea -->
+<form th:action="@{/rooms/save}" th:object="${room}" method="post">
 
-    <label>Department:</label>
-    <select th:field="*{department}">
-        <option th:each="d : ${departments}"
-                th:value="${d}"
-                th:text="${d.name}">
+    <input type="hidden" th:field="*{id}" />
+
+    <!-- 1. Hospital (Corectat din Department) -->
+    <label>Hospital:</label>
+    <select th:field="*{hospital}">
+        <!-- Trebuie să trimiți "hospitals" din Controller, nu "departments" -->
+        <option th:each="h : ${hospitals}"
+                th:value="${h.id}"
+                th:text="${h.name}">
         </option>
     </select>
-    <p th:errors="*{department}" style="color:red"></p>
+    <p th:errors="*{hospital}" style="color:red"></p>
     <br>
 
+    <!-- 2. Number (Adăugat - lipsea) -->
+    <label>Room Number:</label>
+    <input type="number" th:field="*{number}" required />
+    <br><br>
+
+    <!-- 3. Capacity (Adăugat - lipsea) -->
+    <label>Capacity:</label>
+    <input type="number" th:field="*{capacity}" required />
+    <br><br>
+
+    <!-- 4. Status (Corectat pachetul Enum) -->
     <label>Status:</label>
     <select th:field="*{status}">
-        <option th:each="s : ${T(com.example.demo.model.RoomStatus).values()}"
+        <!-- Verifică dacă pachetul este 'enums' sau 'model' în proiectul tău -->
+        <!-- Conform codului java trimis, este în 'enums' -->
+        <option th:each="s : ${T(com.example.demo.enums.RoomStatus).values()}"
                 th:value="${s}"
                 th:text="${s}">
         </option>
@@ -29,7 +45,7 @@
     <p th:errors="*{status}" style="color:red"></p>
     <br>
 
-    <button>Save</button>
+    <button type="submit">Save</button>
 </form>
 
 </body>

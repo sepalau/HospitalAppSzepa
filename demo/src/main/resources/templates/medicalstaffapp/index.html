@@ -7,33 +7,38 @@
 
 <h1>Medical Staff Assignments</h1>
 
-<a href="/medicalstaffapp/new">Assign Staff to Appointment</a>
-<br><br>
+<a th:href="@{/medicalstaffapp/new}">Assign New Staff</a>
+<br/><br/>
 
 <table border="1">
+    <thead>
     <tr>
         <th>ID</th>
-        <th>Staff</th>
-        <th>Role</th>
-        <th>Appointment</th>
+        <th>Staff Name</th>
+        <th>Appointment ID</th>
         <th>Actions</th>
     </tr>
-
-    <tr th:each="a : ${assigned}">
-        <td th:text="${a.id}"></td>
-        <td th:text="${a.staff.name}"></td>
-        <td th:text="${a.staff.getClass().getSimpleName()}"></td>
-        <td th:text="${a.appointment.id}"></td>
-
+    </thead>
+    <tbody>
+    <tr th:each="assignment : ${assignments}">
+        <td th:text="${assignment.id}"></td>
+        <!-- Folosim ?. pentru a evita erori daca staff e null -->
+        <td th:text="${assignment.staff?.name}"></td>
+        <!-- Folosim ?. pentru a evita erori daca appointment e null -->
+        <td th:text="${assignment.appointment?.id}"></td>
         <td>
-            <a th:href="@{/medicalstaffapp/{id}(id=${a.id})}">Details</a> |
-            <form th:action="@{/medicalstaffapp/{id}/delete(id=${a.id})}"
-                  method="post"
-                  style="display:inline;">
-                <button>Delete</button>
-            </form>
+            <!-- Buton DETAILS -->
+            <a th:href="@{/medicalstaffapp/{id}(id=${assignment.id})}">Details</a>
+            |
+            <!-- Buton EDIT -->
+            <a th:href="@{/medicalstaffapp/edit/{id}(id=${assignment.id})}">Edit</a>
+            |
+            <!-- Buton DELETE -->
+            <a th:href="@{/medicalstaffapp/delete/{id}(id=${assignment.id})}"
+               onclick="return confirm('Are you sure?')">Delete</a>
         </td>
     </tr>
+    </tbody>
 </table>
 
 </body>

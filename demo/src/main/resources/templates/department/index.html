@@ -7,7 +7,7 @@
 
 <h2>Departments</h2>
 
-<a href="/departments/new">Add Department</a>
+<a th:href="@{/departments/add}">Add Department</a>
 
 <table border="1">
     <tr>
@@ -20,7 +20,7 @@
     <tr th:each="d : ${departments}">
         <td th:text="${d.id}"></td>
         <td th:text="${d.name}"></td>
-        <td th:text="${d.hospital.name}"></td>
+        <td th:text="${d.hospital?.name}"></td>
 
         <td>
             <a th:href="@{/departments/details/{id}(id=${d.id})}">Details</a> |

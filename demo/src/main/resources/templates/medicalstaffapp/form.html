@@ -12,15 +12,17 @@
     <label>Staff:</label>
     <select th:field="*{staff}">
         <optgroup label="Doctors">
+            <!-- Am corectat aici: folosim d.id -->
             <option th:each="d : ${doctors}"
-                    th:value="${d}"
+                    th:value="${d.id}"
                     th:text="${d.name}">
             </option>
         </optgroup>
 
         <optgroup label="Nurses">
+            <!-- Am corectat aici: folosim n.id -->
             <option th:each="n : ${nurses}"
-                    th:value="${n}"
+                    th:value="${n.id}"
                     th:text="${n.name}">
             </option>
         </optgroup>
@@ -30,8 +32,9 @@
 
     <label>Appointment:</label>
     <select th:field="*{appointment}">
+        <!-- Am corectat aici: folosim app.id -->
         <option th:each="app : ${appointments}"
-                th:value="${app}"
+                th:value="${app.id}"
                 th:text="${'Appointment ' + app.id + ' - ' + app.patient.name}">
         </option>
     </select>
