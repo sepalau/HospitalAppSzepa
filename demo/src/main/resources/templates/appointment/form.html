@@ -5,19 +5,26 @@
 </head>
 <body>
 <h2 th:text="${appointment.id} != null ? 'Edit' : 'Create'">Form</h2>
+
 <form th:action="@{/appointment/save}" th:object="${appointment}" method="post">
     <input type="hidden" th:field="*{id}" />
 
     <label>Patient:</label>
-    <select th:field="*{patientId}">
+    <select th:field="*{patientId}" required>
         <option value="">-- Select patient --</option>
         <option th:each="p : ${patients}" th:value="${p.id}" th:text="${p.name}"></option>
     </select><br/><br/>
 
     <label>Department:</label>
-    <select th:field="*{departmentId}">
+    <select th:field="*{departmentId}" required>
         <option value="">-- Select department --</option>
         <option th:each="d : ${departments}" th:value="${d.id}" th:text="${d.name}"></option>
+    </select><br/><br/>
+
+    <label>Medical Staff:</label>
+    <select th:field="*{medicalStaffId}" required>
+        <option value="">-- Select doctor --</option>
+        <option th:each="m : ${medicalStaffList}" th:value="${m.id}" th:text="${m.name}"></option>
     </select><br/><br/>
 
     <label>Admission Date:</label>
@@ -28,6 +35,7 @@
 
     <button type="submit">Save</button>
 </form>
+
 <a th:href="@{/appointment}">Back</a>
 </body>
 </html>
