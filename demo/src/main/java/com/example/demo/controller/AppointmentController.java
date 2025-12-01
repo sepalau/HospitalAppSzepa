@@ -12,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/appointments")
+@RequestMapping("/appointment")
 @RequiredArgsConstructor
 public class AppointmentController {
 

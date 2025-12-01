@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/nurses")
+@RequestMapping("/nurse")
 public class NurseController {
 
     private final NurseService nurseService;

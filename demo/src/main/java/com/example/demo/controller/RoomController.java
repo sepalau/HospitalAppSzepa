@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/rooms")
+@RequestMapping("/room")
 @RequiredArgsConstructor
 public class RoomController {
 
