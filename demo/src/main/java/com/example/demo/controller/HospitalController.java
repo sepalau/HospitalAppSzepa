@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/hospital")
+@RequestMapping("/hospitals")
 public class HospitalController {
 
     private final HospitalService hospitalService;
