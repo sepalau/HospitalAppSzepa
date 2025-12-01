@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/departments")  // ← URL-ul rămâne la plural, normal REST
+@RequestMapping("/department")
 @RequiredArgsConstructor
 public class DepartmentController {
 
@@ -19,14 +19,14 @@ public class DepartmentController {
     @GetMapping
     public String index(Model model) {
         model.addAttribute("departments", departmentService.getAll());
-        return "department/index";   // ← TEMPLATE folder singular
+        return "department/index";
     }
 
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("department", new Department());
         model.addAttribute("hospitals", hospitalService.getAll());
-        return "department/form";    // ← TEMPLATE folder singular
+        return "department/form";
     }
 
     @PostMapping("/save")
@@ -39,12 +39,19 @@ public class DepartmentController {
     public String edit(@PathVariable Long id, Model model) {
         model.addAttribute("department", departmentService.getById(id));
         model.addAttribute("hospitals", hospitalService.getAll());
-        return "department/form";    // ← TEMPLATE folder singular
+        return "department/form";
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         departmentService.delete(id);
         return "redirect:/departments";
+    }
+
+    // Această metodă lipsea, dar aveai link către ea în HTML!
+    @GetMapping("/details/{id}")
+    public String details(@PathVariable Long id, Model model) {
+        model.addAttribute("department", departmentService.getById(id));
+        return "department/details";
     }
 }
