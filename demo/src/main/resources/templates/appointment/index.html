@@ -4,38 +4,29 @@
     <title>Appointments</title>
 </head>
 <body>
-
 <h2>Appointments</h2>
-
-<a th:href="@{/appointment/add}">
-    <button>Add Appointment</button>
-</a>
-
-<br/><br/>
-
-<table border="1" cellpadding="8">
-    <thead>
+<a th:href="@{/appointment/create}">Create new</a>
+<table border="1">
     <tr>
         <th>ID</th>
         <th>Patient</th>
         <th>Department</th>
-        <th>Medical Staff</th>
         <th>Admission Date</th>
         <th>Status</th>
+        <th>Actions</th>
     </tr>
-    </thead>
-
-    <tbody>
-    <tr th:each="a : ${appointment}">
-        <td th:text="${a.id}"></td>
-        <td th:text="${a.patient.name}"></td>
-        <td th:text="${a.department.name}"></td>
-        <td th:text="${a.medicalStaff.name}"></td>
-        <td th:text="${a.admissionDate}"></td>
-        <td th:text="${a.status}"></td>
+    <tr th:each="a : ${appointments}">
+        <td th:text="${a.id}">1</td>
+        <td th:text="${a.patient.name}">Patient</td>
+        <td th:text="${a.department.name}">Department</td>
+        <td th:text="${a.admissionDate}">Date</td>
+        <td th:text="${a.status}">Status</td>
+        <td>
+            <a th:href="@{|/appointment/details/${a.id}|}">Details</a> |
+            <a th:href="@{|/appointment/edit/${a.id}|}">Edit</a> |
+            <a th:href="@{|/appointment/delete/${a.id}|}" onclick="return confirm('Delete this appointment?');">Delete</a>
+        </td>
     </tr>
-    </tbody>
 </table>
-
 </body>
 </html>

@@ -4,46 +4,13 @@
     <title>Appointment Details</title>
 </head>
 <body>
-
 <h2>Appointment Details</h2>
+<p>ID: <span th:text="${appointment.id}"></span></p>
+<p>Patient: <span th:text="${appointment.patient.name}"></span></p>
+<p>Department: <span th:text="${appointment.department.name}"></span></p>
+<p>Admission Date: <span th:text="${appointment.admissionDate}"></span></p>
+<p>Status: <span th:text="${appointment.status}"></span></p>
 
-<table border="1" cellpadding="8">
-
-    <tr>
-        <th>ID</th>
-        <td th:text="${appointment.id}"></td>
-    </tr>
-
-    <tr>
-        <th>Patient</th>
-        <td th:text="${appointment.patient.name}"></td>
-    </tr>
-
-    <tr>
-        <th>Department</th>
-        <td th:text="${appointment.department.name}"></td>
-    </tr>
-
-    <tr>
-        <th>Medical Staff</th>
-        <td th:text="${appointment.medicalStaff.name}"></td>
-    </tr>
-
-    <tr>
-        <th>Admission Date</th>
-        <td th:text="${appointment.admissionDate}"></td>
-    </tr>
-
-    <tr>
-        <th>Status</th>
-        <td th:text="${appointment.status}"></td>
-    </tr>
-
-</table>
-
-<br/>
-
-<a th:href="@{/appointments}">Back to list</a>
-
+<a th:href="@{/appointment}">Back to list</a>
 </body>
 </html>

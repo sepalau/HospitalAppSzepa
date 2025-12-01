@@ -1,45 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Appointments</title>
+    <title>Create/Edit Appointment</title>
 </head>
 <body>
+<h2 th:text="${appointment.id} != null ? 'Edit' : 'Create'">Form</h2>
+<form th:action="@{/appointment/save}" th:object="${appointment}" method="post">
+    <input type="hidden" th:field="*{id}" />
 
-<h2>Appointments</h2>
+    <label>Patient:</label>
+    <select th:field="*{patientId}">
+        <option value="">-- Select patient --</option>
+        <option th:each="p : ${patients}" th:value="${p.id}" th:text="${p.name}"></option>
+    </select><br/><br/>
 
-<a th:href="@{/appointment/add}">Add New Appointment</a>
-<br/><br/>
+    <label>Department:</label>
+    <select th:field="*{departmentId}">
+        <option value="">-- Select department --</option>
+        <option th:each="d : ${departments}" th:value="${d.id}" th:text="${d.name}"></option>
+    </select><br/><br/>
 
-<table border="1" cellpadding="10">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Patient</th>
-        <th>Department</th>
-        <th>Medical Staff</th>
-        <th>Admission Date</th>
-        <th>Status</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
+    <label>Admission Date:</label>
+    <input type="date" th:field="*{admissionDate}" required /><br/><br/>
 
-    <tbody>
-    <tr th:each="a : ${appointments}">
-        <td th:text="${a.id}"></td>
-        <td th:text="${a.patient.name}"></td>
-        <td th:text="${a.department.name}"></td>
-        <td th:text="${a.medicalStaff.name}"></td>
-        <td th:text="${a.admissionDate}"></td>
-        <td th:text="${a.status}"></td>
+    <label>Status:</label>
+    <input type="text" th:field="*{status}" required /><br/><br/>
 
-        <td>
-            <a th:href="@{|/appointment/details/${a.id}|}">Details</a> |
-            <a th:href="@{|/appointment/edit/${a.id}|}">Edit</a> |
-            <a th:href="@{|/appointment/delete/${a.id}|}">Delete</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
+    <button type="submit">Save</button>
+</form>
+<a th:href="@{/appointment}">Back</a>
 </body>
 </html>
