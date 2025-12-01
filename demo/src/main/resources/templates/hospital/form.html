@@ -7,7 +7,7 @@
 
 <h1>Hospital Form</h1>
 
-<form th:action="@{/hospital/save}" th:object="${hospital}" method="post">
+<form th:action="@{/hospitals/save}" th:object="${hospital}" method="post">
 
     <input type="hidden" th:field="*{id}"/>
 
@@ -22,7 +22,8 @@
     <button type="submit">Save</button>
 </form>
 
-<a href="/hospital">Back</a>
+<br>
+<a th:href="@{/hospitals}">Back</a>
 
 </body>
 </html>

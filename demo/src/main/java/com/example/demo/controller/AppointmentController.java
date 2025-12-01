@@ -5,21 +5,21 @@ import com.example.demo.model.Appointment;
 import com.example.demo.service.AppointmentService;
 import com.example.demo.repository.PatientRepository;
 import com.example.demo.repository.DepartmentRepository;
-import com.example.demo.repository.MedicalStaffRepository; // Import nou
+import com.example.demo.repository.MedicalStaffRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/appointment")
+@RequestMapping("/appointments") // <-- Aici este definit PLURALUL
 @RequiredArgsConstructor
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
     private final PatientRepository patientRepository;
     private final DepartmentRepository departmentRepository;
-    private final MedicalStaffRepository medicalStaffRepository; // Injectare nouă
+    private final MedicalStaffRepository medicalStaffRepository;
 
     @GetMapping
     public String list(Model model) {
@@ -32,7 +32,6 @@ public class AppointmentController {
         model.addAttribute("appointment", new AppointmentForm());
         model.addAttribute("patients", patientRepository.findAll());
         model.addAttribute("departments", departmentRepository.findAll());
-        // Trimitem lista de medici către HTML
         model.addAttribute("medicalStaffList", medicalStaffRepository.findAll());
         return "appointment/form";
     }
@@ -40,7 +39,8 @@ public class AppointmentController {
     @PostMapping("/save")
     public String save(@ModelAttribute("appointment") AppointmentForm form) {
         appointmentService.saveForm(form);
-        return "redirect:/appointment";
+        // CORECTAT: redirect la plural
+        return "redirect:/appointments";
     }
 
     @GetMapping("/edit/{id}")
@@ -51,7 +51,6 @@ public class AppointmentController {
         model.addAttribute("appointment", form);
         model.addAttribute("patients", patientRepository.findAll());
         model.addAttribute("departments", departmentRepository.findAll());
-        // Trimitem lista de medici și la editare
         model.addAttribute("medicalStaffList", medicalStaffRepository.findAll());
 
         return "appointment/form";
@@ -60,7 +59,8 @@ public class AppointmentController {
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         appointmentService.delete(id);
-        return "redirect:/appointment";
+        // CORECTAT: redirect la plural
+        return "redirect:/appointments";
     }
 
     @GetMapping("/details/{id}")

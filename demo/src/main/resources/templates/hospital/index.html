@@ -2,12 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Hospitals</title>
+    <style>
+        .alert-error { color: white; background-color: #f44336; padding: 10px; margin-bottom: 15px; }
+        .alert-success { color: white; background-color: #4CAF50; padding: 10px; margin-bottom: 15px; }
+    </style>
 </head>
 <body>
 
 <h1>Hospitals</h1>
 
-<a href="/hospital/add">Add Hospital</a>
+<!-- Mesaje de eroare/succes -->
+<div th:if="${error}" class="alert-error">
+    <span th:text="${error}"></span>
+</div>
+<div th:if="${success}" class="alert-success">
+    <span th:text="${success}"></span>
+</div>
+
+<a th:href="@{/hospitals/add}">Add Hospital</a>
 
 <table border="1">
     <tr>
@@ -23,13 +35,17 @@
         <td th:text="${h.city}"></td>
 
         <td>
-            <a th:href="@{/hospital/details/{id}(id=${h.id})}">Details</a> |
-            <a th:href="@{/hospital/edit/{id}(id=${h.id})}">Edit</a> |
-            <a th:href="@{/hospital/delete/{id}(id=${h.id})}"
+            <!-- LINKURI CORECTATE LA PLURAL -->
+            <a th:href="@{/hospitals/details/{id}(id=${h.id})}">Details</a> |
+            <a th:href="@{/hospitals/edit/{id}(id=${h.id})}">Edit</a> |
+            <a th:href="@{/hospitals/delete/{id}(id=${h.id})}"
                onclick="return confirm('Are you sure?');">Delete</a>
         </td>
     </tr>
 </table>
+
+<br>
+<a th:href="@{/}">Back to Home</a>
 
 </body>
 </html>

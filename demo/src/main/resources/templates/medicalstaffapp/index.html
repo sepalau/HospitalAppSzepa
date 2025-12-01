@@ -22,24 +22,23 @@
     <tbody>
     <tr th:each="assignment : ${assignments}">
         <td th:text="${assignment.id}"></td>
-        <!-- Folosim ?. pentru a evita erori daca staff e null -->
-        <td th:text="${assignment.staff?.name}"></td>
-        <!-- Folosim ?. pentru a evita erori daca appointment e null -->
+
+        <!-- AICI ERA PROBLEMA: am pus .medicalStaff -->
+        <td th:text="${assignment.medicalStaff?.name}"></td>
+
         <td th:text="${assignment.appointment?.id}"></td>
         <td>
-            <!-- Buton DETAILS -->
-            <a th:href="@{/medicalstaffapp/{id}(id=${assignment.id})}">Details</a>
-            |
-            <!-- Buton EDIT -->
-            <a th:href="@{/medicalstaffapp/edit/{id}(id=${assignment.id})}">Edit</a>
-            |
-            <!-- Buton DELETE -->
+            <a th:href="@{/medicalstaffapp/details/{id}(id=${assignment.id})}">Details</a> |
+            <a th:href="@{/medicalstaffapp/edit/{id}(id=${assignment.id})}">Edit</a> |
             <a th:href="@{/medicalstaffapp/delete/{id}(id=${assignment.id})}"
                onclick="return confirm('Are you sure?')">Delete</a>
         </td>
     </tr>
     </tbody>
 </table>
+
+<br>
+<a th:href="@{/}">Back to Home</a>
 
 </body>
 </html>

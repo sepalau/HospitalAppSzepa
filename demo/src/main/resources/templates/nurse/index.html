@@ -5,13 +5,15 @@
 
 <h1>Nurses</h1>
 
-<a href="/nurses/new">Add Nurse</a><br><br>
+<!-- Link corect la plural -->
+<a th:href="@{/nurses/new}">Add Nurse</a><br><br>
 
 <table border="1">
     <tr>
         <th>ID</th>
         <th>Name</th>
         <th>Qualification</th>
+        <th>Department</th>
         <th>Actions</th>
     </tr>
 
@@ -19,16 +21,21 @@
         <td th:text="${n.id}"></td>
         <td th:text="${n.name}"></td>
         <td th:text="${n.qualificationLevel}"></td>
+        <!-- Afisam numele departamentului daca exista -->
+        <td th:text="${n.department?.name}"></td>
 
         <td>
-            <a th:href="@{/nurses/{id}(id=${n.id})}">Details</a> |
-            <a th:href="@{/nurses/{id}/edit(id=${n.id})}">Edit</a> |
-            <form th:action="@{/nurses/{id}/delete(id=${n.id})}" method="post" style="display:inline;">
-                <button>Delete</button>
-            </form>
+            <!-- Link-uri standardizate la /nurses/... -->
+            <a th:href="@{/nurses/details/{id}(id=${n.id})}">Details</a> |
+            <a th:href="@{/nurses/edit/{id}(id=${n.id})}">Edit</a> |
+            <a th:href="@{/nurses/delete/{id}(id=${n.id})}"
+               onclick="return confirm('Are you sure?')">Delete</a>
         </td>
     </tr>
 </table>
+
+<br>
+<a th:href="@{/}">Back to Home</a>
 
 </body>
 </html>

@@ -1,25 +1,62 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Assignment Details</title></head>
+<head>
+    <title>Assignment Details</title>
+</head>
 <body>
 
 <h1>Medical Staff Assignment Details</h1>
 
-<p><b>ID:</b> <span th:text="${assignment.id}"></span></p>
+<p><b>Assignment ID:</b> <span th:text="${assignment.id}"></span></p>
 
-<h2>Staff</h2>
-<p><b>Name:</b> <span th:text="${assignment.staff.name}"></span></p>
-<p><b>Role:</b> <span th:text="${assignment.staff.getClass().getSimpleName()}"></span></p>
+<hr/>
 
-<h2>Appointment</h2>
-<p><b>ID:</b> <span th:text="${assignment.appointment.id}"></span></p>
-<p><b>Department:</b> <span th:text="${assignment.appointment.department.name}"></span></p>
-<p><b>Patient:</b> <span th:text="${assignment.appointment.patient.name}"></span></p>
-<p><b>Date:</b> <span th:text="${assignment.appointment.admissionDate}"></span></p>
-<p><b>Status:</b> <span th:text="${assignment.appointment.status}"></span></p>
+<!-- SECȚIUNEA MEDICAL STAFF -->
+<h3>Medical Staff</h3>
+<!-- Verificăm dacă există medic asignat -->
+<div th:if="${assignment.medicalStaff != null}">
+    <p><b>Name:</b> <span th:text="${assignment.medicalStaff.name}"></span></p>
+    <!-- Putem afișa ID-ul sau alte detalii ale medicului -->
+    <p><b>Staff ID:</b> <span th:text="${assignment.medicalStaff.id}"></span></p>
+</div>
+<!-- Mesaj de eroare dacă medicul e null -->
+<div th:if="${assignment.medicalStaff == null}">
+    <p style="color:red">No Medical Staff data found (Corrupt Data)</p>
+</div>
+
+<hr/>
+
+<!-- SECȚIUNEA APPOINTMENT -->
+<h3>Appointment Details</h3>
+<!-- Verificăm dacă există programare legată -->
+<div th:if="${assignment.appointment != null}">
+    <p><b>Appointment ID:</b> <span th:text="${assignment.appointment.id}"></span></p>
+
+    <p><b>Department:</b>
+        <span th:text="${assignment.appointment.department?.name}"></span>
+    </p>
+
+    <p><b>Patient:</b>
+        <span th:text="${assignment.appointment.patient?.name}"></span>
+    </p>
+
+    <p><b>Admission Date:</b>
+        <span th:text="${assignment.appointment.admissionDate}"></span>
+    </p>
+
+    <p><b>Status:</b>
+        <span th:text="${assignment.appointment.status}"></span>
+    </p>
+</div>
+<!-- Mesaj de eroare dacă programarea e null -->
+<div th:if="${assignment.appointment == null}">
+    <p style="color:red">No Appointment linked (Corrupt Data)</p>
+</div>
+
+<hr/>
 
 <br>
-<a href="/medicalstaffapp">Back</a>
+<a th:href="@{/medicalstaffapp}">Back to List</a>
 
 </body>
 </html>

@@ -7,7 +7,8 @@
 
 <h2 th:text="${patient.id == null ? 'Add New Patient' : 'Edit Patient'}"></h2>
 
-<form th:action="@{/patient/save}" th:object="${patient}" method="post">
+<!-- Action setat corect la PLURAL: /patients/save -->
+<form th:action="@{/patients/save}" th:object="${patient}" method="post">
 
     <input type="hidden" th:field="*{id}"/>
 
@@ -24,7 +25,8 @@
 </form>
 
 <br/>
-<a href="/patient">Back to list</a>
+<!-- Link de întoarcere la PLURAL -->
+<a th:href="@{/patients}">Back to list</a>
 
 </body>
 </html>

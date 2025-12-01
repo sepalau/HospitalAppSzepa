@@ -16,6 +16,9 @@ public class Patient {
     @NotBlank(message = "Name is required")
     private String name;
 
+    // AM ADAUGAT ACEST CAMP PENTRU CA IL AI IN FORMULAR
+    private String address;
+
     @OneToMany(mappedBy = "patient")
     private List<Appointment> appointments;
 }

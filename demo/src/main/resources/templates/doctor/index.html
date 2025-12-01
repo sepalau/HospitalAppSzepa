@@ -1,15 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Doctors</title>
+    <title>Doctors List</title>
+    <style>
+        .alert-error { color: white; background-color: #f44336; padding: 10px; margin-bottom: 15px; }
+        .alert-success { color: white; background-color: #4CAF50; padding: 10px; margin-bottom: 15px; }
+    </style>
 </head>
 <body>
 
-<h1>Doctors</h1>
+<h2>Doctors List</h2>
 
-<a href="/doctor/add">Add Doctor</a>
+<!-- Secțiune pentru afișarea mesajelor de eroare/succes -->
+<div th:if="${error}" class="alert-error">
+    <span th:text="${error}"></span>
+</div>
+<div th:if="${success}" class="alert-success">
+    <span th:text="${success}"></span>
+</div>
+
+<a th:href="@{/doctors/add}">Add New Doctor</a>
+<br/><br/>
 
 <table border="1">
+    <thead>
     <tr>
         <th>ID</th>
         <th>Name</th>
@@ -17,21 +31,25 @@
         <th>Department</th>
         <th>Actions</th>
     </tr>
-
+    </thead>
+    <tbody>
     <tr th:each="d : ${doctors}">
         <td th:text="${d.id}"></td>
         <td th:text="${d.name}"></td>
         <td th:text="${d.licenseNumber}"></td>
-        <td th:text="${d.department.name}"></td>
-
+        <td th:text="${d.department?.name}"></td>
         <td>
-            <a th:href="@{/doctor/details/{id}(id=${d.id})}">Details</a> |
-            <a th:href="@{/doctor/edit/{id}(id=${d.id})}">Edit</a> |
-            <a th:href="@{/doctor/delete/{id}(id=${d.id})}"
-               onclick="return confirm('Are you sure?');">Delete</a>
+            <a th:href="@{/doctors/details/{id}(id=${d.id})}">Details</a> |
+            <a th:href="@{/doctors/edit/{id}(id=${d.id})}">Edit</a> |
+            <a th:href="@{/doctors/delete/{id}(id=${d.id})}"
+               onclick="return confirm('Are you sure?')">Delete</a>
         </td>
     </tr>
+    </tbody>
 </table>
+
+<br>
+<a th:href="@{/}">Back to Home</a>
 
 </body>
 </html>

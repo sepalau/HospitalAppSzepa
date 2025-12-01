@@ -9,8 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/doctors") // <--- PLURAL AICI
 @RequiredArgsConstructor
-@RequestMapping("/doctor")
 public class DoctorController {
 
     private final DoctorService doctorService;
@@ -23,7 +23,7 @@ public class DoctorController {
     }
 
     @GetMapping("/add")
-    public String add(Model model) {
+    public String addForm(Model model) {
         model.addAttribute("doctor", new Doctor());
         model.addAttribute("departments", departmentService.getAll());
         return "doctor/form";
@@ -32,25 +32,25 @@ public class DoctorController {
     @PostMapping("/save")
     public String save(@ModelAttribute Doctor doctor) {
         doctorService.save(doctor);
-        return "redirect:/doctor";
+        return "redirect:/doctors"; // <--- PLURAL AICI
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable Long id, Model model) {
+    public String editForm(@PathVariable Long id, Model model) {
         model.addAttribute("doctor", doctorService.getById(id));
         model.addAttribute("departments", departmentService.getAll());
         return "doctor/form";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        doctorService.delete(id);
+        return "redirect:/doctors"; // <--- PLURAL AICI
     }
 
     @GetMapping("/details/{id}")
     public String details(@PathVariable Long id, Model model) {
         model.addAttribute("doctor", doctorService.getById(id));
         return "doctor/details";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        doctorService.delete(id);
-        return "redirect:/doctor";
     }
 }

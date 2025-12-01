@@ -5,7 +5,10 @@
 </head>
 <body>
 <h2>Appointments</h2>
-<a th:href="@{/appointment/create}">Create new</a>
+
+<!-- CORECTAT: /appointments/create -->
+<a th:href="@{/appointments/create}">Create new</a>
+
 <table border="1">
     <tr>
         <th>ID</th>
@@ -17,16 +20,21 @@
     </tr>
     <tr th:each="a : ${appointments}">
         <td th:text="${a.id}">1</td>
-        <td th:text="${a.patient.name}">Patient</td>
-        <td th:text="${a.department.name}">Department</td>
+        <!-- Folosim ?. pentru siguranta -->
+        <td th:text="${a.patient?.name}">Patient</td>
+        <td th:text="${a.department?.name}">Department</td>
         <td th:text="${a.admissionDate}">Date</td>
         <td th:text="${a.status}">Status</td>
         <td>
-            <a th:href="@{|/appointment/details/${a.id}|}">Details</a> |
-            <a th:href="@{|/appointment/edit/${a.id}|}">Edit</a> |
-            <a th:href="@{|/appointment/delete/${a.id}|}" onclick="return confirm('Delete this appointment?');">Delete</a>
+            <!-- CORECTAT TOATE LINKURILE LA PLURAL (/appointments/...) -->
+            <a th:href="@{/appointments/details/{id}(id=${a.id})}">Details</a> |
+            <a th:href="@{/appointments/edit/{id}(id=${a.id})}">Edit</a> |
+            <a th:href="@{/appointments/delete/{id}(id=${a.id})}"
+               onclick="return confirm('Delete this appointment?');">Delete</a>
         </td>
     </tr>
 </table>
+<br>
+<a th:href="@{/}">Back to Home</a>
 </body>
 </html>

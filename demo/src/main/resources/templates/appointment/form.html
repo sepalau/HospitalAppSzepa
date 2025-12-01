@@ -6,7 +6,8 @@
 <body>
 <h2 th:text="${appointment.id} != null ? 'Edit' : 'Create'">Form</h2>
 
-<form th:action="@{/appointment/save}" th:object="${appointment}" method="post">
+<!-- AICI AM CORECTAT: /appointments/save (plural) -->
+<form th:action="@{/appointments/save}" th:object="${appointment}" method="post">
     <input type="hidden" th:field="*{id}" />
 
     <label>Patient:</label>
@@ -36,6 +37,7 @@
     <button type="submit">Save</button>
 </form>
 
-<a th:href="@{/appointment}">Back</a>
+<!-- SI AICI AM CORECTAT: /appointments (plural) -->
+<a th:href="@{/appointments}">Back</a>
 </body>
 </html>

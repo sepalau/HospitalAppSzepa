@@ -8,6 +8,7 @@
 
 <h2 th:text="${nurse.id == null} ? 'Add Nurse' : 'Edit Nurse'"></h2>
 
+<!-- Action la plural: /nurses/save -->
 <form th:action="@{/nurses/save}" th:object="${nurse}" method="post">
 
     <input type="hidden" th:field="*{id}" />
@@ -41,6 +42,9 @@
 
     <button type="submit">Save</button>
 </form>
+
+<br>
+<a th:href="@{/nurses}">Back</a>
 
 </body>
 </html>
