@@ -23,3 +23,4 @@ public class Room {
     @Enumerated(EnumType.STRING)
     private RoomStatus status;
 }
+//sepa
