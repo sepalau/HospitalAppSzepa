@@ -8,7 +8,7 @@ import com.example.demo.service.PatientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes; // IMPORT NECESAR
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/appointments")
@@ -62,7 +62,6 @@ public class AppointmentController {
         return "appointment/form";
     }
 
-    // --- METODA MODIFICATĂ PENTRU A PREVENI EROAREA 500 ---
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {

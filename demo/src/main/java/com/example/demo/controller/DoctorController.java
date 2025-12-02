@@ -43,14 +43,14 @@ public class DoctorController {
         return "doctor/form";
     }
 
-    // --- AICI ESTE FIX-UL PENTRU EROAREA 500 ---
+
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             doctorService.delete(id);
             redirectAttributes.addFlashAttribute("success", "Doctor deleted successfully!");
         } catch (Exception e) {
-            // Prindem eroarea dacă doctorul are programări
+
             redirectAttributes.addFlashAttribute("error", "Cannot delete doctor! They have assigned Appointments.");
         }
         return "redirect:/doctors";

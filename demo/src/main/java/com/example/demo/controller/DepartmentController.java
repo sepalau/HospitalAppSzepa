@@ -50,7 +50,6 @@ public class DepartmentController {
             departmentService.delete(id);
             redirectAttributes.addFlashAttribute("success", "Department deleted successfully!");
         } catch (Exception e) {
-            // Prindem eroarea daca departamentul are Doctori/Camere
             redirectAttributes.addFlashAttribute("error", "Cannot delete department! It contains Doctors, Nurses or Rooms.");
         }
         return "redirect:/departments";

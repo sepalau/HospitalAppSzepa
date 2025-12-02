@@ -52,7 +52,7 @@ public class HospitalController {
             hospitalService.delete(id);
             redirectAttributes.addFlashAttribute("success", "Hospital deleted successfully!");
         } catch (Exception e) {
-            // Prindem eroarea daca spitalul are Departamente sau Camere
+
             redirectAttributes.addFlashAttribute("error", "Cannot delete hospital! It has Departments or Rooms assigned to it.");
         }
         return "redirect:/hospitals";
