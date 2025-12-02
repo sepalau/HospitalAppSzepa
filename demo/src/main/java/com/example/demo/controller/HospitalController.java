@@ -6,11 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes; // IMPORT NECESAR
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/hospitals") // Plural definit aici
+@RequestMapping("/hospitals")
 public class HospitalController {
 
     private final HospitalService hospitalService;
@@ -45,14 +45,15 @@ public class HospitalController {
         return "hospital/details";
     }
 
-    // Am adăugat protecție la ștergere
+    // --- FIX PENTRU EROAREA 500 ---
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             hospitalService.delete(id);
             redirectAttributes.addFlashAttribute("success", "Hospital deleted successfully!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Cannot delete hospital! It has associated Departments or Rooms.");
+            // Prindem eroarea daca spitalul are Departamente sau Camere
+            redirectAttributes.addFlashAttribute("error", "Cannot delete hospital! It has Departments or Rooms assigned to it.");
         }
         return "redirect:/hospitals";
     }

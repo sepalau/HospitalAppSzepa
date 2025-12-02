@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes; // IMPORT NECESAR
 
 @Controller
 @RequestMapping("/departments")
@@ -42,13 +43,19 @@ public class DepartmentController {
         return "department/form";
     }
 
+    // --- FIX PENTRU EROAREA 500 ---
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        departmentService.delete(id);
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            departmentService.delete(id);
+            redirectAttributes.addFlashAttribute("success", "Department deleted successfully!");
+        } catch (Exception e) {
+            // Prindem eroarea daca departamentul are Doctori/Camere
+            redirectAttributes.addFlashAttribute("error", "Cannot delete department! It contains Doctors, Nurses or Rooms.");
+        }
         return "redirect:/departments";
     }
 
-    // Această metodă lipsea, dar aveai link către ea în HTML!
     @GetMapping("/details/{id}")
     public String details(@PathVariable Long id, Model model) {
         model.addAttribute("department", departmentService.getById(id));

@@ -2,10 +2,37 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Staff Assignments</title>
+    <style>
+        .alert-error {
+            color: white;
+            background-color: #f44336;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        .alert-success {
+            color: white;
+            background-color: #4CAF50;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f2f2f2; }
+        tr:hover { background-color: #f5f5f5; }
+    </style>
 </head>
 <body>
 
 <h1>Staff Assignments List</h1>
+
+<div th:if="${error}" class="alert-error">
+    <span th:text="${error}"></span>
+</div>
+<div th:if="${success}" class="alert-success">
+    <span th:text="${success}"></span>
+</div>
 
 <a th:href="@{/medicalstaffapp/new}">Assign New Staff</a>
 <br/><br/>
@@ -15,19 +42,21 @@
     <tr>
         <th>ID</th>
         <th>Appointment Date</th>
-        <th>Staff Name</th> <th>Actions</th>
+        <th>Staff Name</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="link : ${links}">
         <td th:text="${link.id}"></td>
-
         <td th:text="${link.appointment?.admissionDate}"></td>
-
         <td th:text="${link.medicalStaff?.name}"></td>
 
         <td>
             <a th:href="@{/medicalstaffapp/{id}/details(id=${link.id})}">Details</a>
+            |
+            <!-- BUTONUL EDIT ADĂUGAT -->
+            <a th:href="@{/medicalstaffapp/{id}/edit(id=${link.id})}">Edit</a>
             |
             <a th:href="@{/medicalstaffapp/{id}/delete(id=${link.id})}"
                onclick="return confirm('Are you sure?')">Delete</a>

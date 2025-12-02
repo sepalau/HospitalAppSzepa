@@ -7,9 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/doctors") // <--- PLURAL AICI
+@RequestMapping("/doctors")
 @RequiredArgsConstructor
 public class DoctorController {
 
@@ -32,7 +33,7 @@ public class DoctorController {
     @PostMapping("/save")
     public String save(@ModelAttribute Doctor doctor) {
         doctorService.save(doctor);
-        return "redirect:/doctors"; // <--- PLURAL AICI
+        return "redirect:/doctors";
     }
 
     @GetMapping("/edit/{id}")
@@ -42,10 +43,17 @@ public class DoctorController {
         return "doctor/form";
     }
 
+    // --- AICI ESTE FIX-UL PENTRU EROAREA 500 ---
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        doctorService.delete(id);
-        return "redirect:/doctors"; // <--- PLURAL AICI
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            doctorService.delete(id);
+            redirectAttributes.addFlashAttribute("success", "Doctor deleted successfully!");
+        } catch (Exception e) {
+            // Prindem eroarea dacă doctorul are programări
+            redirectAttributes.addFlashAttribute("error", "Cannot delete doctor! They have assigned Appointments.");
+        }
+        return "redirect:/doctors";
     }
 
     @GetMapping("/details/{id}")
