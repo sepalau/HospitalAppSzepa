@@ -29,12 +29,10 @@ public class MedicalStaffAppointmentService {
         return repository.findAll();
     }
 
-    // --- ACEASTA ESTE METODA CARE ÎȚI LIPSEA ---
     public MedicalStaffAppointment getById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Assignment not found with id: " + id));
     }
-    // ---------------------------------------------
 
     public void save(MedicalStaffAppointment link, Long appointmentId, Long staffId) {
         if (appointmentId != null) {

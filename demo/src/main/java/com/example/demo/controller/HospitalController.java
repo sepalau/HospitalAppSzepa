@@ -45,7 +45,6 @@ public class HospitalController {
         return "hospital/details";
     }
 
-    // --- FIX PENTRU EROAREA 500 ---
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {

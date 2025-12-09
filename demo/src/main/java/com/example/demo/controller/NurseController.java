@@ -58,7 +58,6 @@ public class NurseController {
         return "nurse/form";
     }
 
-    // --- AICI ESTE FIX-UL ---
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {

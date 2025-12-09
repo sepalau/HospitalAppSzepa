@@ -39,7 +39,6 @@ public class AppointmentService {
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
     }
 
-    // Salvam folosind ID-urile trimise din formular
     public void save(Appointment appointment, Long patientId, Long departmentId, Long staffId) {
 
         if (patientId != null) {

@@ -43,7 +43,6 @@ public class DepartmentController {
         return "department/form";
     }
 
-    // --- FIX PENTRU EROAREA 500 ---
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {

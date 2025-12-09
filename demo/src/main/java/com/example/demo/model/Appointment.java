@@ -12,36 +12,30 @@ public class Appointment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // In diagrama e String, dar in MySQL e Long (Best Practice)
+    private Long id;
 
-    // Atribut din diagrama: admissionDate
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate admissionDate;
 
-    // Atribut din diagrama: Status
     @Enumerated(EnumType.STRING)
     private AppointmentStatus status;
 
-    // --- RELATII (Bazate pe liniile din diagrama) ---
-    // Diagrama are "String PatientId" -> In JPA devine Obiectul Patient
+
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
-    // Diagrama are "String DepartmentId" -> In JPA devine Obiectul Department
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
 
-    // Diagrama are "List MedicalStaff", dar pentru simplitate in Formular incepem cu UNUL singur
-    // (Relatie ManyToOne catre MedicalStaff)
+
     @ManyToOne
     @JoinColumn(name = "medical_staff_id")
     private MedicalStaff medicalStaff;
 
     public Appointment() {}
 
-    // Getters si Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

@@ -68,7 +68,6 @@ public class AppointmentController {
             appointmentService.delete(id);
             redirectAttributes.addFlashAttribute("success", "Appointment deleted successfully!");
         } catch (Exception e) {
-            // Aici prindem eroarea dacă programarea este asignată în medical_staff_appointment
             redirectAttributes.addFlashAttribute("error", "Cannot delete appointment! It is linked to Medical Staff Assignments. Delete the assignment first.");
         }
         return "redirect:/appointments";

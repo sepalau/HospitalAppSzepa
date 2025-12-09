@@ -8,7 +8,7 @@ public class AppointmentForm {
     private Long id;
     private Long patientId;
     private Long departmentId;
-    private Long medicalStaffId; // Câmpul nou adăugat
+    private Long medicalStaffId;
     private LocalDate admissionDate;
     private String status;
 }
