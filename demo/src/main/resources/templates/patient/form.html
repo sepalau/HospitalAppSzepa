@@ -2,22 +2,50 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="${patient.id == null ? 'Add Patient' : 'Edit Patient'}"></title>
+    <style>
+        /* Stil pentru mesajul de eroare (text roșu) */
+        .error-msg {
+            color: red;
+            font-size: 0.9em;
+            display: block;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        /* Stil pentru input-ul care are eroare (chenar roșu) */
+        input.is-invalid {
+            border: 2px solid red;
+            background-color: #ffe6e6;
+        }
+    </style>
 </head>
 <body>
 
 <h2 th:text="${patient.id == null ? 'Add New Patient' : 'Edit Patient'}"></h2>
 
-<!-- Action setat corect la PLURAL: /patients/save -->
+<!-- Action setat la /patients/save -->
 <form th:action="@{/patients/save}" th:object="${patient}" method="post">
 
     <input type="hidden" th:field="*{id}"/>
 
+    <!-- CÂMPUL NAME -->
     <label>Name:</label>
-    <input type="text" th:field="*{name}" required/>
+    <!-- th:classappend adaugă clasa 'is-invalid' doar dacă există erori pe acest câmp -->
+    <input type="text" th:field="*{name}"
+           th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''" />
+
+    <!-- Aici afișăm eroarea specifică pentru 'name' -->
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-msg"></span>
+
     <br/><br/>
 
+    <!-- CÂMPUL ADDRESS -->
     <label>Address:</label>
-    <input type="text" th:field="*{address}" required/>
+    <input type="text" th:field="*{address}"
+           th:classappend="${#fields.hasErrors('address')} ? 'is-invalid' : ''" />
+
+    <!-- Aici afișăm eroarea specifică pentru 'address' -->
+    <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="error-msg"></span>
+
     <br/><br/>
 
     <button type="submit">Save</button>
@@ -25,7 +53,6 @@
 </form>
 
 <br/>
-<!-- Link de întoarcere la PLURAL -->
 <a th:href="@{/patients}">Back to list</a>
 
 </body>

@@ -2,26 +2,37 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Doctor Form</title>
+    <style>
+        .error-msg { color: red; font-size: 0.9em; display: block; margin-top: 5px; font-weight: bold; }
+        .is-invalid { border: 2px solid red; background-color: #ffe6e6; }
+    </style>
 </head>
 <body>
 
 <h2 th:text="${doctor.id == null ? 'Add Doctor' : 'Edit Doctor'}"></h2>
 
-<!-- 1. Action setat la PLURAL: /doctors/save -->
 <form th:action="@{/doctors/save}" th:object="${doctor}" method="post">
 
     <input type="hidden" th:field="*{id}"/>
 
+    <!-- NAME -->
     <label>Name:</label>
-    <input type="text" th:field="*{name}" required/>
+    <input type="text" th:field="*{name}" required
+           th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''"/>
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-msg"></span>
     <br/><br/>
 
+    <!-- LICENSE -->
     <label>License Number:</label>
-    <input type="text" th:field="*{licenseNumber}" required/>
+    <input type="text" th:field="*{licenseNumber}"
+           th:classappend="${#fields.hasErrors('licenseNumber')} ? 'is-invalid' : ''"/>
+    <!-- Afișăm eroarea pentru licenseNumber -->
+    <span th:if="${#fields.hasErrors('licenseNumber')}" th:errors="*{licenseNumber}" class="error-msg"></span>
     <br/><br/>
 
+    <!-- DEPARTMENT -->
     <label>Department:</label>
-    <!-- 2. Sintaxa simplificată, folosind th:field și th:value cu ID -->
+    <!-- Atentie: la editare s-ar putea sa trebuiasca sa folosim th:field="*{department}" direct daca merge -->
     <select th:field="*{department}" required>
         <option value="">-- Select department --</option>
         <option th:each="d : ${departments}"
@@ -35,7 +46,6 @@
 </form>
 
 <br>
-<!-- 3. Link de Back la PLURAL -->
 <a th:href="@{/doctors}">Back</a>
 
 </body>

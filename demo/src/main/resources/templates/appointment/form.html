@@ -1,58 +1,111 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Appointment Form</title>
+    <title>Create/Edit Appointment</title>
+    <style>
+        /* CSS pentru erori de validare */
+        .error-msg {
+            color: red;
+            font-size: 0.9em;
+            display: block;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        .is-invalid {
+            border: 2px solid red;
+            background-color: #ffe6e6;
+        }
+
+        /* Stiluri generale */
+        form { margin-top: 20px; }
+        label { display: inline-block; width: 150px; font-weight: bold; }
+        input, select { padding: 5px; width: 250px; margin-bottom: 10px; }
+        button { padding: 8px 15px; cursor: pointer; background-color: #4CAF50; color: white; border: none; }
+    </style>
 </head>
 <body>
 
-<h1 th:text="${appointment.id == null} ? 'New Appointment' : 'Edit Appointment'"></h1>
+<h2 th:text="${appointment.id} != null ? 'Edit Appointment' : 'Create New Appointment'">Form</h2>
 
-<form th:action="@{/appointments}" method="post" th:object="${appointment}">
+<!-- Action setat la /appointments/save -->
+<form th:action="@{/appointments/save}" th:object="${appointment}" method="post">
 
     <input type="hidden" th:field="*{id}" />
 
-    <label>Admission Date:</label>
-    <input type="date" th:field="*{admissionDate}" required /><br/><br/>
+    <!-- 1. PACIENT -->
+    <div>
+        <label>Patient:</label>
+        <select th:field="*{patientId}"
+                th:classappend="${#fields.hasErrors('patientId')} ? 'is-invalid' : ''">
+            <option value="">-- Select Patient --</option>
+            <option th:each="p : ${patients}"
+                    th:value="${p.id}"
+                    th:text="${p.name}">
+            </option>
+        </select>
+        <!-- Mesaj de eroare -->
+        <span th:if="${#fields.hasErrors('patientId')}" th:errors="*{patientId}" class="error-msg"></span>
+    </div>
 
-    <label>Status:</label>
-    <select th:field="*{status}">
-        <option th:each="st : ${T(com.example.demo.enums.AppointmentStatus).values()}"
-                th:value="${st}" th:text="${st}"></option>
-    </select><br/><br/>
+    <!-- 2. DEPARTAMENT -->
+    <div>
+        <label>Department:</label>
+        <select th:field="*{departmentId}"
+                th:classappend="${#fields.hasErrors('departmentId')} ? 'is-invalid' : ''">
+            <option value="">-- Select Department --</option>
+            <option th:each="d : ${departments}"
+                    th:value="${d.id}"
+                    th:text="${d.name}">
+            </option>
+        </select>
+        <span th:if="${#fields.hasErrors('departmentId')}" th:errors="*{departmentId}" class="error-msg"></span>
+    </div>
 
-    <label>Patient:</label>
-    <select name="patientId">
-        <option value="">Select Patient</option>
-        <option th:each="p : ${patients}"
-                th:value="${p.id}"
-                th:text="${p.name}"
-                th:selected="${appointment.patient != null and appointment.patient.id == p.id}">
-        </option>
-    </select><br/><br/>
+    <!-- 3. MEDIC -->
+    <div>
+        <label>Medical Staff:</label>
+        <select th:field="*{medicalStaffId}"
+                th:classappend="${#fields.hasErrors('medicalStaffId')} ? 'is-invalid' : ''">
+            <option value="">-- Select Doctor --</option>
+            <option th:each="m : ${medicalStaffList}"
+                    th:value="${m.id}"
+                    th:text="${m.name}">
+            </option>
+        </select>
+        <span th:if="${#fields.hasErrors('medicalStaffId')}" th:errors="*{medicalStaffId}" class="error-msg"></span>
+    </div>
 
-    <label>Department:</label>
-    <select name="departmentId">
-        <option value="">Select Department</option>
-        <option th:each="d : ${departments}"
-                th:value="${d.id}"
-                th:text="${d.name}"
-                th:selected="${appointment.department != null and appointment.department.id == d.id}">
-        </option>
-    </select><br/><br/>
+    <!-- 4. DATA (@Future validation) -->
+    <div>
+        <label>Admission Date:</label>
+        <input type="date" th:field="*{admissionDate}"
+               th:classappend="${#fields.hasErrors('admissionDate')} ? 'is-invalid' : ''" />
+        <span th:if="${#fields.hasErrors('admissionDate')}" th:errors="*{admissionDate}" class="error-msg"></span>
+    </div>
 
-    <label>Medical Staff:</label>
-    <select name="staffId">
-        <option value="">Select Staff</option>
-        <option th:each="m : ${staffList}"
-                th:value="${m.id}"
-                th:text="${m.name}"
-                th:selected="${appointment.medicalStaff != null and appointment.medicalStaff.id == m.id}">
-        </option>
-    </select><br/><br/>
+    <!-- 5. STATUS -->
+    <div>
+        <label>Status:</label>
+        <!-- Folosim un dropdown cu valorile din Enum pentru a evita erorile de tastare -->
+        <select th:field="*{status}"
+                th:classappend="${#fields.hasErrors('status')} ? 'is-invalid' : ''">
+            <option value="">-- Select Status --</option>
+            <!-- Iterăm direct peste valorile Enum-ului -->
+            <option th:each="s : ${T(com.example.demo.enums.AppointmentStatus).values()}"
+                    th:value="${s}"
+                    th:text="${s}">
+            </option>
+        </select>
+        <span th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="error-msg"></span>
+    </div>
 
+    <br/>
     <button type="submit">Save</button>
-    <a th:href="@{/appointments}">Cancel</a>
+
 </form>
+
+<br>
+<a th:href="@{/appointments}">Back to List</a>
 
 </body>
 </html>

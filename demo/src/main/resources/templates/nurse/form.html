@@ -2,49 +2,76 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Nurse Form</title>
+    <style>
+        /* CSS pentru erori de validare */
+        .error-msg {
+            color: red;
+            font-size: 0.9em;
+            display: block;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        .is-invalid {
+            border: 2px solid red;
+            background-color: #ffe6e6;
+        }
+
+        /* Stiluri generale */
+        form { margin-top: 20px; }
+        label { display: inline-block; width: 150px; font-weight: bold; }
+        input, select { padding: 5px; width: 250px; margin-bottom: 10px; }
+        button { padding: 8px 15px; cursor: pointer; background-color: #4CAF50; color: white; border: none; }
+    </style>
 </head>
 
 <body>
 
 <h2 th:text="${nurse.id == null} ? 'Add Nurse' : 'Edit Nurse'"></h2>
 
-<!-- Action la plural: /nurses/save -->
+<!-- Action setat la /nurses/save -->
 <form th:action="@{/nurses/save}" th:object="${nurse}" method="post">
 
     <input type="hidden" th:field="*{id}" />
 
-    <!-- Name -->
-    <label>Name:</label>
-    <input type="text" th:field="*{name}" required />
-    <br/><br/>
+    <!-- 1. NAME -->
+    <div>
+        <label>Name:</label>
+        <input type="text" th:field="*{name}" required
+               th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''"/>
+        <!-- Mesaj de eroare -->
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-msg"></span>
+    </div>
 
-    <!-- Qualification Level -->
-    <label>Qualification Level:</label>
-    <select th:field="*{qualificationLevel}" required>
-        <option value="">-- Select level --</option>
-        <option th:each="lvl : ${levels}"
-                th:value="${lvl}"
-                th:text="${lvl}">
-        </option>
-    </select>
-    <br/><br/>
+    <!-- 2. QUALIFICATION LEVEL -->
+    <div>
+        <label>Qualification Level:</label>
+        <select th:field="*{qualificationLevel}"
+                th:classappend="${#fields.hasErrors('qualificationLevel')} ? 'is-invalid' : ''">
+            <option value="">-- Select level --</option>
+            <!-- Iterăm prin valorile Enum-ului trimise din Controller -->
+            <option th:each="lvl : ${levels}" th:value="${lvl}" th:text="${lvl}"></option>
+        </select>
+        <span th:if="${#fields.hasErrors('qualificationLevel')}" th:errors="*{qualificationLevel}" class="error-msg"></span>
+    </div>
 
-    <!-- Department -->
-    <label>Department:</label>
-    <select th:field="*{department}" required>
-        <option value="">-- Select department --</option>
-        <option th:each="d : ${departments}"
-                th:value="${d.id}"
-                th:text="${d.name}">
-        </option>
-    </select>
-    <br/><br/>
+    <!-- 3. DEPARTMENT -->
+    <div>
+        <label>Department:</label>
+        <select th:field="*{department}"
+                th:classappend="${#fields.hasErrors('department')} ? 'is-invalid' : ''">
+            <option value="">-- Select department --</option>
+            <!-- Iterăm prin lista de departamente din DB -->
+            <option th:each="d : ${departments}" th:value="${d.id}" th:text="${d.name}"></option>
+        </select>
+        <span th:if="${#fields.hasErrors('department')}" th:errors="*{department}" class="error-msg"></span>
+    </div>
 
+    <br/>
     <button type="submit">Save</button>
 </form>
 
 <br>
-<a th:href="@{/nurses}">Back</a>
+<a th:href="@{/nurses}">Back to List</a>
 
 </body>
 </html>
