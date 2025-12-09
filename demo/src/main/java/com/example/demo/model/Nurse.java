@@ -11,9 +11,6 @@ import lombok.Data;
 @Data
 public class Nurse extends MedicalStaff {
 
-    // AM SCOS CAMPUL 'name' DE AICI PENTRU A EVITA DUBLAREA (SHADOWING)
-    // Acesta este moștenit din MedicalStaff și va folosi validările de acolo.
-
     @NotNull(message = "Nivelul de calificare este obligatoriu!")
     @Enumerated(EnumType.STRING)
     private QualificationLevel qualificationLevel;
