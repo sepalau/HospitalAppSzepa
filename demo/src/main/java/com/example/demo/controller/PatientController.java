@@ -10,6 +10,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/patients")
 @RequiredArgsConstructor
@@ -17,21 +19,34 @@ public class PatientController {
 
     private final PatientService patientService;
 
-    // 1. Listare toți pacienții
+    // 1. Listare cu CĂUTARE și SORTARE
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("patients", patientService.getAll());
+    public String list(Model model,
+                       @RequestParam(required = false) String name,
+                       @RequestParam(defaultValue = "name") String sortBy, // Sortare default după Nume
+                       @RequestParam(defaultValue = "asc") String sortDir) {
+
+        // Obținem lista filtrată
+        List<Patient> patients = patientService.searchPatients(name, sortBy, sortDir);
+        model.addAttribute("patients", patients);
+
+        // Trimitem parametrii înapoi la View (pentru a păstra textul în input și direcția sortării)
+        model.addAttribute("name", name);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("sortDir", sortDir);
+
+        // Helper pentru inversarea sortării la click pe coloană
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         return "patient/index";
     }
 
-    // 2. Formular Adăugare
     @GetMapping("/create")
     public String createForm(Model model) {
         model.addAttribute("patient", new Patient());
         return "patient/form";
     }
 
-    // 3. Salvare (Create & Update)
     @PostMapping("/save")
     public String save(@Valid @ModelAttribute("patient") Patient patient,
                        BindingResult result,
@@ -44,29 +59,25 @@ public class PatientController {
         return "redirect:/patients";
     }
 
-    // 4. Formular Editare
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable Long id, Model model) {
         model.addAttribute("patient", patientService.getById(id));
         return "patient/form";
     }
 
-    // 5. Ștergere
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             patientService.delete(id);
             redirectAttributes.addFlashAttribute("success", "Pacient șters cu succes!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Nu se poate șterge pacientul deoarece are programări active.");
+            redirectAttributes.addFlashAttribute("error", "Nu se poate șterge pacientul (are programări active).");
         }
         return "redirect:/patients";
     }
 
-    // 6. AFISARE DETALII + ISTORIC PROGRAMĂRI (NOU)
     @GetMapping("/details/{id}")
     public String details(@PathVariable Long id, Model model) {
-        // Această metodă va încărca pacientul și automat lista de appointments (datorită @OneToMany)
         Patient patient = patientService.getById(id);
         model.addAttribute("patient", patient);
         return "patient/details";

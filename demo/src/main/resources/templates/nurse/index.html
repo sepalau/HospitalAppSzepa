@@ -1,62 +1,168 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Nurses</title>
-    <style>
-        .alert-error { color: white; background-color: #f44336; padding: 10px; margin-bottom: 15px; border-radius: 4px; }
-        .alert-success { color: white; background-color: #4CAF50; padding: 10px; margin-bottom: 15px; border-radius: 4px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
-        th { background-color: #f2f2f2; }
-    </style>
+    <title>Lista Asistente</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 </head>
-<body>
+<body class="bg-light">
 
-<h1>Nurses</h1>
+<div class="container mt-5">
 
-<!-- Secțiune Mesaje -->
-<div th:if="${error}" class="alert-error">
-    <span th:text="${error}"></span>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary fw-bold">
+            <i class="bi bi-person-workspace"></i> Personal Asistenți (Nurses)
+        </h2>
+        <a href="/nurses/create" class="btn btn-success shadow-sm">
+            <i class="bi bi-person-plus-fill"></i> Adaugă Asistentă
+        </a>
+    </div>
+
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill"></i> <span th:text="${success}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i> <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-white fw-bold text-secondary">
+            <i class="bi bi-funnel"></i> Filtrare și Căutare
+        </div>
+        <div class="card-body">
+            <form th:action="@{/nurses}" method="get" class="row g-3 align-items-end">
+
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Caută după Nume</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                        <input type="text" name="name" class="form-control"
+                               th:value="${name}" placeholder="Ex: Popescu">
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Nivel Calificare</label>
+                    <select name="level" class="form-select">
+                        <option value="">-- Toate Calificările --</option>
+                        <option th:each="lvl : ${T(com.example.demo.enums.QualificationLevel).values()}"
+                                th:value="${lvl}"
+                                th:text="${lvl}"
+                                th:selected="${lvl == level}">
+                        </option>
+                    </select>
+                </div>
+
+                <input type="hidden" name="sortBy" th:value="${sortBy}">
+                <input type="hidden" name="sortDir" th:value="${sortDir}">
+
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary me-2">
+                        Aplică Filtre
+                    </button>
+                    <a href="/nurses" class="btn btn-outline-secondary">
+                        Resetează
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+
+            <div th:if="${nurses.empty}" class="p-5 text-center text-muted">
+                <i class="bi bi-inbox fs-1 d-block mb-3 opacity-50"></i>
+                <h5>Nu au fost găsite asistente conform criteriilor selectate.</h5>
+            </div>
+
+            <table th:unless="${nurses.empty}" class="table table-hover table-striped mb-0 align-middle">
+                <thead class="table-dark">
+                <tr>
+                    <th class="ps-3">ID</th>
+
+                    <th>
+                        <a th:href="@{/nurses(sortBy='name', sortDir=${reverseSortDir}, name=${name}, level=${level})}"
+                           class="text-white text-decoration-none d-block py-2">
+                            Nume
+                            <i th:if="${sortBy == 'name'}"
+                               th:class="${sortDir == 'asc' ? 'bi bi-arrow-up-short' : 'bi bi-arrow-down-short'}"></i>
+                            <i th:unless="${sortBy == 'name'}" class="bi bi-arrow-down-up text-secondary opacity-50"></i>
+                        </a>
+                    </th>
+
+                    <th>
+                        <a th:href="@{/nurses(sortBy='qualificationLevel', sortDir=${reverseSortDir}, name=${name}, level=${level})}"
+                           class="text-white text-decoration-none d-block py-2">
+                            Calificare
+                            <i th:if="${sortBy == 'qualificationLevel'}"
+                               th:class="${sortDir == 'asc' ? 'bi bi-arrow-up-short' : 'bi bi-arrow-down-short'}"></i>
+                            <i th:unless="${sortBy == 'qualificationLevel'}" class="bi bi-arrow-down-up text-secondary opacity-50"></i>
+                        </a>
+                    </th>
+
+                    <th>Departament</th>
+                    <th class="text-center">Acțiuni</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="nurse : ${nurses}">
+                    <td class="fw-bold ps-3" th:text="${nurse.id}">1</td>
+
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center me-2"
+                                 style="width: 35px; height: 35px; font-size: 0.8rem;">
+                                <span th:text="${#strings.substring(nurse.name, 0, 1)}">A</span>
+                            </div>
+                            <span th:text="${nurse.name}">Ana Ionescu</span>
+                        </div>
+                    </td>
+
+                    <td>
+                            <span class="badge rounded-pill border border-secondary text-secondary fw-normal"
+                                  th:text="${nurse.qualificationLevel}">Registered Nurse</span>
+                    </td>
+
+                    <td>
+                             <span th:if="${nurse.department != null}" class="text-dark">
+                                <i class="bi bi-building"></i> <span th:text="${nurse.department.name}">Cardio</span>
+                             </span>
+                        <span th:unless="${nurse.department != null}" class="text-muted fst-italic">
+                                - Fără Departament -
+                             </span>
+                    </td>
+
+                    <td class="text-center">
+                        <div class="btn-group" role="group">
+                            <a th:href="@{/nurses/edit/{id}(id=${nurse.id})}"
+                               class="btn btn-warning btn-sm" title="Editează">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a th:href="@{/nurses/delete/{id}(id=${nurse.id})}"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Sunteți sigur că doriți să ștergeți această asistentă?');"
+                               title="Șterge">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mt-4 mb-5">
+        <a href="/" class="btn btn-outline-secondary">
+            <i class="bi bi-house"></i> Înapoi la Meniul Principal
+        </a>
+    </div>
+
 </div>
-<div th:if="${success}" class="alert-success">
-    <span th:text="${success}"></span>
-</div>
 
-<a th:href="@{/nurses/new}">Add Nurse</a><br><br>
-
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Qualification</th>
-        <th>Department</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="n : ${nurses}">
-        <td th:text="${n.id}"></td>
-        <td th:text="${n.name}"></td>
-        <td th:text="${n.qualificationLevel}"></td>
-
-        <!-- Folosim ?. pentru siguranță -->
-        <td th:text="${n.department?.name}"></td>
-
-        <td>
-            <!-- LINK-URI CORECTATE: /nurses/actiune/{id} -->
-            <a th:href="@{/nurses/details/{id}(id=${n.id})}">Details</a> |
-            <a th:href="@{/nurses/edit/{id}(id=${n.id})}">Edit</a> |
-
-            <a th:href="@{/nurses/delete/{id}(id=${n.id})}"
-               onclick="return confirm('Are you sure you want to delete this nurse?')">Delete</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
-<br>
-<a th:href="@{/}">Back to Home</a>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

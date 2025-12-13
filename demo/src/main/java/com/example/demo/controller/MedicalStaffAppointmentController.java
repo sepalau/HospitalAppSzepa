@@ -2,9 +2,9 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.MedicalStaffAssignmentForm;
 import com.example.demo.model.MedicalStaffAppointment;
-import com.example.demo.service.AppointmentService;
-import com.example.demo.service.MedicalStaffAppointmentService;
+import com.example.demo.repository.AppointmentRepository;
 import com.example.demo.repository.MedicalStaffRepository;
+import com.example.demo.service.MedicalStaffAppointmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -13,82 +13,99 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
-@RequestMapping("/medicalstaffapp")
+@RequestMapping("/assignments") // URL-ul din browser
 @RequiredArgsConstructor
 public class MedicalStaffAppointmentController {
 
-    private final MedicalStaffAppointmentService msaService;
-    private final AppointmentService appointmentService;
+    private final MedicalStaffAppointmentService service;
+    private final AppointmentRepository appointmentRepository;
     private final MedicalStaffRepository medicalStaffRepository;
 
+    // 1. LISTARE + FILTRARE + SORTARE
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("links", msaService.getAll());
-        return "medicalstaffapp/index";
+    public String list(Model model,
+                       @RequestParam(required = false) String staffName,
+                       @RequestParam(required = false) Long appointmentId,
+                       @RequestParam(defaultValue = "id") String sortBy,
+                       @RequestParam(defaultValue = "asc") String sortDir) {
+
+        List<MedicalStaffAppointment> assignments = service.search(staffName, appointmentId, sortBy, sortDir);
+        model.addAttribute("assignments", assignments);
+
+        // Parametrii pentru UI (Sticky inputs)
+        model.addAttribute("staffName", staffName);
+        model.addAttribute("appointmentId", appointmentId);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
+        // CORECTAT: Acum returnează din folderul 'assignments'
+        return "assignments/index";
     }
 
-    @GetMapping("/new")
+    // 2. FORMULAR ADĂUGARE
+    @GetMapping("/create")
     public String createForm(Model model) {
-        model.addAttribute("assignment", new MedicalStaffAssignmentForm());
-        populateModel(model);
-        return "medicalstaffapp/form";
+        model.addAttribute("form", new MedicalStaffAssignmentForm());
+        populateDropdowns(model);
+        // CORECTAT
+        return "assignments/form";
     }
 
+    // 3. EDITARE
+    @GetMapping("/edit/{id}")
+    public String editForm(@PathVariable Long id, Model model) {
+        MedicalStaffAppointment assignment = service.getById(id);
+        MedicalStaffAssignmentForm form = service.toForm(assignment);
+
+        model.addAttribute("form", form);
+        populateDropdowns(model);
+
+        // CORECTAT
+        return "assignments/form";
+    }
+
+    // 4. SALVARE
     @PostMapping("/save")
-    public String save(
-            @Valid @ModelAttribute("assignment") MedicalStaffAssignmentForm form,
-            BindingResult result,
-            Model model) {
+    public String save(@Valid @ModelAttribute("form") MedicalStaffAssignmentForm form,
+                       BindingResult result,
+                       Model model,
+                       RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
-            populateModel(model);
-            return "medicalstaffapp/form";
+            populateDropdowns(model);
+            return "assignments/form"; // CORECTAT
         }
 
         try {
-            msaService.saveForm(form);
+            service.saveForm(form);
+            redirectAttributes.addFlashAttribute("success", "Asignare salvată cu succes!");
         } catch (RuntimeException e) {
-            result.reject("businessError", e.getMessage());
-            populateModel(model);
-            return "medicalstaffapp/form";
+            model.addAttribute("error", e.getMessage());
+            populateDropdowns(model);
+            return "assignments/form"; // CORECTAT
         }
 
-        return "redirect:/medicalstaffapp";
+        return "redirect:/assignments";
     }
 
-    // --- RUTE CORECTATE (Actiune inainte de ID) ---
-
-    @GetMapping("/edit/{id}") // Era /{id}/edit
-    public String editForm(@PathVariable Long id, Model model) {
-        MedicalStaffAppointment entity = msaService.getById(id);
-        MedicalStaffAssignmentForm form = msaService.toForm(entity);
-
-        model.addAttribute("assignment", form);
-        populateModel(model);
-
-        return "medicalstaffapp/form";
-    }
-
-    @GetMapping("/details/{id}") // Era /{id}/details
-    public String details(@PathVariable Long id, Model model) {
-        model.addAttribute("link", msaService.getById(id));
-        return "medicalstaffapp/details";
-    }
-
-    @GetMapping("/delete/{id}") // Era /{id}/delete
+    // 5. ȘTERGERE
+    @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
-            msaService.delete(id);
-            redirectAttributes.addFlashAttribute("success", "Assignment deleted successfully!");
+            service.delete(id);
+            redirectAttributes.addFlashAttribute("success", "Legătura a fost ștearsă!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Error deleting assignment.");
+            redirectAttributes.addFlashAttribute("error", "Eroare la ștergere.");
         }
-        return "redirect:/medicalstaffapp";
+        return "redirect:/assignments";
     }
 
-    private void populateModel(Model model) {
-        model.addAttribute("appointments", appointmentService.getAll());
-        model.addAttribute("staffList", medicalStaffRepository.findAll());
+    private void populateDropdowns(Model model) {
+        model.addAttribute("allStaff", medicalStaffRepository.findAll());
+        model.addAttribute("allAppointments", appointmentRepository.findAll());
     }
 }

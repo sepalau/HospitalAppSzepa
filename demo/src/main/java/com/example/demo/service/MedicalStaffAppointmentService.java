@@ -8,6 +8,7 @@ import com.example.demo.repository.AppointmentRepository;
 import com.example.demo.repository.MedicalStaffAppointmentRepository;
 import com.example.demo.repository.MedicalStaffRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort; // <--- IMPORT NOU NECESAR
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class MedicalStaffAppointmentService {
         msaRepository.deleteById(id);
     }
 
-    // --- SALVARE CU VALIDARE DE BUSINESS ---
+    // --- SALVARE CU VALIDARE DE BUSINESS (Păstrat din codul tău) ---
     public void saveForm(MedicalStaffAssignmentForm form) {
         MedicalStaffAppointment assignment;
 
@@ -44,7 +45,6 @@ public class MedicalStaffAppointmentService {
                     .orElse(new MedicalStaffAppointment());
         } else {
             // Creare: Verificăm UNICITATEA (Business Logic)
-            // Nu vrem să asignăm același medic de două ori la aceeași programare
             boolean exists = msaRepository.existsByAppointmentIdAndMedicalStaffId(
                     form.getAppointmentId(), form.getStaffId());
 
@@ -72,7 +72,7 @@ public class MedicalStaffAppointmentService {
         msaRepository.save(assignment);
     }
 
-    // --- CONVERSIE ENTITATE -> DTO (pentru Editare) ---
+    // --- CONVERSIE ENTITATE -> DTO (Păstrat din codul tău) ---
     public MedicalStaffAssignmentForm toForm(MedicalStaffAppointment entity) {
         MedicalStaffAssignmentForm form = new MedicalStaffAssignmentForm();
 
@@ -87,5 +87,33 @@ public class MedicalStaffAppointmentService {
         }
 
         return form;
+    }
+
+    // =========================================================================
+    // --- METODA NOUĂ PENTRU PROJEKT 5 (FILTRARE & SORTARE) ---
+    // =========================================================================
+    public List<MedicalStaffAppointment> search(String staffName, Long appointmentId, String sortBy, String sortDir) {
+
+        // 1. Configurare direcție sortare
+        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+
+        // 2. Maparea câmpurilor de sortare (pentru relații)
+        String sortProperty = "id"; // default
+
+        if ("staff".equals(sortBy)) {
+            sortProperty = "medicalStaff.name"; // Sortăm după numele medicului
+        } else if ("appointment".equals(sortBy)) {
+            sortProperty = "appointment.id";    // Sortăm după ID-ul programării
+        } else {
+            sortProperty = sortBy;              // Sortare standard (ex: id)
+        }
+
+        Sort sort = Sort.by(direction, sortProperty);
+
+        // 3. Curățare filtru text (string gol devine null)
+        String filterName = (staffName != null && !staffName.trim().isEmpty()) ? staffName.trim() : null;
+
+        // 4. Apel repository (Asigură-te că metoda findWithFilters există în Repository!)
+        return msaRepository.findWithFilters(filterName, appointmentId, sort);
     }
 }
