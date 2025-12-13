@@ -2,52 +2,63 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Hospital;
 import com.example.demo.service.HospitalService;
-import jakarta.validation.Valid; // Import pentru validare (@Valid)
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult; // Import pentru rezultate validare
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
+@RequestMapping("/hospitals")
 @RequiredArgsConstructor
-@RequestMapping("/hospitals") // Ruta principală la PLURAL
 public class HospitalController {
 
     private final HospitalService hospitalService;
 
-    // 1. Listare
+    // 1. List with Filtering and Sorting (PDF 5 Requirement)
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("hospitals", hospitalService.getAll());
+    public String list(
+            Model model,
+            @RequestParam(name = "keyword", required = false) String keyword,
+            @RequestParam(name = "sortField", defaultValue = "name") String sortField, // Default sort by Name
+            @RequestParam(name = "sortDir", defaultValue = "asc") String sortDir
+    ) {
+        List<Hospital> list = hospitalService.getAll(keyword, sortField, sortDir);
+        model.addAttribute("hospitals", list);
+
+        // Pass parameters back to the view to maintain state
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         return "hospital/index";
     }
 
-    // 2. Formular Adăugare
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("hospital", new Hospital());
         return "hospital/form";
     }
 
-    // 3. Salvare cu VALIDARE
+    // 2. Save with Validation (PDF 4 Requirement)
     @PostMapping("/save")
-    public String save(
-            @Valid @ModelAttribute("hospital") Hospital hospital, // Validăm datele
-            BindingResult result,                                 // Prindem erorile
-            Model model) {
-
-        // A. Validare Format (ex: câmpuri goale)
+    public String save(@Valid @ModelAttribute("hospital") Hospital hospital,
+                       BindingResult result, Model model) {
+        // A. Format Validation (@NotBlank, etc.)
         if (result.hasErrors()) {
-            return "hospital/form"; // Rămânem în formular pentru a afișa erorile
+            return "hospital/form";
         }
 
         try {
-            // B. Validare Business (ex: Unicitate Nume + Oraș)
+            // B. Business Validation (Unique Name in City)
             hospitalService.save(hospital);
         } catch (RuntimeException e) {
-            // Dacă Service-ul aruncă eroare (ex: "Există deja"), o punem pe câmpul 'name'
+            // If service throws duplicate error, add it to the 'name' field
             result.rejectValue("name", "error.hospital", e.getMessage());
             return "hospital/form";
         }
@@ -55,27 +66,25 @@ public class HospitalController {
         return "redirect:/hospitals";
     }
 
-    // 4. Formular Editare
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Long id, Model model) {
         model.addAttribute("hospital", hospitalService.getById(id));
         return "hospital/form";
     }
 
-    // 5. Ștergere cu Protecție
+    // 3. Delete with Protection (PDF 4 Requirement)
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             hospitalService.delete(id);
             redirectAttributes.addFlashAttribute("success", "Hospital deleted successfully!");
         } catch (Exception e) {
-            // Prindem eroarea de Foreign Key (dacă spitalul are departamente/camere)
+            // Catch DB Foreign Key constraint error if hospital has departments/rooms
             redirectAttributes.addFlashAttribute("error", "Cannot delete hospital! It has Departments or Rooms assigned to it.");
         }
         return "redirect:/hospitals";
     }
 
-    // 6. Detalii
     @GetMapping("/details/{id}")
     public String details(@PathVariable Long id, Model model) {
         model.addAttribute("hospital", hospitalService.getById(id));

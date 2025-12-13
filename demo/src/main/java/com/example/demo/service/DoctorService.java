@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.model.Doctor;
 import com.example.demo.repository.DoctorRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,20 @@ public class DoctorService {
 
     private final DoctorRepository repo;
 
+    // --- SORTARE ȘI FILTRARE ---
+    public List<Doctor> getAll(String keyword, String sortField, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase("asc") ?
+                Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+
+        if (keyword != null && !keyword.isEmpty()) {
+            return repo.searchByKeyword(keyword, sort);
+        }
+
+        return repo.findAll(sort);
+    }
+
+    // Metodă veche pentru compatibilitate
     public List<Doctor> getAll() {
         return repo.findAll();
     }
@@ -24,23 +39,16 @@ public class DoctorService {
     }
 
     public void save(Doctor doctor) {
-        // --- VALIDARE BUSINESS: UNICITATE LICENȚĂ ---
         Optional<Doctor> existing = repo.findByLicenseNumber(doctor.getLicenseNumber());
-
         if (existing.isPresent()) {
-            // Verificăm dacă doctorul găsit este diferit de cel pe care îl edităm
-            // (id null = creare nouă, id diferit = conflict cu alt doctor)
             if (doctor.getId() == null || !existing.get().getId().equals(doctor.getId())) {
-                throw new RuntimeException("Acest număr de licență (" + doctor.getLicenseNumber() + ") există deja!");
+                throw new RuntimeException("Acest număr de licență există deja!");
             }
         }
-
         repo.save(doctor);
     }
 
     public void delete(Long id) {
-        // Logica de bază de date va arunca eroare dacă există programări (Foreign Key)
-        // Această eroare este prinsă în Controller
         repo.deleteById(id);
     }
 }
