@@ -3,6 +3,7 @@ package com.example.demo.model;
 import com.example.demo.enums.AppointmentStatus;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import com.example.demo.model.Room;
 
 import java.time.LocalDate;
 
@@ -34,6 +35,10 @@ public class Appointment {
     @JoinColumn(name = "medical_staff_id")
     private MedicalStaff medicalStaff;
 
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
+
     public Appointment() {}
 
     public Long getId() { return id; }
@@ -53,4 +58,7 @@ public class Appointment {
 
     public MedicalStaff getMedicalStaff() { return medicalStaff; }
     public void setMedicalStaff(MedicalStaff medicalStaff) { this.medicalStaff = medicalStaff; }
+
+    public Room getRoom() { return room; }
+    public void setRoom(Room room) { this.room = room; }
 }
