@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.model.Department;
 import com.example.demo.repository.DepartmentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,23 @@ public class DepartmentService {
 
     private final DepartmentRepository repo;
 
+    // --- SORTARE ȘI FILTRARE (PDF 5) ---
+    public List<Department> getAll(String keyword, String sortField, String sortDir) {
+        // 1. Stabilim direcția sortării
+        Sort sort = sortDir.equalsIgnoreCase("asc") ?
+                Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+
+        // 2. Filtrare (Search)
+        if (keyword != null && !keyword.isEmpty()) {
+            return repo.searchByKeyword(keyword, sort);
+        }
+
+        // 3. Returnăm tot, sortat
+        return repo.findAll(sort);
+    }
+
+    // Metoda veche (pentru compatibilitate)
     public List<Department> getAll() {
         return repo.findAll();
     }
@@ -23,32 +41,18 @@ public class DepartmentService {
                 .orElseThrow(() -> new RuntimeException("Department not found: " + id));
     }
 
-    public Department save(Department department) {
-        // --- VALIDARE BUSINESS: UNICITATE ---
-        // Verificăm dacă există deja un departament cu același nume în același spital
-        if (department.getHospital() != null) {
-            Optional<Department> existing = repo.findByNameAndHospitalId(
-                    department.getName(),
-                    department.getHospital().getId()
-            );
-
-            // Dacă am găsit unul, verificăm dacă nu cumva este chiar cel pe care îl edităm acum
+    public void save(Department department) {
+        // Validare Unicitate Nume în Spital
+        if (department.getId() == null) {
+            Optional<Department> existing = repo.findByNameAndHospitalId(department.getName(), department.getHospital().getId());
             if (existing.isPresent()) {
-                // Dacă ID-ul este null (creare nouă) SAU ID-ul e diferit (conflict cu altul)
-                if (department.getId() == null || !existing.get().getId().equals(department.getId())) {
-                    throw new RuntimeException("Un departament cu numele '" + department.getName() +
-                            "' există deja în acest spital!");
-                }
+                throw new RuntimeException("Există deja un departament cu acest nume în acest spital!");
             }
         }
-
-        return repo.save(department);
+        repo.save(department);
     }
 
     public void delete(Long id) {
-        // Aici ne bazăm pe Foreign Key constraints din baza de date.
-        // Dacă departamentul are doctori, baza de date va arunca o eroare,
-        // care va fi prinsă de Controller (așa cum ai făcut deja).
         repo.deleteById(id);
     }
 }

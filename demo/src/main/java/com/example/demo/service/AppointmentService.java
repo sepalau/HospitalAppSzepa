@@ -6,9 +6,12 @@ import com.example.demo.model.Appointment;
 import com.example.demo.model.Department;
 import com.example.demo.model.MedicalStaff;
 import com.example.demo.model.Patient;
-import com.example.demo.model.Room; // Import necesar pentru Room
-import com.example.demo.repository.*;
+import com.example.demo.repository.AppointmentRepository;
+import com.example.demo.repository.DepartmentRepository;
+import com.example.demo.repository.MedicalStaffRepository;
+import com.example.demo.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,26 +24,41 @@ public class AppointmentService {
     private final PatientRepository patientRepository;
     private final DepartmentRepository departmentRepository;
     private final MedicalStaffRepository medicalStaffRepository;
-    private final RoomRepository roomRepository; // Repository-ul este deja injectat
 
+    // --- METODA NOUĂ PENTRU SORTARE ȘI FILTRARE (PDF 5) ---
+    public List<Appointment> getAll(String keyword, String sortField, String sortDir) {
+        // 1. Stabilim direcția sortării
+        Sort sort = sortDir.equalsIgnoreCase("asc") ?
+                Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+
+        // 2. Dacă avem un cuvânt cheie, filtrăm
+        if (keyword != null && !keyword.isEmpty()) {
+            return appointmentRepository.searchByKeyword(keyword, sort);
+        }
+
+        // 3. Altfel, returnăm tot, dar sortat
+        return appointmentRepository.findAll(sort);
+    }
+
+    // Metoda veche fără parametri (pentru compatibilitate cu alte controllere, dacă e cazul)
     public List<Appointment> getAll() {
         return appointmentRepository.findAll();
     }
 
     public Appointment getById(Long id) {
         return appointmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Appointment not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException("Appointment not found"));
     }
 
     public void delete(Long id) {
         appointmentRepository.deleteById(id);
     }
 
-    // --- LOGICA DE BUSINESS & SALVARE ---
+    // --- SALVARE CU VALIDARE DE BUSINESS ---
     public void saveForm(AppointmentForm form) {
         Appointment appointment;
 
-        // 1. Verificăm dacă e creare sau editare
         if (form.getId() != null) {
             appointment = appointmentRepository.findById(form.getId())
                     .orElse(new Appointment());
@@ -48,10 +66,8 @@ public class AppointmentService {
             appointment = new Appointment();
         }
 
-        // 2. Setăm datele simple
         appointment.setAdmissionDate(form.getAdmissionDate());
 
-        // 3. Conversie Status (String -> Enum)
         if (form.getStatus() != null && !form.getStatus().isEmpty()) {
             try {
                 appointment.setStatus(AppointmentStatus.valueOf(form.getStatus()));
@@ -60,53 +76,37 @@ public class AppointmentService {
             }
         }
 
-        // 4. Gestionarea relațiilor (Foreign Keys)
-
-        // A. Pacient
+        // Validare Business: Verificăm dacă entitățile există
         if (form.getPatientId() != null) {
             Patient p = patientRepository.findById(form.getPatientId())
-                    .orElseThrow(() -> new RuntimeException("Pacientul selectat (ID " + form.getPatientId() + ") nu există!"));
+                    .orElseThrow(() -> new RuntimeException("Pacientul selectat nu există!"));
             appointment.setPatient(p);
         }
 
-        // B. Departament
         if (form.getDepartmentId() != null) {
             Department d = departmentRepository.findById(form.getDepartmentId())
                     .orElseThrow(() -> new RuntimeException("Departamentul selectat nu există!"));
             appointment.setDepartment(d);
         }
 
-        // C. Personal Medical
         if (form.getMedicalStaffId() != null) {
             MedicalStaff m = medicalStaffRepository.findById(form.getMedicalStaffId())
                     .orElseThrow(() -> new RuntimeException("Medicul selectat nu există!"));
             appointment.setMedicalStaff(m);
         }
 
-        // D. Camera (NOU - Aceasta este partea adăugată pentru legătura cu Room)
-        if (form.getRoomId() != null) {
-            Room r = roomRepository.findById(form.getRoomId())
-                    .orElseThrow(() -> new RuntimeException("Camera selectată nu există!"));
-            appointment.setRoom(r);
-        }
-
-        // 5. Salvăm
         appointmentRepository.save(appointment);
     }
 
-    // --- CONVERTIRE PENTRU FORMULAR (Entitate -> DTO) ---
+    // --- CONVERTIRE (Entitate -> DTO) ---
     public AppointmentForm toForm(Appointment appointment) {
         AppointmentForm form = new AppointmentForm();
-
         form.setId(appointment.getId());
         form.setAdmissionDate(appointment.getAdmissionDate());
 
-        // Conversie Status (Enum -> String)
         if (appointment.getStatus() != null) {
             form.setStatus(appointment.getStatus().name());
         }
-
-        // Extragem ID-urile pentru a popula dropdown-urile la Editare
         if (appointment.getPatient() != null) {
             form.setPatientId(appointment.getPatient().getId());
         }
@@ -116,12 +116,6 @@ public class AppointmentService {
         if (appointment.getMedicalStaff() != null) {
             form.setMedicalStaffId(appointment.getMedicalStaff().getId());
         }
-
-        // NOU: Extragem ID-ul camerei
-        if (appointment.getRoom() != null) {
-            form.setRoomId(appointment.getRoom().getId());
-        }
-
         return form;
     }
 }
