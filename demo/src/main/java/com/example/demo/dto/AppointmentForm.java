@@ -11,7 +11,6 @@ public class AppointmentForm {
 
     private Long id;
 
-    // @NotNull asigură că utilizatorul a selectat ceva din dropdown
     @NotNull(message = "Trebuie să selectați un pacient!")
     private Long patientId;
 
@@ -21,13 +20,15 @@ public class AppointmentForm {
     @NotNull(message = "Trebuie să selectați un medic!")
     private Long medicalStaffId;
 
-    // @NotNull = nu poate fi gol
-    // @Future = data trebuie să fie în viitor (cerință PDF)
+    // --- ADĂUGAT PENTRU ROOM ---
+    @NotNull(message = "Trebuie să selectați o cameră!")
+    private Long roomId;
+    // ---------------------------
+
     @NotNull(message = "Data este obligatorie!")
-    @Future(message = "Data programării trebuie să fie în viitor!")
+    @Future(message = "Data programării trebuie să fie în viitor!") // Validare conform PDF [cite: 83]
     private LocalDate admissionDate;
 
-    // @NotBlank = nu poate fi text gol
     @NotBlank(message = "Statusul este obligatoriu!")
     private String status;
 }

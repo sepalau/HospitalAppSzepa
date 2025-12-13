@@ -6,6 +6,7 @@ import com.example.demo.service.AppointmentService;
 import com.example.demo.repository.PatientRepository;
 import com.example.demo.repository.DepartmentRepository;
 import com.example.demo.repository.MedicalStaffRepository;
+import com.example.demo.repository.RoomRepository; // <--- IMPORT NOU
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ public class AppointmentController {
     private final PatientRepository patientRepository;
     private final DepartmentRepository departmentRepository;
     private final MedicalStaffRepository medicalStaffRepository;
+    private final RoomRepository roomRepository; // <--- 1. Injectăm Repository-ul de Camere
 
     @GetMapping
     public String list(Model model) {
@@ -84,5 +86,6 @@ public class AppointmentController {
         model.addAttribute("patients", patientRepository.findAll());
         model.addAttribute("departments", departmentRepository.findAll());
         model.addAttribute("medicalStaffList", medicalStaffRepository.findAll());
+        model.addAttribute("rooms", roomRepository.findAll()); // <--- 2. Trimitem lista de camere în HTML
     }
 }
