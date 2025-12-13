@@ -4,56 +4,50 @@ import com.example.demo.enums.QualificationLevel;
 import com.example.demo.model.Nurse;
 import com.example.demo.service.NurseService;
 import com.example.demo.service.DepartmentService;
-import jakarta.validation.Valid; // Import pentru validare
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult; // Import pentru rezultatele validării
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/nurses") // Ruta principală la PLURAL
+@RequestMapping("/nurses")
 public class NurseController {
 
     private final NurseService nurseService;
     private final DepartmentService departmentService;
 
-    // 1. Listare
     @GetMapping
     public String list(Model model) {
         model.addAttribute("nurses", nurseService.getAll());
         return "nurse/index";
     }
 
-    // 2. Formular Adăugare
     @GetMapping("/new")
     public String createForm(Model model) {
         model.addAttribute("nurse", new Nurse());
-        populateModel(model); // Încărcăm dropdown-urile
+        populateModel(model);
         return "nurse/form";
     }
 
-    // 3. Salvare cu Validare
     @PostMapping("/save")
     public String save(
-            @Valid @ModelAttribute("nurse") Nurse nurse, // @Valid activează regulile din Nurse.java
-            BindingResult result,                        // Aici primim erorile
+            @Valid @ModelAttribute("nurse") Nurse nurse,
+            BindingResult result,
             Model model) {
 
-        // Dacă există erori de validare (ex: nume gol)
         if (result.hasErrors()) {
-            populateModel(model); // Reîncărcăm listele pentru dropdown-uri
-            return "nurse/form";  // Rămânem în formular pentru a afișa erorile
+            populateModel(model);
+            return "nurse/form";
         }
 
-        // Dacă totul e OK, salvăm
         nurseService.save(nurse);
         return "redirect:/nurses";
     }
 
-    // 4. Formular Editare
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable Long id, Model model) {
         model.addAttribute("nurse", nurseService.getById(id));
@@ -61,27 +55,23 @@ public class NurseController {
         return "nurse/form";
     }
 
-    // 5. Ștergere cu Protecție
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             nurseService.delete(id);
             redirectAttributes.addFlashAttribute("success", "Nurse deleted successfully!");
         } catch (Exception e) {
-            // Prindem eroarea dacă asistenta este asignată unei programări
             redirectAttributes.addFlashAttribute("error", "Cannot delete nurse. They are assigned to existing Appointments.");
         }
         return "redirect:/nurses";
     }
 
-    // 6. Detalii
     @GetMapping("/details/{id}")
     public String details(@PathVariable Long id, Model model) {
         model.addAttribute("nurse", nurseService.getById(id));
         return "nurse/details";
     }
 
-    // Metodă ajutătoare pentru a popula dropdown-urile (Department, Qualification)
     private void populateModel(Model model) {
         model.addAttribute("departments", departmentService.getAll());
         model.addAttribute("levels", QualificationLevel.values());

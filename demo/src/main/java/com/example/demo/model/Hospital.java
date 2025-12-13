@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,6 +28,8 @@ public class Hospital {
 
     @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL)
     private List<Room> rooms;
+
+    @Size(min = 3, max = 50, message = "Numele trebuie să aibă între 3 și 50 de caractere.")
 
     @Override
     public String toString() {
