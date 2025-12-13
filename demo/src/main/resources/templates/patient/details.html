@@ -1,78 +1,103 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Patient Details</title>
-    <style>
-        /* Stiluri simple pentru tabel */
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        tr:hover { background-color: #f5f5f5; }
-
-        .section-title { margin-top: 30px; border-bottom: 2px solid #333; padding-bottom: 5px; }
-        .empty-msg { color: #666; font-style: italic; margin-top: 10px; }
-    </style>
+    <title>Fișă Pacient</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 </head>
-<body>
+<body class="bg-light">
 
-<h1>Patient Details</h1>
+<div class="container mt-5">
 
-<!-- INFO PACIENT -->
-<div>
-    <p><strong>ID:</strong> <span th:text="${patient.id}"></span></p>
-    <p><strong>Name:</strong> <span th:text="${patient.name}"></span></p>
-    <p><strong>Address:</strong> <span th:text="${patient.address}"></span></p>
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h3 class="mb-0"><i class="bi bi-person-vcard"></i> Detalii Pacient</h3>
+            <span class="badge bg-light text-primary fs-6" th:text="'ID: ' + ${patient.id}">ID: 1</span>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="text-secondary">Nume Complet</h5>
+                    <p class="fs-4 fw-bold" th:text="${patient.name}">Nume Pacient</p>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="text-secondary">Adresă</h5>
+                    <p class="fs-5" th:text="${patient.address}">Adresa Pacient</p>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="d-flex justify-content-end">
+                <a th:href="@{/patients/edit/{id}(id=${patient.id})}" class="btn btn-warning me-2">
+                    <i class="bi bi-pencil"></i> Editează Datele
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="mb-3 text-dark border-bottom pb-2">
+        <i class="bi bi-calendar-check-fill text-success"></i> Istoric Programări
+    </h4>
+
+    <div th:if="${#lists.isEmpty(patient.appointments)}" class="alert alert-info shadow-sm">
+        <i class="bi bi-info-circle"></i> Acest pacient nu are nicio programare înregistrată în sistem.
+    </div>
+
+    <div class="table-responsive shadow-sm" th:unless="${#lists.isEmpty(patient.appointments)}">
+        <table class="table table-hover table-striped table-bordered align-middle bg-white">
+            <thead class="table-dark">
+            <tr>
+                <th>Data</th>
+                <th>Departament</th>
+                <th>Medic</th>
+                <th>Cameră (Room)</th>
+                <th>Status</th>
+                <th class="text-center">Acțiuni</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="app : ${patient.appointments}">
+                <td th:text="${app.admissionDate}">2023-10-10</td>
+
+                <td th:text="${app.department != null} ? ${app.department.name} : 'N/A'">Cardio</td>
+
+                <td th:text="${app.medicalStaff != null} ? ${app.medicalStaff.name} : 'N/A'">Dr. X</td>
+
+                <td>
+                        <span th:if="${app.room != null}" class="badge bg-info text-dark">
+                            <i class="bi bi-door-open"></i>
+                            <span th:text="${app.room.number}">101</span>
+                        </span>
+                    <span th:unless="${app.room != null}" class="text-muted small">Fără cameră</span>
+                </td>
+
+                <td>
+                         <span class="badge"
+                               th:classappend="${app.status.name() == 'ACTIVE' ? 'bg-success' :
+                                              (app.status.name() == 'COMPLETED' ? 'bg-secondary' : 'bg-warning')}"
+                               th:text="${app.status}">
+                            ACTIVE
+                        </span>
+                </td>
+
+                <td class="text-center">
+                    <a th:href="@{/appointments/details/{id}(id=${app.id})}" class="btn btn-sm btn-outline-primary">
+                        Vezi <i class="bi bi-arrow-right"></i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4 mb-5">
+        <a href="/patients" class="btn btn-secondary btn-lg">
+            <i class="bi bi-arrow-left"></i> Înapoi la Lista Pacienți
+        </a>
+    </div>
+
 </div>
-
-<!-- ISTORIC PROGRAMĂRI -->
-<h2 class="section-title">Appointments History</h2>
-
-<!-- Verificăm dacă pacientul are programări -->
-<div th:if="${not #lists.isEmpty(patient.appointments)}">
-    <table>
-        <thead>
-        <tr>
-            <th>Date</th>
-            <th>Department</th>
-            <th>Doctor/Staff</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Iterăm prin lista de programări a pacientului -->
-        <tr th:each="app : ${patient.appointments}">
-            <td th:text="${app.admissionDate}"></td>
-
-            <!-- Folosim ?. pentru siguranță -->
-            <td th:text="${app.department?.name}"></td>
-            <td th:text="${app.medicalStaff?.name}"></td>
-            <td th:text="${app.status}"></td>
-
-            <td>
-                <!-- Link către detaliile programării -->
-                <a th:href="@{/appointments/details/{id}(id=${app.id})}">View</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-<!-- Mesaj dacă nu există programări -->
-<div th:if="${#lists.isEmpty(patient.appointments)}" class="empty-msg">
-    <p>No appointments found for this patient.</p>
-</div>
-
-<br/>
-<br/>
-
-<!-- NAVIGARE -->
-<a th:href="@{/patients}">Back to List</a>
-&nbsp;|&nbsp;
-<a th:href="@{/patients/edit/{id}(id=${patient.id})}">Edit Patient</a>
-&nbsp;|&nbsp;
-<a th:href="@{/patients/delete/{id}(id=${patient.id})}"
-   onclick="return confirm('Are you sure you want to delete this patient?')">Delete Patient</a>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

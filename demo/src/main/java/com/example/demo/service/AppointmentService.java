@@ -6,10 +6,8 @@ import com.example.demo.model.Appointment;
 import com.example.demo.model.Department;
 import com.example.demo.model.MedicalStaff;
 import com.example.demo.model.Patient;
-import com.example.demo.repository.AppointmentRepository;
-import com.example.demo.repository.DepartmentRepository;
-import com.example.demo.repository.MedicalStaffRepository;
-import com.example.demo.repository.PatientRepository;
+import com.example.demo.model.Room; // Import necesar pentru Room
+import com.example.demo.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +21,7 @@ public class AppointmentService {
     private final PatientRepository patientRepository;
     private final DepartmentRepository departmentRepository;
     private final MedicalStaffRepository medicalStaffRepository;
+    private final RoomRepository roomRepository; // Repository-ul este deja injectat
 
     public List<Appointment> getAll() {
         return appointmentRepository.findAll();
@@ -30,7 +29,7 @@ public class AppointmentService {
 
     public Appointment getById(Long id) {
         return appointmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+                .orElseThrow(() -> new RuntimeException("Appointment not found with ID: " + id));
     }
 
     public void delete(Long id) {
@@ -57,31 +56,41 @@ public class AppointmentService {
             try {
                 appointment.setStatus(AppointmentStatus.valueOf(form.getStatus()));
             } catch (IllegalArgumentException e) {
-                // Dacă statusul trimis nu există în Enum
                 throw new RuntimeException("Status invalid: " + form.getStatus());
             }
         }
 
+        // 4. Gestionarea relațiilor (Foreign Keys)
 
+        // A. Pacient
         if (form.getPatientId() != null) {
             Patient p = patientRepository.findById(form.getPatientId())
                     .orElseThrow(() -> new RuntimeException("Pacientul selectat (ID " + form.getPatientId() + ") nu există!"));
             appointment.setPatient(p);
         }
 
+        // B. Departament
         if (form.getDepartmentId() != null) {
             Department d = departmentRepository.findById(form.getDepartmentId())
                     .orElseThrow(() -> new RuntimeException("Departamentul selectat nu există!"));
             appointment.setDepartment(d);
         }
 
+        // C. Personal Medical
         if (form.getMedicalStaffId() != null) {
             MedicalStaff m = medicalStaffRepository.findById(form.getMedicalStaffId())
                     .orElseThrow(() -> new RuntimeException("Medicul selectat nu există!"));
             appointment.setMedicalStaff(m);
         }
 
-        // 5. Salvăm doar dacă totul a trecut validările
+        // D. Camera (NOU - Aceasta este partea adăugată pentru legătura cu Room)
+        if (form.getRoomId() != null) {
+            Room r = roomRepository.findById(form.getRoomId())
+                    .orElseThrow(() -> new RuntimeException("Camera selectată nu există!"));
+            appointment.setRoom(r);
+        }
+
+        // 5. Salvăm
         appointmentRepository.save(appointment);
     }
 
@@ -97,7 +106,7 @@ public class AppointmentService {
             form.setStatus(appointment.getStatus().name());
         }
 
-        // Extragem ID-urile
+        // Extragem ID-urile pentru a popula dropdown-urile la Editare
         if (appointment.getPatient() != null) {
             form.setPatientId(appointment.getPatient().getId());
         }
@@ -106,6 +115,11 @@ public class AppointmentService {
         }
         if (appointment.getMedicalStaff() != null) {
             form.setMedicalStaffId(appointment.getMedicalStaff().getId());
+        }
+
+        // NOU: Extragem ID-ul camerei
+        if (appointment.getRoom() != null) {
+            form.setRoomId(appointment.getRoom().getId());
         }
 
         return form;
