@@ -6,7 +6,6 @@ import com.example.demo.service.AppointmentService;
 import com.example.demo.repository.PatientRepository;
 import com.example.demo.repository.DepartmentRepository;
 import com.example.demo.repository.MedicalStaffRepository;
-import com.example.demo.repository.RoomRepository; // <--- IMPORT NOU
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/appointments")
@@ -24,11 +25,24 @@ public class AppointmentController {
     private final PatientRepository patientRepository;
     private final DepartmentRepository departmentRepository;
     private final MedicalStaffRepository medicalStaffRepository;
-    private final RoomRepository roomRepository; // <--- 1. Injectăm Repository-ul de Camere
 
+    // 1. Listare cu SORTARE și FILTRARE
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("appointments", appointmentService.getAll());
+    public String list(
+            Model model,
+            @RequestParam(name = "keyword", required = false) String keyword,
+            @RequestParam(name = "sortField", defaultValue = "admissionDate") String sortField, // Sortare implicită după dată
+            @RequestParam(name = "sortDir", defaultValue = "asc") String sortDir
+    ) {
+        List<Appointment> list = appointmentService.getAll(keyword, sortField, sortDir);
+        model.addAttribute("appointments", list);
+
+        // Parametrii pentru UI
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         return "appointment/index";
     }
 
@@ -40,17 +54,19 @@ public class AppointmentController {
     }
 
     @PostMapping("/save")
-    public String save(
-            @Valid @ModelAttribute("appointment") AppointmentForm form,
-            BindingResult result,
-            Model model
-    ) {
+    public String save(@Valid @ModelAttribute("appointment") AppointmentForm form,
+                       BindingResult result, Model model) {
         if (result.hasErrors()) {
             populateModel(model);
             return "appointment/form";
         }
-
-        appointmentService.saveForm(form);
+        try {
+            appointmentService.saveForm(form);
+        } catch (RuntimeException e) {
+            result.reject("businessError", e.getMessage());
+            populateModel(model);
+            return "appointment/form";
+        }
         return "redirect:/appointments";
     }
 
@@ -58,10 +74,8 @@ public class AppointmentController {
     public String editForm(@PathVariable Long id, Model model) {
         Appointment a = appointmentService.getById(id);
         AppointmentForm form = appointmentService.toForm(a);
-
         model.addAttribute("appointment", form);
         populateModel(model);
-
         return "appointment/form";
     }
 
@@ -69,9 +83,9 @@ public class AppointmentController {
     public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             appointmentService.delete(id);
-            redirectAttributes.addFlashAttribute("success", "Appointment deleted successfully!");
+            redirectAttributes.addFlashAttribute("success", "Appointment deleted!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Cannot delete appointment. It might be linked to other records.");
+            redirectAttributes.addFlashAttribute("error", "Cannot delete appointment.");
         }
         return "redirect:/appointments";
     }
@@ -86,6 +100,5 @@ public class AppointmentController {
         model.addAttribute("patients", patientRepository.findAll());
         model.addAttribute("departments", departmentRepository.findAll());
         model.addAttribute("medicalStaffList", medicalStaffRepository.findAll());
-        model.addAttribute("rooms", roomRepository.findAll()); // <--- 2. Trimitem lista de camere în HTML
     }
 }

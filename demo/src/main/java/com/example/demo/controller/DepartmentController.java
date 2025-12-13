@@ -3,13 +3,15 @@ package com.example.demo.controller;
 import com.example.demo.model.Department;
 import com.example.demo.service.DepartmentService;
 import com.example.demo.service.HospitalService;
-import jakarta.validation.Valid; // Import pentru validare
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult; // Import pentru rezultate validare
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/departments")
@@ -19,45 +21,50 @@ public class DepartmentController {
     private final DepartmentService departmentService;
     private final HospitalService hospitalService;
 
-    // 1. Listare
+    // 1. Listare cu Filtrare și Sortare
     @GetMapping
-    public String index(Model model) {
-        model.addAttribute("departments", departmentService.getAll());
+    public String index(
+            Model model,
+            @RequestParam(name = "keyword", required = false) String keyword,
+            @RequestParam(name = "sortField", defaultValue = "name") String sortField, // Sortare implicită după nume
+            @RequestParam(name = "sortDir", defaultValue = "asc") String sortDir
+    ) {
+        List<Department> list = departmentService.getAll(keyword, sortField, sortDir);
+        model.addAttribute("departments", list);
+
+        // Parametrii pentru UI (pentru a păstra starea filtrelor)
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         return "department/index";
     }
 
-    // 2. Formular Adăugare
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("department", new Department());
-        // Trebuie să trimitem lista de spitale pentru dropdown
         model.addAttribute("hospitals", hospitalService.getAll());
         return "department/form";
     }
 
-    // 3. Salvare cu VALIDARE (Format + Business)
+    // 2. Salvare cu Validare
     @PostMapping("/save")
-    public String save(
-            @Valid @ModelAttribute Department department,
-            BindingResult result,
-            Model model) {
+    public String save(@Valid @ModelAttribute Department department,
+                       BindingResult result, Model model) {
 
-        // A. Validare de format (ex: câmpuri goale)
+        // A. Validare Format (câmpuri goale)
         if (result.hasErrors()) {
-            // Reîncărcăm lista de spitale pentru că ne întoarcem în pagină
             model.addAttribute("hospitals", hospitalService.getAll());
             return "department/form";
         }
 
         try {
-            // B. Validare de Business (ex: Unicitate nume)
-            // Această metodă din Service poate arunca RuntimeException
+            // B. Validare Business (Unicitate)
             departmentService.save(department);
         } catch (RuntimeException e) {
-            // Dacă apare o eroare de business (ex: "Există deja"), o punem pe câmpul 'name'
+            // Dacă există deja, afișăm eroarea pe câmpul 'name'
             result.rejectValue("name", "error.department", e.getMessage());
-
-            // Reîncărcăm lista de spitale
             model.addAttribute("hospitals", hospitalService.getAll());
             return "department/form";
         }
@@ -65,7 +72,6 @@ public class DepartmentController {
         return "redirect:/departments";
     }
 
-    // 4. Formular Editare
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Long id, Model model) {
         model.addAttribute("department", departmentService.getById(id));
@@ -73,20 +79,18 @@ public class DepartmentController {
         return "department/form";
     }
 
-    // 5. Ștergere cu Protecție
+    // 3. Ștergere cu Protecție
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             departmentService.delete(id);
             redirectAttributes.addFlashAttribute("success", "Department deleted successfully!");
         } catch (Exception e) {
-            // Prindem eroarea de bază de date (Foreign Key) dacă departamentul nu e gol
             redirectAttributes.addFlashAttribute("error", "Cannot delete department! It contains Doctors, Nurses or Rooms.");
         }
         return "redirect:/departments";
     }
 
-    // 6. Detalii
     @GetMapping("/details/{id}")
     public String details(@PathVariable Long id, Model model) {
         model.addAttribute("department", departmentService.getById(id));
