@@ -70,4 +70,14 @@ public class RoomController {
         roomService.delete(id);
         return "redirect:/rooms";
     }
+
+    // 6. Afișare Detalii (NOU)
+    @GetMapping("/details/{id}")
+    public String showDetails(@PathVariable Long id, Model model) {
+        Room room = roomService.getById(id) // Folosește metoda corectată care returnează Optional
+                .orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + id));
+
+        model.addAttribute("room", room);
+        return "room/details"; // Aceasta este pagina html pe care o vom crea
+    }
 }
