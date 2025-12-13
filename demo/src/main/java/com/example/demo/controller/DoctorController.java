@@ -3,16 +3,16 @@ package com.example.demo.controller;
 import com.example.demo.model.Doctor;
 import com.example.demo.service.DepartmentService;
 import com.example.demo.service.DoctorService;
-import jakarta.validation.Valid; // Import Validare
+import jakarta.validation.Valid; // Import pentru validare
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult; // Import BindingResult
+import org.springframework.validation.BindingResult; // Import pentru rezultate validare
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/doctors")
+@RequestMapping("/doctors") // Rute la PLURAL
 @RequiredArgsConstructor
 public class DoctorController {
 
@@ -30,7 +30,7 @@ public class DoctorController {
     @GetMapping("/add")
     public String addForm(Model model) {
         model.addAttribute("doctor", new Doctor());
-        model.addAttribute("departments", departmentService.getAll());
+        populateModel(model); // Încărcăm lista de departamente
         return "doctor/form";
     }
 
@@ -41,14 +41,23 @@ public class DoctorController {
             BindingResult result,                           // Prindem erorile
             Model model
     ) {
-        // Dacă sunt erori (ex: licență goală)
+        // A. Validare Format (ex: câmpuri goale)
         if (result.hasErrors()) {
-            // Reîncărcăm lista de departamente pentru dropdown
-            model.addAttribute("departments", departmentService.getAll());
-            return "doctor/form"; // Rămânem pe formular
+            populateModel(model); // Reîncărcăm listele
+            return "doctor/form"; // Rămânem în formular
         }
 
-        doctorService.save(doctor);
+        try {
+            // B. Validare Business (ex: Unicitate Licență)
+            doctorService.save(doctor);
+        } catch (RuntimeException e) {
+            // Dacă Service-ul aruncă eroare (Licență duplicată), o punem pe câmpul 'licenseNumber'
+            result.rejectValue("licenseNumber", "error.doctor", e.getMessage());
+
+            populateModel(model);
+            return "doctor/form";
+        }
+
         return "redirect:/doctors";
     }
 
@@ -56,17 +65,18 @@ public class DoctorController {
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable Long id, Model model) {
         model.addAttribute("doctor", doctorService.getById(id));
-        model.addAttribute("departments", departmentService.getAll());
+        populateModel(model);
         return "doctor/form";
     }
 
-    // 5. Ștergere cu protecție
+    // 5. Ștergere cu Protecție
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             doctorService.delete(id);
             redirectAttributes.addFlashAttribute("success", "Doctor deleted successfully!");
         } catch (Exception e) {
+            // Prindem eroarea de Foreign Key (dacă are programări)
             redirectAttributes.addFlashAttribute("error", "Cannot delete doctor! They have assigned Appointments.");
         }
         return "redirect:/doctors";
@@ -77,5 +87,10 @@ public class DoctorController {
     public String details(@PathVariable Long id, Model model) {
         model.addAttribute("doctor", doctorService.getById(id));
         return "doctor/details";
+    }
+
+    // Metodă ajutătoare pentru a popula dropdown-ul de departamente
+    private void populateModel(Model model) {
+        model.addAttribute("departments", departmentService.getAll());
     }
 }

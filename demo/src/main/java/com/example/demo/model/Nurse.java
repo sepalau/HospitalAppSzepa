@@ -11,6 +11,7 @@ import lombok.Data;
 @Data
 public class Nurse extends MedicalStaff {
 
+
     @NotNull(message = "Nivelul de calificare este obligatoriu!")
     @Enumerated(EnumType.STRING)
     private QualificationLevel qualificationLevel;

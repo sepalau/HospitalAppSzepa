@@ -27,6 +27,7 @@
 
 <h1>Staff Assignments List</h1>
 
+<!-- Mesaje de eroare/succes -->
 <div th:if="${error}" class="alert-error">
     <span th:text="${error}"></span>
 </div>
@@ -37,7 +38,7 @@
 <a th:href="@{/medicalstaffapp/new}">Assign New Staff</a>
 <br/><br/>
 
-<table border="1">
+<table>
     <thead>
     <tr>
         <th>ID</th>
@@ -49,17 +50,21 @@
     <tbody>
     <tr th:each="link : ${links}">
         <td th:text="${link.id}"></td>
+
+        <!-- Data programării -->
         <td th:text="${link.appointment?.admissionDate}"></td>
+
+        <!-- Numele cadrului medical -->
         <td th:text="${link.medicalStaff?.name}"></td>
 
         <td>
-            <a th:href="@{/medicalstaffapp/{id}/details(id=${link.id})}">Details</a>
+            <!-- LINK-URI CORECTATE: Actiune inainte de ID -->
+            <a th:href="@{/medicalstaffapp/details/{id}(id=${link.id})}">Details</a>
             |
-            <!-- BUTONUL EDIT ADĂUGAT -->
-            <a th:href="@{/medicalstaffapp/{id}/edit(id=${link.id})}">Edit</a>
+            <a th:href="@{/medicalstaffapp/edit/{id}(id=${link.id})}">Edit</a>
             |
-            <a th:href="@{/medicalstaffapp/{id}/delete(id=${link.id})}"
-               onclick="return confirm('Are you sure?')">Delete</a>
+            <a th:href="@{/medicalstaffapp/delete/{id}(id=${link.id})}"
+               onclick="return confirm('Are you sure you want to delete this assignment?')">Delete</a>
         </td>
     </tr>
     </tbody>

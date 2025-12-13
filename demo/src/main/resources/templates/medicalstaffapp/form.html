@@ -1,37 +1,86 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>New Assignment</title>
+    <title>Assign Staff Form</title>
+    <style>
+        /* CSS pentru erori */
+        .error-msg {
+            color: red;
+            font-size: 0.9em;
+            display: block;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        .is-invalid {
+            border: 2px solid red;
+            background-color: #ffe6e6;
+        }
+        .global-error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        /* Stiluri generale */
+        form { margin-top: 20px; }
+        label { display: inline-block; width: 150px; font-weight: bold; }
+        select { padding: 5px; width: 350px; margin-bottom: 10px; }
+        button { padding: 8px 15px; cursor: pointer; background-color: #4CAF50; color: white; border: none; }
+    </style>
 </head>
 <body>
 
-<h1>Assign Staff to Appointment</h1>
+<h2 th:text="${assignment.id == null ? 'Assign Staff to Appointment' : 'Edit Assignment'}"></h2>
 
-<form th:action="@{/medicalstaffapp}" method="post" th:object="${link}">
+<form th:action="@{/medicalstaffapp/save}" th:object="${assignment}" method="post">
 
-    <label>Select Appointment:</label>
-    <select name="appointmentId" required>
-        <option value="">-- Select --</option>
-        <option th:each="app : ${appointments}"
-                th:value="${app.id}"
-                th:text="'Data: ' + ${app.admissionDate} + ' (Pacient: ' + ${app.patient?.name} + ')'">
-        </option>
-    </select>
-    <br/><br/>
+    <!-- 1. AFIȘARE ERORI GLOBALE (DE BUSINESS) -->
+    <!-- Aici apare mesajul "Acest cadru medical este deja asignat..." -->
+    <div th:if="${#fields.hasGlobalErrors()}" class="global-error">
+        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+    </div>
 
-    <label>Select Staff:</label>
-    <select name="staffId" required>
-        <option value="">-- Select --</option>
-        <option th:each="staff : ${staffList}"
-                th:value="${staff.id}"
-                th:text="${staff.name}">
-        </option>
-    </select>
-    <br/><br/>
+    <input type="hidden" th:field="*{id}" />
 
-    <button type="submit">Save</button>
-    <a th:href="@{/medicalstaffapp}">Cancel</a>
+    <!-- 2. SELECTARE PROGRAMARE -->
+    <div>
+        <label>Appointment:</label>
+        <select th:field="*{appointmentId}"
+                th:classappend="${#fields.hasErrors('appointmentId')} ? 'is-invalid' : ''">
+            <option value="">-- Select Appointment --</option>
+            <option th:each="app : ${appointments}"
+                    th:value="${app.id}"
+                    th:text="'ID: ' + ${app.id} + ' | Date: ' + ${app.admissionDate} + ' | Patient: ' + ${app.patient?.name}">
+            </option>
+        </select>
+        <!-- Mesaj eroare câmp -->
+        <span th:if="${#fields.hasErrors('appointmentId')}" th:errors="*{appointmentId}" class="error-msg"></span>
+    </div>
+
+    <!-- 3. SELECTARE CADRU MEDICAL -->
+    <div>
+        <label>Medical Staff:</label>
+        <select th:field="*{staffId}"
+                th:classappend="${#fields.hasErrors('staffId')} ? 'is-invalid' : ''">
+            <option value="">-- Select Doctor/Nurse --</option>
+            <option th:each="staff : ${staffList}"
+                    th:value="${staff.id}"
+                    th:text="${staff.name} + ' (' + ${staff.getClass().getSimpleName()} + ')'">
+            </option>
+        </select>
+        <span th:if="${#fields.hasErrors('staffId')}" th:errors="*{staffId}" class="error-msg"></span>
+    </div>
+
+    <br/>
+    <button type="submit">Save Assignment</button>
 </form>
+
+<br>
+<a th:href="@{/medicalstaffapp}">Back to List</a>
 
 </body>
 </html>

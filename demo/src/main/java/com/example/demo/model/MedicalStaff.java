@@ -2,26 +2,20 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@Getter
-@Setter
-public abstract class MedicalStaff {
+@Data
+@Inheritance(strategy = InheritanceType.JOINED) // Sau SINGLE_TABLE, depinde cum ai setat baza
+public class MedicalStaff {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    // AICI ESTE DEFINIȚIA UNICĂ A NUMELUI
+    @NotBlank(message = "Numele este obligatoriu!")
+    @Size(min = 3, message = "Numele trebuie să aibă minim 3 caractere.")
     private String name;
-
-    @Override
-    public String toString() {
-        return "MedicalStaff{id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }

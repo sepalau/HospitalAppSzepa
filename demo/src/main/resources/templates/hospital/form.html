@@ -2,28 +2,60 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Hospital Form</title>
+    <style>
+        /* CSS pentru erori de validare */
+        .error-msg {
+            color: red;
+            font-size: 0.9em;
+            display: block;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        .is-invalid {
+            border: 2px solid red;
+            background-color: #ffe6e6;
+        }
+
+        /* Stiluri generale */
+        form { margin-top: 20px; }
+        label { display: inline-block; width: 100px; font-weight: bold; }
+        input { padding: 5px; width: 250px; margin-bottom: 10px; }
+        button { padding: 8px 15px; cursor: pointer; background-color: #4CAF50; color: white; border: none; }
+    </style>
 </head>
 <body>
 
-<h1>Hospital Form</h1>
+<h2 th:text="${hospital.id == null ? 'Add Hospital' : 'Edit Hospital'}"></h2>
 
+<!-- Action setat la /hospitals/save -->
 <form th:action="@{/hospitals/save}" th:object="${hospital}" method="post">
 
     <input type="hidden" th:field="*{id}"/>
 
-    <label>Name:</label>
-    <input type="text" th:field="*{name}" required/>
-    <br><br>
+    <!-- NAME -->
+    <div>
+        <label>Name:</label>
+        <input type="text" th:field="*{name}" required
+               th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''"/>
+        <!-- Mesaj de eroare -->
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-msg"></span>
+    </div>
 
-    <label>City:</label>
-    <input type="text" th:field="*{city}" required/>
-    <br><br>
+    <!-- CITY -->
+    <div>
+        <label>City:</label>
+        <input type="text" th:field="*{city}" required
+               th:classappend="${#fields.hasErrors('city')} ? 'is-invalid' : ''"/>
+        <!-- Mesaj de eroare -->
+        <span th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="error-msg"></span>
+    </div>
 
+    <br/>
     <button type="submit">Save</button>
 </form>
 
 <br>
-<a th:href="@{/hospitals}">Back</a>
+<a th:href="@{/hospitals}">Back to List</a>
 
 </body>
 </html>

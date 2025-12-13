@@ -2,6 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Assignment Details</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            width: 150px;
+        }
+    </style>
 </head>
 <body>
 
@@ -13,8 +30,10 @@
         <td th:text="${link.id}"></td>
     </tr>
 
+    <!-- SECȚIUNE PROGRAMARE -->
     <tr>
         <th>Appointment ID:</th>
+        <!-- Folosim ?. pentru a evita erori daca programarea e stearsa -->
         <td th:text="${link.appointment?.id}"></td>
     </tr>
     <tr>
@@ -26,21 +45,29 @@
         <td th:text="${link.appointment?.patient?.name}"></td>
     </tr>
 
+    <!-- SECȚIUNE STAFF -->
     <tr>
         <th>Medical Staff ID:</th>
         <td th:text="${link.medicalStaff?.id}"></td>
     </tr>
     <tr>
         <th>Staff Name:</th>
+        <!-- Verifică dacă în model ai 'medicalStaff' sau 'staff'. Aici am pus 'medicalStaff' conform entității tale -->
         <td th:text="${link.medicalStaff?.name}"></td>
     </tr>
 </table>
 
 <br>
+
+<!-- BUTOANE DE ACȚIUNE -->
 <a th:href="@{/medicalstaffapp}">Back to List</a>
 |
-<a th:href="@{/medicalstaffapp/{id}/delete(id=${link.id})}"
-   onclick="return confirm('Are you sure?')">Delete</a>
+<!-- Link corectat: Actiunea inainte de ID -->
+<a th:href="@{/medicalstaffapp/edit/{id}(id=${link.id})}">Edit</a>
+|
+<!-- Link corectat: Actiunea inainte de ID -->
+<a th:href="@{/medicalstaffapp/delete/{id}(id=${link.id})}"
+   onclick="return confirm('Are you sure you want to delete this assignment?')">Delete</a>
 
 </body>
 </html>

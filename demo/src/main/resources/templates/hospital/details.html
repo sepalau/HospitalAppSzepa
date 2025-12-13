@@ -2,17 +2,112 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Hospital Details</title>
+    <style>
+        .section-title {
+            margin-top: 30px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 5px;
+            color: #2c3e50;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover { background-color: #f9f9f9; }
+        .empty-msg {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
 
 <h1>Hospital Details</h1>
 
-<p><b>ID:</b> <span th:text="${hospital.id}"></span></p>
-<p><b>Name:</b> <span th:text="${hospital.name}"></span></p>
-<p><b>City:</b> <span th:text="${hospital.city}"></span></p>
+<!-- INFO SPITAL -->
+<div>
+    <p><strong>ID:</strong> <span th:text="${hospital.id}"></span></p>
+    <p><strong>Name:</strong> <span th:text="${hospital.name}"></span></p>
+    <p><strong>City:</strong> <span th:text="${hospital.city}"></span></p>
+</div>
 
-<br>
-<a th:href="@{/hospitals}">Back to List</a>
+<!-- LISTA DEPARTAMENTE -->
+<h2 class="section-title">Departments</h2>
+<div th:if="${not #lists.isEmpty(hospital.departments)}">
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="dept : ${hospital.departments}">
+            <td th:text="${dept.id}"></td>
+            <td th:text="${dept.name}"></td>
+            <td>
+                <!-- Link către detaliile departamentului -->
+                <a th:href="@{/departments/details/{id}(id=${dept.id})}">View</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Mesaj dacă nu există departamente -->
+<div th:if="${#lists.isEmpty(hospital.departments)}" class="empty-msg">
+    <p>No departments found for this hospital.</p>
+</div>
+
+<!-- LISTA CAMERE -->
+<h2 class="section-title">Rooms</h2>
+<div th:if="${not #lists.isEmpty(hospital.rooms)}">
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Number</th>
+            <th>Capacity</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="room : ${hospital.rooms}">
+            <td th:text="${room.id}"></td>
+            <td th:text="${room.number}"></td>
+            <td th:text="${room.capacity}"></td>
+            <td th:text="${room.status}"></td>
+            <td>
+                <!-- Link către detaliile camerei -->
+                <a th:href="@{/rooms/details/{id}(id=${room.id})}">View</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Mesaj dacă nu există camere -->
+<div th:if="${#lists.isEmpty(hospital.rooms)}" class="empty-msg">
+    <p>No rooms found for this hospital.</p>
+</div>
+
+<br/>
+<br/>
+
+<!-- NAVIGARE -->
+<a th:href="@{/hospitals}">Back to List</a> |
+<a th:href="@{/hospitals/edit/{id}(id=${hospital.id})}">Edit Hospital</a>
 
 </body>
 </html>
